@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Turni & Pasti</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#11131c">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#11131c; --surface:#1a1d29; --surface2:#232739; --border:#2c3145;
+  --text:#eef0f6; --muted:#8d93ab;
+  --night:#6c8eff; --night-dim:#3b4a8f;
+  --day:#f2a65a; --day-dim:#8a5f34;
+  --alert:#e8604c; --ok:#6fcf97;
+  --mono:'IBM Plex Mono',ui-monospace,monospace;
+  --disp:'Space Grotesk',sans-serif;
+  --body:'Inter',sans-serif;
+}
+*{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:var(--body);}
+body{padding-bottom:76px; min-height:100vh;}
+.wrap{max-width:480px;margin:0 auto;padding:16px 16px 8px;}
+h1,h2,h3{font-family:var(--disp);margin:0;}
+.header{position:sticky;top:0;z-index:5;background:linear-gradient(180deg,var(--bg) 80%,transparent);padding-top:14px;}
+.clockRow{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:10px;}
+.clock{font-family:var(--mono);font-size:28px;font-weight:500;letter-spacing:0.5px;}
+.dateLabel{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;}
+.nowCard{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:14px 16px;margin-bottom:14px;display:flex;gap:12px;align-items:center;}
+.nowDot{width:10px;height:10px;border-radius:50%;background:var(--night);flex-shrink:0;box-shadow:0 0 0 4px rgba(108,142,255,.15);}
+.nowDot.day{background:var(--day);box-shadow:0 0 0 4px rgba(242,166,90,.15);}
+.nowDot.alert{background:var(--alert);box-shadow:0 0 0 4px rgba(232,96,76,.15);}
+.nowTxt .lbl{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;}
+.nowTxt .val{font-family:var(--disp);font-size:16px;font-weight:700;margin-top:2px;}
+.chipsRow{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;margin-bottom:4px;scrollbar-width:none;}
+.chipsRow::-webkit-scrollbar{display:none;}
+.chip{flex-shrink:0;padding:8px 14px;border-radius:20px;border:1px solid var(--border);background:var(--surface);color:var(--muted);font-size:13px;font-weight:600;font-family:var(--body);cursor:pointer;white-space:nowrap;}
+.chip.active{background:var(--night-dim);border-color:var(--night);color:#fff;}
+.autoNote{font-size:12px;color:var(--muted);margin:6px 2px 16px;}
+.autoNote b{color:var(--day);}
+.dayMeta{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+.dayMeta h2{font-size:19px;}
+.dayMeta .sub{font-size:12px;color:var(--muted);margin-top:2px;}
+.heavyTag{font-size:11px;padding:4px 9px;border-radius:8px;font-weight:600;white-space:nowrap;}
+.heavyTag.pesante{background:rgba(232,96,76,.15);color:var(--alert);}
+.heavyTag.leggero{background:rgba(111,207,151,.15);color:var(--ok);}
+.timeline{position:relative;padding-left:6px;}
+.tItem{position:relative;padding:0 0 20px 26px;border-left:2px solid var(--border);}
+.tItem:last-child{border-color:transparent;}
+.tItem .dot{position:absolute;left:-7px;top:2px;width:12px;height:12px;border-radius:50%;background:var(--surface2);border:2px solid var(--border);}
+.tItem.pasto .dot{border-color:var(--night);}
+.tItem.prep .dot{border-color:var(--day);}
+.tItem.vietato .dot{border-color:var(--alert);background:rgba(232,96,76,.2);}
+.tItem.transito .dot{border-color:var(--muted);}
+.tItem.active .dot{background:var(--night);box-shadow:0 0 0 5px rgba(108,142,255,.2);}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:12px 14px;}
+.tItem.active .card{border-color:var(--night);}
+.cardTop{display:flex;align-items:center;gap:8px;margin-bottom:4px;}
+.time{font-family:var(--mono);font-size:12px;color:var(--muted);}
+.place{font-size:15px;}
+.label{font-family:var(--disp);font-size:14.5px;font-weight:700;flex:1;}
+.chk{width:18px;height:18px;border-radius:6px;border:1.5px solid var(--border);flex-shrink:0;cursor:pointer;display:flex;align-items:center;justify-content:center;background:var(--surface2);}
+.chk.on{background:var(--ok);border-color:var(--ok);}
+.chk.on::after{content:'✓';font-size:12px;color:#0c1710;font-weight:700;}
+.desc{font-size:13px;color:#c4c8d8;line-height:1.4;margin-top:2px;}
+.planb{font-size:12px;color:var(--day);margin-top:6px;line-height:1.4;}
+.planb b{color:var(--day);}
+.note{background:var(--surface2);border:1px dashed var(--border);border-radius:12px;padding:12px 14px;font-size:13px;color:var(--muted);margin-top:8px;line-height:1.5;}
+
+.tabbar{position:fixed;bottom:0;left:0;right:0;background:var(--surface);border-top:1px solid var(--border);display:flex;padding:6px 10px calc(6px + env(safe-area-inset-bottom));z-index:10;}
+.tabbtn{flex:1;background:none;border:none;color:var(--muted);font-family:var(--body);font-size:11px;font-weight:600;display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 0;cursor:pointer;}
+.tabbtn .ic{font-size:19px;}
+.tabbtn.active{color:var(--night);}
+
+.section{display:none;}
+.section.show{display:block;}
+
+.timerGrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
+.timerCard{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px;text-align:center;}
+.timerCard .food{font-size:22px;margin-bottom:2px;}
+.timerCard .fname{font-family:var(--disp);font-weight:700;font-size:13px;}
+.timerCard .fmin{font-size:11px;color:var(--muted);margin-bottom:8px;}
+.timerCard .tdisp{font-family:var(--mono);font-size:22px;margin-bottom:8px;}
+.timerCard.running{border-color:var(--night);}
+.timerCard.done{border-color:var(--ok);}
+.timerCard.done .tdisp{color:var(--ok);}
+.tbtns{display:flex;gap:6px;justify-content:center;}
+.tbtn{background:var(--surface2);border:1px solid var(--border);color:var(--text);font-size:11px;padding:6px 9px;border-radius:8px;font-weight:600;cursor:pointer;}
+.batchNote{font-size:12px;color:var(--muted);line-height:1.5;background:var(--surface2);border-radius:12px;padding:12px 14px;margin-bottom:12px;}
+
+.shopGroup{margin-bottom:18px;}
+.shopHead{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
+.shopHead h3{font-size:14.5px;}
+.resetBtn{font-size:11px;color:var(--muted);background:none;border:1px solid var(--border);border-radius:8px;padding:4px 8px;cursor:pointer;}
+.shopItem{display:flex;align-items:center;gap:10px;padding:9px 4px;border-bottom:1px solid var(--border);font-size:13.5px;}
+.shopItem.on span{text-decoration:line-through;color:var(--muted);}
+.shopWhen{font-size:11px;color:var(--muted);margin-bottom:10px;}
+
+.emCard{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px 16px;margin-bottom:12px;}
+.emCard h3{font-size:14px;margin-bottom:8px;display:flex;gap:8px;align-items:center;}
+.emCard .n{width:20px;height:20px;border-radius:50%;background:var(--night-dim);color:#fff;font-size:11px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);flex-shrink:0;}
+.emRow{font-size:13px;line-height:1.5;margin-bottom:6px;}
+.emRow b{color:var(--day);}
+.scala li{margin-bottom:6px;}
+.hoursBox{display:flex;gap:10px;margin-top:8px;}
+.hoursBox div{flex:1;background:var(--surface2);border-radius:10px;padding:10px;font-size:12px;}
+.hoursBox b{display:block;font-size:13px;margin-bottom:2px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="header">
+    <div class="clockRow">
+      <div>
+        <div class="dateLabel" id="dateLabel">—</div>
+        <div class="clock" id="clock">--:--</div>
+      </div>
+    </div>
+    <div class="nowCard">
+      <div class="nowDot" id="nowDot"></div>
+      <div class="nowTxt">
+        <div class="lbl">adesso</div>
+        <div class="val" id="nowVal">seleziona un tipo di giorno</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section show" id="tab-oggi">
+    <div class="chipsRow" id="chipsRow"></div>
+    <div class="autoNote" id="autoNote"></div>
+    <div class="dayMeta">
+      <div>
+        <h2 id="dayName">—</h2>
+        <div class="sub" id="daySub">—</div>
+      </div>
+      <div class="heavyTag" id="heavyTag"></div>
+    </div>
+    <div class="timeline" id="timeline"></div>
+    <div class="note" id="dayNote" style="display:none"></div>
+  </div>
+
+  <div class="section" id="tab-cottura">
+    <h2 style="margin-bottom:4px;">Timer di cottura</h2>
+    <div class="sub" style="font-size:12px;color:var(--muted);margin-bottom:14px;">Patate e uova nella stessa pentola: parti insieme, le uova entrano a metà.</div>
+    <div class="timerGrid" id="timerGrid"></div>
+    <div class="batchNote">
+      <b style="color:var(--text)">Sessione batch consigliata (~1h15):</b><br>
+      0′ → riso + patate sul fuoco (fuochi diversi)<br>
+      15′ → uova dentro la pentola patate (15′ residui, finiscono insieme)<br>
+      15-30′ → quinoa, o lava/taglia insalata<br>
+      30′ → patate+uova pronte<br>
+      40′ → riso pronto<br>
+      40-50′ → verdure saltate (10′)<br>
+      50-75′ → porziona nei tupperware, frigo
+    </div>
+  </div>
+
+  <div class="section" id="tab-spesa">
+    <h2 style="margin-bottom:4px;">Spesa e logistica</h2>
+    <div class="sub" style="font-size:12px;color:var(--muted);margin-bottom:16px;">Tre flussi separati: dispensa fissa a lavoro, spesa di casa (giorni leggeri), spesa Alcampo del sabato (doppia, per Sab+Dom).</div>
+    <div id="shopLists"></div>
+  </div>
+
+  <div class="section" id="tab-emergenza">
+    <h2 style="margin-bottom:4px;">Piano di emergenza</h2>
+    <div class="sub" style="font-size:12px;color:var(--muted);margin-bottom:16px;">Se la dispensa fissa a lavoro è piena, quasi nessuno scenario diventa un problema serio.</div>
+    <div id="emList"></div>
+  </div>
+
+</div>
+
+<div class="tabbar">
+  <button class="tabbtn active" data-tab="oggi"><span class="ic">📆</span>Oggi</button>
+  <button class="tabbtn" data-tab="cottura"><span class="ic">🍳</span>Cottura</button>
+  <button class="tabbtn" data-tab="spesa"><span class="ic">🛒</span>Spesa</button>
+  <button class="tabbtn" data-tab="emergenza"><span class="ic">🆘</span>Emergenza</button>
+</div>
+
+<script>
+const DAYTYPES = {
+  T: {name:'Transizione', sub:'Venerdì o Martedì — apre un blocco di 3 notti', heavy:'pesante', tag:'notte',
+    fasce:[
+      {s:'08:15',e:'09:00',l:'Colazione',p:'🏠',d:'Fiocchi di grano saraceno + latte veg + mirtilli',t:'pasto'},
+      {s:'10:00',e:'11:15',l:'Batch riso (40′) per 3 giorni',p:'🏠',d:'Cuoci una volta: oggi + 2 giorni extra. In parallelo prepara patate+uova o quinoa',b:'Mattino corto? Riso solo per 2 giorni, il 3° con quinoa a lavoro',t:'prep'},
+      {s:'12:30',e:'13:30',l:'Pranzo forte + Alicina',p:'🏠',d:'Dal batch appena fatto',t:'pasto'},
+      {s:'16:30',e:'17:30',l:'Yogurt soia (⅓)',p:'🏠',d:'Cuscinetto leggero',b:'Salta pure, non è un pasto vero',t:'pasto'},
+      {s:'19:00',e:'20:00',l:'Cena + Candismic',p:'🏠',d:'Dal batch — prepara anche i tupperware per la notte',b:'Tempo stretto? Porta cruda e finisci a lavoro',t:'pasto'},
+      {s:'21:00',e:'21:15',l:'Partenza',p:'🚌',d:'Zaino pesante: laptop + 2 porzioni riso extra da lasciare in frigo lavoro',t:'transito'},
+      {s:'02:30',e:'03:00',l:'Merenda',p:'🏭',d:'Shake proteico o gelatina',b:'Non ce la fai? Vedi Emergenza → scala merenda',t:'pasto'},
+      {s:'03:00',e:'05:00',l:'Finestra nap — vietato mangiare',p:'🏭',d:'Solo acqua/tisane',t:'vietato'},
+    ]},
+  A: {name:'Notte feriale', sub:'Mercoledì, giovedì — giorno "zaino leggero"', heavy:'leggero', tag:'notte',
+    fasce:[
+      {s:'16:50',e:'17:30',l:'Colazione (post-gym)',p:'🏠',d:'Sempre dopo l\'allenamento, mai prima',t:'pasto'},
+      {s:'19:00',e:'20:30',l:'Pranzo forte + Alicina — cuoci la cena in parallelo',p:'🏠',d:'Un solo giro fornelli, due pasti pronti',b:'Non fai in tempo? Cucina la cena a lavoro con la dispensa',t:'prep'},
+      {s:'21:00',e:'21:15',l:'Partenza',p:'🚌',d:'Zaino leggero: solo cena + merenda, niente laptop né riso',t:'transito'},
+      {s:'23:00',e:'00:30',l:'Cena + Candismic',p:'🏭',d:'5 min microonde, o cruda se serve',t:'pasto'},
+      {s:'02:00',e:'03:00',l:'Merenda',p:'🏭',t:'pasto'},
+      {s:'03:00',e:'05:00',l:'Finestra nap — vietato mangiare',p:'🏭',t:'vietato'},
+    ]},
+  SAB: {name:'Sabato di lavoro', sub:'Con supermercato Alcampo prima del turno', heavy:'leggero', tag:'notte',
+    fasce:[
+      {s:'17:30',e:'17:45',l:'Proteina + latte soia',p:'🛒',t:'pasto'},
+      {s:'18:00',e:'19:30',l:'Spesa Alcampo + gatti',p:'🛒',d:'Compra la cena di Sab E Dom, più tofu/verdure fresche',t:'prep'},
+      {s:'20:00',e:'20:15',l:'Pranzo forte + Alicina — 3 mini-piatti',p:'🏭',d:'Dividi in 3 porzioni dal frigo, estrai e scaldi UN piattino alla volta appena prima di mangiarlo',b:'AC a lavoro aiuta: scalda solo il piattino che stai per mangiare, il resto resta al fresco',t:'pasto'},
+      {s:'00:30',e:'01:30',l:'Cena cucinata sul posto + Candismic',p:'🏭',d:'Uova 15′, o quinoa 15′ + insalata',t:'pasto'},
+      {s:'02:30',e:'03:30',l:'Merenda',p:'🏭',t:'pasto'},
+      {s:'03:30',e:'05:00',l:'Finestra nap — vietato mangiare',p:'🏭',t:'vietato'},
+    ]},
+  DOM: {name:'Domenica di lavoro', sub:'Zaino quasi vuoto — tutto già a lavoro dal sabato', heavy:'leggero', tag:'notte',
+    fasce:[
+      {s:'16:00',e:'16:45',l:'Colazione vera',p:'🏠',t:'pasto'},
+      {s:'18:45',e:'19:00',l:'Partenza',p:'🚌',d:'Zaino quasi vuoto',t:'transito'},
+      {s:'21:00',e:'22:30',l:'Pranzo forte + Alicina',p:'🏭',d:'Riso avanzo di venerdì',t:'pasto'},
+      {s:'00:30',e:'01:30',l:'Cena cucinata sul posto + Candismic',p:'🏭',d:'Stock comprato sabato',t:'pasto'},
+      {s:'02:30',e:'03:30',l:'Merenda',p:'🏭',t:'pasto'},
+      {s:'03:30',e:'05:00',l:'Finestra nap — vietato mangiare',p:'🏭',t:'vietato'},
+    ]},
+  R: {name:'Riposo pieno', sub:'Giorno batch per eccellenza', heavy:'leggero', tag:'giorno',
+    fasce:[
+      {s:'08:15',e:'09:00',l:'Colazione (post-gym)',p:'🏠',t:'pasto'},
+      {s:'12:30',e:'13:30',l:'Pranzo forte + Alicina',p:'🏠',t:'pasto'},
+      {s:'16:30',e:'17:30',l:'Yogurt soia',p:'🏠',t:'pasto'},
+      {s:'20:00',e:'21:00',l:'Cena + Candismic',p:'🏠',t:'pasto'},
+    ],
+    note:'Pomeriggio libero → sessione batch (~1h15) che copre i turni successivi. Fallo subito prima di un blocco di notti.'},
+  ALIB: {name:'Smonto libero', sub:'Smonto senza turno la sera stessa', heavy:'leggero', tag:'giorno',
+    fasce:[
+      {s:'16:50',e:'17:30',l:'Colazione (post-gym)',p:'🏠',t:'pasto'},
+      {s:'19:00',e:'20:00',l:'Pranzo forte + Alicina',p:'🏠',t:'pasto'},
+      {s:'20:30',e:'21:30',l:'Cena normale',p:'🏠',d:'Niente turno stasera — orario umano, poi letto',t:'pasto'},
+    ],
+    note:'Seconda finestra batch della settimana: sera libera per cucinare in vista dei giorni dopo.'},
+  LUNISO: {name:'Lunedì isolato', sub:'Lavora in settimana di riposo — turno singolo', heavy:'pesante', tag:'notte',
+    fasce:[
+      {s:'08:15',e:'09:00',l:'Colazione',p:'🏠',t:'pasto'},
+      {s:'10:00',e:'10:20',l:'Quinoa (15′) — niente batch da 3 giorni',p:'🏠',d:'Notte isolata: quinoa più veloce del riso, basta per oggi',t:'prep'},
+      {s:'12:30',e:'13:30',l:'Pranzo forte + Alicina',p:'🏠',t:'pasto'},
+      {s:'16:30',e:'17:30',l:'Yogurt soia',p:'🏠',t:'pasto'},
+      {s:'19:00',e:'20:00',l:'Cena + Candismic',p:'🏠',t:'pasto'},
+      {s:'21:00',e:'21:15',l:'Partenza',p:'🚌',d:'Zaino pesante ma contenuto: laptop + un solo pasto (va e torna lo stesso giro)',t:'transito'},
+      {s:'02:30',e:'03:00',l:'Merenda',p:'🏭',t:'pasto'},
+      {s:'03:00',e:'05:00',l:'Finestra nap — vietato mangiare',p:'🏭',t:'vietato'},
+    ]},
+};
+
+const CYCLE_START = new Date(2026,6,3);
+const WEEK_A = ['T','SAB','DOM','R','T','A','A'];
+const WEEK_B = ['ALIB','R','R','LUNISO','ALIB','R','R'];
+
+function autoDetectType(date){
+  const d0 = new Date(date.getFullYear(),date.getMonth(),date.getDate());
+  const diff = Math.round((d0 - CYCLE_START)/86400000);
+  let idx = diff % 14; if(idx<0) idx+=14;
+  return idx<7 ? WEEK_A[idx] : WEEK_B[idx-7];
+}
+
+let selectedType = null;
+let autoType = null;
+
+function pad(n){return n.toString().padStart(2,'0');}
+function nowMinutes(){const n=new Date();return n.getHours()*60+n.getMinutes();}
+function toMin(hhmm){const p=hhmm.split(':').map(Number);return p[0]*60+p[1];}
+function inRange(now,s,e){let end=e; if(end<=s) end+=1440; let n=now; if(n<s && end>1440) n+=1440; return n>=s && n<end;}
+
+function updateClock(){
+  const n = new Date();
+  document.getElementById('clock').textContent = pad(n.getHours())+':'+pad(n.getMinutes());
+  const giorni=['domenica','lunedì','martedì','mercoledì','giovedì','venerdì','sabato'];
+  const mesi=['gen','feb','mar','apr','mag','giu','lug','ago','set','ott','nov','dic'];
+  document.getElementById('dateLabel').textContent = giorni[n.getDay()]+' '+n.getDate()+' '+mesi[n.getMonth()];
+  updateNowCard();
+}
+
+function updateNowCard(){
+  const dot=document.getElementById('nowDot'), val=document.getElementById('nowVal');
+  if(!selectedType){ val.textContent='seleziona un tipo di giorno'; dot.className='nowDot'; return; }
+  const dt = DAYTYPES[selectedType];
+  const now = nowMinutes();
+  let active=null;
+  dt.fasce.forEach(f=>{ if(inRange(now,toMin(f.s),toMin(f.e))) active=f; });
+  if(active){
+    val.textContent = active.l;
+    dot.className = 'nowDot ' + (active.t==='vietato'?'alert':(dt.tag==='giorno'?'day':''));
+  } else {
+    val.textContent = 'nessuna fascia attiva ora';
+    dot.className = 'nowDot';
+  }
+  renderTimeline();
+}
+
+function todayKey(){ const n=new Date(); return n.getFullYear()+'-'+pad(n.getMonth()+1)+'-'+pad(n.getDate()); }
+
+async function loadChecks(){
+  try{
+    const v = localStorage.getItem('checks:'+todayKey());
+    return v ? JSON.parse(v) : {type:selectedType, idx:[]};
+  }catch(e){ return {type:selectedType, idx:[]}; }
+}
+async function saveChecks(obj){
+  try{ localStorage.setItem('checks:'+todayKey(), JSON.stringify(obj)); }catch(e){}
+}
+let checksCache = {type:null, idx:[]};
+
+function renderChips(){
+  const row=document.getElementById('chipsRow'); row.innerHTML='';
+  Object.keys(DAYTYPES).forEach(id=>{
+    const c=document.createElement('div');
+    c.className='chip'+(id===selectedType?' active':'');
+    c.textContent=id;
+    c.onclick=()=>selectType(id);
+    row.appendChild(c);
+  });
+}
+
+async function selectType(id){
+  selectedType=id;
+  renderChips();
+  checksCache = await loadChecks();
+  if(checksCache.type!==id){ checksCache={type:id, idx:[]}; }
+  const dt=DAYTYPES[id];
+  document.getElementById('dayName').textContent=dt.name;
+  document.getElementById('daySub').textContent=dt.sub;
+  const ht=document.getElementById('heavyTag');
+  ht.textContent = dt.heavy==='pesante' ? '🎒 pesante' : '🎒 leggero';
+  ht.className = 'heavyTag '+dt.heavy;
+  const noteEl=document.getElementById('dayNote');
+  if(dt.note){ noteEl.style.display='block'; noteEl.textContent=dt.note; } else { noteEl.style.display='none'; }
+  const auto = document.getElementById('autoNote');
+  auto.innerHTML = id===autoType ? 'Rilevato automaticamente in base al ciclo turni: <b>'+id+'</b>' : 'Selezione manuale (il ciclo suggerirebbe <b>'+autoType+'</b>)';
+  renderTimeline();
+}
+
+function renderTimeline(){
+  if(!selectedType) return;
+  const dt=DAYTYPES[selectedType];
+  const now=nowMinutes();
+  const tl=document.getElementById('timeline'); tl.innerHTML='';
+  dt.fasce.forEach((f,i)=>{
+    const active = inRange(now,toMin(f.s),toMin(f.e));
+    const item=document.createElement('div');
+    item.className='tItem '+f.t+(active?' active':'');
+    const checked = checksCache.idx.includes(i);
+    item.innerHTML = `
+      <div class="dot"></div>
+      <div class="card">
+        <div class="cardTop">
+          <span class="time">${f.s}${f.e&&f.e!==f.s?'–'+f.e:''}</span>
+          <span class="place">${f.p}</span>
+          <span class="label">${f.l}</span>
+          ${f.t!=='vietato'&&f.t!=='transito'?`<div class="chk${checked?' on':''}" data-i="${i}"></div>`:''}
+        </div>
+        ${f.d?`<div class="desc">${f.d}</div>`:''}
+        ${f.b?`<div class="planb"><b>Piano B:</b> ${f.b}</div>`:''}
+      </div>`;
+    tl.appendChild(item);
+  });
+  tl.querySelectorAll('.chk').forEach(el=>{
+    el.onclick=()=>{
+      const i=Number(el.dataset.i);
+      const pos=checksCache.idx.indexOf(i);
+      if(pos>-1) checksCache.idx.splice(pos,1); else checksCache.idx.push(i);
+      checksCache.type=selectedType;
+      saveChecks(checksCache);
+      el.classList.toggle('on');
+    };
+  });
+}
+
+const FOODS=[
+  {id:'riso',ic:'🍚',name:'Riso basmati',min:40,note:'fuoco medio, a freddo'},
+  {id:'patate',ic:'🥔',name:'Patate',min:30,note:'stessa pentola delle uova'},
+  {id:'uova',ic:'🥚',name:'Uova sode',min:15,note:'entrano a metà cottura patate'},
+  {id:'quinoa',ic:'🌾',name:'Quinoa',min:15,note:'ammollo previo facoltativo'},
+];
+const timers={};
+function renderTimers(){
+  const grid=document.getElementById('timerGrid'); grid.innerHTML='';
+  FOODS.forEach(f=>{
+    timers[f.id]={remaining:f.min*60, running:false, handle:null};
+    const card=document.createElement('div');
+    card.className='timerCard'; card.id='timer-'+f.id;
+    card.innerHTML=`
+      <div class="food">${f.ic}</div>
+      <div class="fname">${f.name}</div>
+      <div class="fmin">${f.min}′ · ${f.note}</div>
+      <div class="tdisp" id="disp-${f.id}">${pad(f.min)}:00</div>
+      <div class="tbtns">
+        <button class="tbtn" data-a="start" data-id="${f.id}">Avvia</button>
+        <button class="tbtn" data-a="reset" data-id="${f.id}">Reset</button>
+      </div>`;
+    grid.appendChild(card);
+  });
+  grid.querySelectorAll('.tbtn').forEach(btn=>{
+    btn.onclick=()=>{
+      const id=btn.dataset.id, action=btn.dataset.a;
+      if(action==='start') toggleTimer(id);
+      else resetTimer(id);
+    };
+  });
+}
+function fmt(sec){ return pad(Math.floor(sec/60))+':'+pad(sec%60); }
+function toggleTimer(id){
+  const t=timers[id]; const card=document.getElementById('timer-'+id);
+  const btn=card.querySelector('[data-a="start"]');
+  if(t.running){
+    clearInterval(t.handle); t.running=false; card.classList.remove('running'); btn.textContent='Avvia';
+  } else {
+    t.running=true; card.classList.add('running'); btn.textContent='Pausa';
+    t.handle=setInterval(()=>{
+      t.remaining--;
+      document.getElementById('disp-'+id).textContent=fmt(Math.max(t.remaining,0));
+      if(t.remaining<=0){
+        clearInterval(t.handle); t.running=false;
+        card.classList.remove('running'); card.classList.add('done');
+        btn.textContent='Avvia';
+      }
+    },1000);
+  }
+}
+function resetTimer(id){
+  const f=FOODS.find(x=>x.id===id); const t=timers[id]; const card=document.getElementById('timer-'+id);
+  clearInterval(t.handle); t.running=false; t.remaining=f.min*60;
+  card.classList.remove('running','done');
+  document.getElementById('disp-'+id).textContent=fmt(t.remaining);
+  card.querySelector('[data-a="start"]').textContent='Avvia';
+}
+
+const SHOP = {
+  dispensa: {title:'🏭 Dispensa fissa a lavoro', when:'Rifornisci quando porti il laptop (venerdì/martedì) — spazio limitato, questi bastano', items:[
+    '6 uova (si rinnovano da sole)','Quinoa secca (2 conf. piccole)','Hummus di scorta (se c\'è spazio)','Olio, sale, spezie base','Verdure/insalata che reggono 6 giorni'
+  ]},
+  mercadona: {title:'🏠 Spesa di casa — Mercadona', when:'Mercoledì/giovedì (giorni leggeri, senza laptop)', items:[
+    'Latte vegetale — 1,75L','Grano saraceno — 500g','Mirtilli surgelati — 500g','Riso basmati — 500-700g','Verdure da saltare — ~1kg','Tofu o tempeh — ~600g','Patate — ~600g','Uova — 4-6','Yogurt soia — 2-3 vasetti'
+  ]},
+  alcampo: {title:'🛒 Spesa Alcampo — sabato', when:'18:00–19:30, prima del turno — compra per Sab+Dom insieme', items:[
+    'Uova (4) o quinoa ~100g','Insalata mix — ~300g','Hummus — 1 vasetto','Tofu o tempeh — ~240g','Verdure fresche — ~400g'
+  ]},
+};
+let shopState={};
+async function loadShop(){
+  try{ const v=localStorage.getItem('spesa-state'); shopState = v? JSON.parse(v): {}; }
+  catch(e){ shopState={}; }
+}
+async function saveShop(){ try{ localStorage.setItem('spesa-state', JSON.stringify(shopState)); }catch(e){} }
+
+function renderShop(){
+  const wrap=document.getElementById('shopLists'); wrap.innerHTML='';
+  Object.entries(SHOP).forEach(([gid,g])=>{
+    const box=document.createElement('div'); box.className='shopGroup';
+    box.innerHTML=`<div class="shopHead"><h3>${g.title}</h3><button class="resetBtn" data-g="${gid}">reset</button></div>
+      <div class="shopWhen">${g.when}</div>`;
+    g.items.forEach((it,i)=>{
+      const key=gid+':'+i;
+      const on = !!shopState[key];
+      const row=document.createElement('div');
+      row.className='shopItem'+(on?' on':'');
+      row.innerHTML=`<div class="chk${on?' on':''}" data-k="${key}"></div><span>${it}</span>`;
+      box.appendChild(row);
+    });
+    wrap.appendChild(box);
+  });
+  wrap.querySelectorAll('.chk').forEach(el=>{
+    el.onclick=()=>{
+      const k=el.dataset.k;
+      shopState[k]=!shopState[k];
+      el.classList.toggle('on');
+      el.closest('.shopItem').classList.toggle('on');
+      saveShop();
+    };
+  });
+  wrap.querySelectorAll('.resetBtn').forEach(btn=>{
+    btn.onclick=()=>{
+      const g=btn.dataset.g;
+      Object.keys(shopState).forEach(k=>{ if(k.startsWith(g+':')) delete shopState[k]; });
+      saveShop(); renderShop();
+    };
+  });
+}
+
+const EMERGENZE = [
+  {n:1, t:'Pranzo dimenticato a casa', ora:'Dispensa a lavoro: quinoa (15′) + hummus + verdure. Non è il pasto perfetto, è il pasto che c\'è.', prev:'Un "punto di raccolta" fisso vicino alla porta — il tupperware ci va appena pronto, prima di ogni altra cosa.'},
+  {n:2, t:'Cena dimenticata a casa', ora:'Scorta permanente a lavoro: uova (15′) o quinoa+hummus. È l\'unico scenario che non puoi risolvere "andando a comprare", a mezzanotte è tutto chiuso.', prev:'La scorta fissa a lavoro esiste apposta per questo — tienila sempre piena.'},
+  {n:3, t:'Ingrediente mancante (pasto incompleto)', ora:'Mangi quello che hai + completi con la dispensa. Non serve identico allo schema, serve equilibrato.', prev:'Giro visivo sul tavolo prima di chiudere lo zaino — tutti i tupperware insieme, non sparsi.'},
+  {n:4, t:'Non hai comprato qualcosa', ora:'Sostituisci con quello che hai — il sistema regge le sostituzioni.', prev:'Usa la lista spesa come checklist attiva al supermercato, non a memoria.'},
+  {n:5, t:'Weekend, domenica quasi tutto chiuso', ora:'DIA vicino casa: aperto fino alle 20:00 anche la domenica. Alcampo: tutti i giorni 10:00–22:00.', prev:'La doppia spesa del sabato (Sab+Dom insieme) esiste apposta per non doverti mai affidare al DIA della domenica.'},
+  {n:6, t:'Niente tempo per il pranzo forte appena entri (Sab/Dom)', ora:'Domenica: se lo sai già, sposta il pranzo forte a casa prima di uscire. Sabato: dividi il pranzo in 3 mini-piatti dal frigo, scaldi solo quello che stai per mangiare — il resto resta al fresco. Con l\'AC a lavoro il rischio "tiepido per ore" quasi sparisce, perché non esponi mai tutto il pasto insieme.', prev:'Regola non negoziabile: un piattino scaldato va mangiato entro un\'ora. Se resta tiepido più a lungo, si butta solo quella porzione (non l\'intero pasto, visto che è diviso).'},
+];
+function renderEmergenze(){
+  const wrap=document.getElementById('emList'); wrap.innerHTML='';
+  EMERGENZE.forEach(e=>{
+    const c=document.createElement('div'); c.className='emCard';
+    c.innerHTML=`<h3><span class="n">${e.n}</span>${e.t}</h3>
+      <div class="emRow"><b>Ora:</b> ${e.ora}</div>
+      <div class="emRow"><b>Prevenzione:</b> ${e.prev}</div>`;
+    wrap.appendChild(c);
+  });
+  const scala=document.createElement('div'); scala.className='emCard';
+  scala.innerHTML=`<h3><span class="n">💤</span>Merenda saltata o in ritardo</h3>
+    <ol class="scala" style="padding-left:18px;font-size:13px;line-height:1.5;">
+      <li>Riesci a mangiare entro le 05:00-05:30? Fallo, ma <b>leggero</b> — mezza porzione.</li>
+      <li>Non riesci affatto durante il turno? <b>Salta</b>, il digiuno si allunga e il corpo lo regge.</li>
+      <li>Arrivi a casa con fame vera? <b>Boccone-ponte</b> (mezzo yogurt/shake), mai pasto pieno prima di dormire.</li>
+    </ol>
+    <div class="emRow" style="margin-top:4px;color:var(--muted)">Più ti avvicini al sonno, più il cibo si assottiglia — mai l'inverso.</div>`;
+  wrap.appendChild(scala);
+  const hb=document.createElement('div'); hb.className='emCard';
+  hb.innerHTML=`<h3><span class="n">🕒</span>Orari di salvezza</h3>
+    <div class="hoursBox">
+      <div><b>DIA</b>fino alle 20:00<br>anche domenica</div>
+      <div><b>Alcampo</b>tutti i giorni<br>10:00–22:00</div>
+    </div>`;
+  wrap.appendChild(hb);
+}
+
+document.querySelectorAll('.tabbtn').forEach(btn=>{
+  btn.onclick=()=>{
+    document.querySelectorAll('.tabbtn').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.section').forEach(s=>s.classList.remove('show'));
+    btn.classList.add('active');
+    document.getElementById('tab-'+btn.dataset.tab).classList.add('show');
+  };
+});
+
+async function init(){
+  autoType = autoDetectType(new Date());
+  renderChips();
+  await selectType(autoType);
+  renderTimers();
+  await loadShop();
+  renderShop();
+  renderEmergenze();
+  updateClock();
+  setInterval(updateClock, 30000);
+}
+init();
+</script>
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => navigator.serviceWorker.register('sw.js'));
+}
+</script>
+</body>
+</html>
