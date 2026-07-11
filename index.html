@@ -98,8 +98,16 @@
 
 <main>
 
+<!-- ============ OGGI ============ -->
+<section id="oggi" class="on">
+  <div class="card">
+    <h2>📅 Oggi</h2>
+    <div id="oggi-box"></div>
+  </div>
+</section>
+
 <!-- ============ COSA CAMBIA ============ -->
-<section id="cambia" class="on">
+<section id="cambia">
   <div class="card">
     <h2>Cosa cambia in Fase 2</h2>
     <p class="mut">Criterio guida sempre uno: <b class="k">mangia → osserva 24-48 h → se gonfia o fa male, riduci quantità/frequenza o togli quel singolo alimento.</b></p>
@@ -525,7 +533,7 @@
 
 <script>
   const tabs=[
-    ["cambia","Cosa cambia"],["rotazione","Calendario 30gg"],["regole","Regole"],
+    ["oggi","📅 Oggi"],["cambia","Cosa cambia"],["rotazione","Calendario 30gg"],["regole","Regole"],
     ["proteine","Proteine"],["turni","Turni & orari"],["cena","Cena"],["spesa","Spesa"],["stock","Stock casa/lavoro"],["ricette","Ricette"],["test","Test verdure"]
   ];
   const nav=document.getElementById('nav');
@@ -592,8 +600,4 @@
     ],
     "s-aho":[
       ["Broccoli","1"],["Zucchine","3–4"],["Spinaci","1 busta"],["Asparagi","1 mazzo"],
-      ["Bietole","1 mazzo"],["Insalata (canónigos/rucola)","1–2 buste"],["Sedano","1"],
-      ["Zenzero","1 radice"],["Pomodori","3 (max 3/sett)"]
-    ],
-    "s-alc":[
-      ["Carote","2 kg (frullati+zuppe
+      ["Bietole","1 mazzo"],["In
