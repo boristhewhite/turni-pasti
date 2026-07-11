@@ -118,6 +118,12 @@
   .tmr button{background:var(--card2);color:var(--txt);border:1px solid var(--line);border-radius:8px;padding:6px 10px;font-size:12.5px;cursor:pointer}
   .tmrout{font-weight:700;color:var(--acc2);min-width:44px}
   .hidecavi .c-cavi{display:none}
+  .glsearch{width:100%;background:var(--card2);border:1px solid var(--line);color:var(--txt);border-radius:8px;padding:9px 11px;font-size:14px;font-family:inherit;margin-top:8px}
+  .glcat{margin:14px 0 2px;font-size:11.5px;font-weight:700;color:var(--acc2);text-transform:uppercase;letter-spacing:.3px}
+  .glitem{border-top:1px solid var(--line);padding:8px 0}
+  .glt{font-weight:700;font-size:13.5px}
+  .gla{color:var(--blue);text-decoration:none;font-size:11.5px;margin-left:6px;white-space:nowrap}
+  .gld{font-size:12.5px;color:var(--mut);margin-top:2px}
   .gymnote{width:100%;min-height:44px;background:var(--card2);border:1px solid var(--line);color:var(--txt);border-radius:8px;padding:8px;font-size:13px;margin-top:9px;font-family:inherit}
   .gymbar{height:10px;background:var(--line);border-radius:999px;overflow:hidden;margin-top:6px}
   .gymbar>div{height:10px;background:var(--acc);width:0%}
@@ -579,12 +585,22 @@
   <div id="gymApp"></div>
 </section>
 
+<!-- ============ GLOSSARIO ============ -->
+<section id="glossario">
+  <div class="card">
+    <h2>📖 Glossario esercizi</h2>
+    <p class="mut">Cosa fa ogni esercizio, in parole semplici. Tocca <b>▶</b> per il video. Cerca per nome.</p>
+    <input class="glsearch" id="glSearch" placeholder="Cerca un esercizio… (es. hip thrust, plank, cardio)">
+  </div>
+  <div class="card"><div id="glList"></div></div>
+</section>
+
 <p class="foot">Fase 2 · protocollo naturopata + sistema turni. Non è consulenza medica: è l'organizzazione pratica del concordato. Dubbi clinici → naturopata.</p>
 </main>
 
 <script>
   const tabs=[
-    ["oggi","📅 Oggi"],["palestra","🏋️ Palestra"],["cambia","Cosa cambia"],["rotazione","Calendario 30gg"],["regole","Regole"],
+    ["oggi","📅 Oggi"],["palestra","🏋️ Palestra"],["glossario","📖 Glossario"],["cambia","Cosa cambia"],["rotazione","Calendario 30gg"],["regole","Regole"],
     ["proteine","Proteine"],["turni","Turni & orari"],["cena","Cena"],["spesa","Spesa"],["stock","Stock casa/lavoro"],["ricette","Ricette"],["test","Test verdure"]
   ];
   const nav=document.getElementById('nav');
@@ -957,6 +973,91 @@
     var rb=document.getElementById('gymReset');
     if(rb)rb.onclick=function(){ if(confirm('Reset settimana '+WK+' (palestra)?')){ Object.keys(localStorage).filter(function(k){return k.indexOf(K)===0}).forEach(function(k){localStorage.removeItem(k)}); render(); } };
     render();
+  })();
+
+  // ---- Glossario ----
+  (function(){
+    function yt(q){return 'https://www.youtube.com/results?search_query='+encodeURIComponent(q+' esercizio tecnica');}
+    var GLO=[
+      {c:"Petto",t:"Press orizzontale (macchina)",d:"Seduto, spingi due maniglie in avanti all'altezza del petto. Lavora il petto."},
+      {c:"Petto",t:"Press inclinato (macchina)",d:"Come il press ma con lo schienale inclinato: colpisce la parte alta del petto."},
+      {c:"Petto",t:"Pec deck (croci alla macchina)",d:"Seduto, avvicini le braccia davanti come per abbracciare. Isola il petto."},
+      {c:"Petto",t:"Croci con manubri",d:"Sdraiato, apri e chiudi le braccia ad arco con due manubri. Petto."},
+      {c:"Petto",t:"Croci ai cavi",d:"Come le croci ma tirando due cavi (zona affollata). Petto."},
+      {c:"Petto",t:"Croci con banda elastica",d:"Stesso movimento con un elastico. Petto, comodo ovunque."},
+      {c:"Petto",t:"Panca piana (bilanciere o manubri)",d:"Sdraiato, spingi il peso verso l'alto dal petto."},
+      {c:"Petto",t:"Flessioni (push-up)",d:"A terra, spingi il corpo su e giù. Petto e tricipiti, a corpo libero."},
+      {c:"Petto",t:"Dip alle parallele / su panca",d:"Ti abbassi e risali sulle braccia. Petto basso e tricipiti."},
+      {c:"Schiena",t:"Lat machine avanti",d:"Seduto, tiri una barra dall'alto verso il petto. Fa la schiena a 'V'."},
+      {c:"Schiena",t:"Trazioni assistite",d:"Come le trazioni ma con la macchina che ti aiuta. Dorsali."},
+      {c:"Schiena",t:"Rematore alla macchina",d:"Seduto, tiri due maniglie verso i fianchi. Centro schiena."},
+      {c:"Schiena",t:"Rematore con manubrio (1 braccio)",d:"Un ginocchio su panca, tiri un manubrio verso il fianco."},
+      {c:"Schiena",t:"Rematore con bilanciere",d:"Busto inclinato, tiri il bilanciere verso la pancia."},
+      {c:"Schiena",t:"Rematore TRX",d:"Ti appendi alle cinghie e tiri il corpo in alto. Schiena, a corpo libero."},
+      {c:"Schiena",t:"Rematore barra T",d:"Rematore con una barra fissata a terra. Schiena centrale."},
+      {c:"Schiena",t:"Pullover",d:"Braccia tese sopra la testa che scendono e risalgono. Gran dorsale."},
+      {c:"Schiena/Spalle",t:"Reverse pec deck / Face pull",d:"Apri le braccia all'indietro. Parte posteriore delle spalle e schiena alta."},
+      {c:"Spalle",t:"Spinta spalle (macchina) / Military press",d:"Spingi il peso sopra la testa. Spalle."},
+      {c:"Spalle",t:"Alzate laterali (manubri o macchina)",d:"Alzi le braccia di lato fino alle spalle. Deltoide laterale."},
+      {c:"Spalle",t:"Pike push-up",d:"Flessione a 'V' col sedere in alto. Spalle, a corpo libero."},
+      {c:"Braccia",t:"Curl bicipiti (macchina/manubri)",d:"Pieghi l'avambraccio verso la spalla. Bicipite."},
+      {c:"Braccia",t:"Curl con bilanciere EZ",d:"Curl con la barra ondulata, più comoda per i polsi."},
+      {c:"Braccia",t:"Curl a martello",d:"Curl coi manubri tenuti 'a martello' (pollici in alto)."},
+      {c:"Braccia",t:"Spinta tricipiti (macchina)",d:"Estendi gli avambracci verso il basso. Tricipite."},
+      {c:"Braccia",t:"Pushdown ai cavi",d:"Spingi in giù una corda o barra al cavo (zona affollata). Tricipite."},
+      {c:"Braccia",t:"French press (EZ)",d:"Abbassi la barra dietro la testa e la risali. Tricipite."},
+      {c:"Braccia",t:"Dip alla macchina (assistiti)",d:"Ti abbassi e risali con l'aiuto della macchina. Tricipiti e petto."},
+      {c:"Gambe",t:"Squat (guidato/multipower/libero)",d:"Ti accovacci e risali. Quadricipiti e glutei."},
+      {c:"Gambe",t:"Goblet squat",d:"Squat tenendo un manubrio o kettlebell al petto."},
+      {c:"Gambe",t:"Pressa gambe",d:"Spingi una pedana coi piedi da seduto. Gambe."},
+      {c:"Gambe",t:"Hack squat",d:"Squat guidato con la schiena su un carrello inclinato."},
+      {c:"Gambe",t:"Leg extension",d:"Da seduto, estendi le ginocchia sollevando un rullo. Quadricipiti."},
+      {c:"Gambe",t:"Leg curl (femorale)",d:"Pieghi le ginocchia contro un rullo. Parte posteriore della coscia."},
+      {c:"Gambe",t:"Affondi (zancadas)",d:"Un passo avanti e ti abbassi. Gambe e glutei."},
+      {c:"Gambe",t:"Affondo bulgaro",d:"Affondo col piede dietro appoggiato su una panca."},
+      {c:"Gambe",t:"Split squat",d:"Come l'affondo ma resti fermo sul posto."},
+      {c:"Gambe",t:"Sissy squat",d:"Ti pieghi indietro sulle punte. Quadricipiti, avanzato."},
+      {c:"Gambe",t:"Step-up / salita al gradino",d:"Sali su un rialzo con una gamba. Gambe e glutei."},
+      {c:"Gambe",t:"Polpacci (pressa/in piedi/seduto)",d:"Ti alzi sulle punte. Polpacci."},
+      {c:"Glutei",t:"Hip thrust",d:"Schiena su un appoggio, spingi i fianchi in alto. Glutei."},
+      {c:"Glutei",t:"Ponte glutei",d:"Come l'hip thrust ma a terra."},
+      {c:"Glutei",t:"Macchina glutei (kickback)",d:"Spingi una gamba indietro contro la macchina. Gluteo."},
+      {c:"Glutei",t:"Kickback alla puleggia / elastico",d:"Stesso calcio indietro con cavo o elastico."},
+      {c:"Glutei",t:"Macchina abduzioni",d:"Da seduto apri le gambe verso l'esterno. Glutei laterali."},
+      {c:"Glutei",t:"Camminata laterale con elastico",d:"Passi di lato con un elastico alle caviglie."},
+      {c:"Glutei",t:"Squat sumo",d:"Squat a gambe larghe con un peso. Glutei e interno coscia."},
+      {c:"Glutei",t:"Kettlebell swing",d:"Fai oscillare un kettlebell coi fianchi. Glutei e schiena."},
+      {c:"Addome/Core",t:"Plank",d:"Resti fermo in appoggio sugli avambracci, corpo dritto. Core."},
+      {c:"Addome/Core",t:"Plank laterale",d:"Plank su un fianco. Obliqui e core."},
+      {c:"Addome/Core",t:"Crunch (macchina/fitball)",d:"Arrotoli il busto in avanti. Addome alto."},
+      {c:"Addome/Core",t:"Crunch inverso",d:"Porti le ginocchia verso il petto da sdraiato. Addome basso."},
+      {c:"Addome/Core",t:"Sollevamento gambe / alla sbarra",d:"Alzi le gambe tese. Addome basso."},
+      {c:"Addome/Core",t:"Addominali laterali / crunch laterale",d:"Pieghi il busto di lato. Obliqui."},
+      {c:"Addome/Core",t:"Woodchopper",d:"Movimento a 'spacca-legna' col cavo. Obliqui."},
+      {c:"Addome/Core",t:"Ab wheel (ruota)",d:"Rulli in avanti con la ruota e torni. Core, avanzato."},
+      {c:"Lombari",t:"Estensione lombare (macchina/panca)",d:"Estendi il busto all'indietro. Zona lombare bassa."},
+      {c:"Lombari",t:"Superman",d:"A pancia in giù sollevi braccia e gambe insieme. Schiena bassa."},
+      {c:"Lombari",t:"Stacco rumeno",d:"Gambe quasi tese, scendi spingendo i fianchi indietro. Femorali e glutei."},
+      {c:"Lombari",t:"Good morning",d:"Bilanciere sulle spalle, ti pieghi in avanti a gambe tese. Schiena bassa e femorali."},
+      {c:"Cardio",t:"Ellittica",d:"Macchina con pedali e manici, movimento fluido. Cardio senza impatto."},
+      {c:"Cardio",t:"Cyclette / bici",d:"Pedali da seduto. Cardio."},
+      {c:"Cardio",t:"Tapis roulant",d:"Tappeto per camminare o correre."},
+      {c:"Cardio",t:"Vogatore",d:"Simuli la vogata. Cardio total body."},
+      {c:"Cardio",t:"Corsa 12′ al parco",d:"Alternativa cardio se la palestra è chiusa."}
+    ];
+    function draw(q){
+      var list=document.getElementById('glList'); if(!list)return; q=(q||'').toLowerCase().trim();
+      var H='',cur='';
+      GLO.forEach(function(x){
+        if(q && x.t.toLowerCase().indexOf(q)<0 && x.d.toLowerCase().indexOf(q)<0 && x.c.toLowerCase().indexOf(q)<0) return;
+        if(x.c!==cur){cur=x.c; H+='<div class="glcat">'+x.c+'</div>';}
+        H+='<div class="glitem"><div class="glt">'+x.t+'<a class="gla" href="'+yt(x.t)+'" target="_blank" rel="noopener">▶ video</a></div><div class="gld">'+x.d+'</div></div>';
+      });
+      list.innerHTML=H||'<div class="gld" style="padding:8px 0">Nessun esercizio trovato.</div>';
+    }
+    var s=document.getElementById('glSearch');
+    if(s)s.addEventListener('input',function(){draw(s.value);});
+    draw('');
   })();
 </script>
 </body>

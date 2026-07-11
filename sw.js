@@ -1,6 +1,6 @@
 // Service worker — Dieta Fase 2
 // Per aggiornare la PWA in futuro: cambia il numero di versione qui sotto (es. v3, v4...)
-const CACHE = 'dieta-fase2-v5';
+const CACHE = 'dieta-fase2-v6';
 
 const ASSETS = [
   './',
