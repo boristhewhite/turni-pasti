@@ -86,6 +86,41 @@
   .item.done .bx{background:var(--acc);border-color:var(--acc);color:#062018}
   .item.done .nm{text-decoration:line-through;color:var(--mut)}
   .item .qt{margin-left:auto;color:var(--mut);font-size:12px;flex:0 0 auto}
+  .toggle{display:flex;align-items:center;gap:9px;font-size:13px;cursor:pointer}
+  .toggle input{transform:scale(1.25)}
+  .gymday{border:1px solid var(--line);border-radius:12px;padding:12px;margin:0 0 12px;background:var(--card)}
+  .gymday h3{margin:0 0 4px;font-size:15px}
+  .exq{border-top:1px solid var(--line);padding:9px 0}
+  .exhead{display:flex;gap:10px;align-items:flex-start}
+  .exicon{flex:0 0 34px;width:34px;height:34px;color:var(--acc)}
+  .exicon svg{width:34px;height:34px;display:block}
+  .extitle{font-weight:700;font-size:13.5px;line-height:1.25}
+  .exsub{font-size:11px;color:var(--mut)}
+  .exmeta{margin-left:auto;font-size:12px;color:var(--acc2);white-space:nowrap;font-weight:700}
+  .cwrap{display:flex;align-items:flex-start;gap:8px;margin:5px 0 0}
+  .choice{display:flex;gap:9px;align-items:flex-start;margin:0;font-size:13px;flex:1}
+  .choice input{transform:scale(1.2);margin-top:2px;flex:0 0 auto}
+  .choice .cs{font-size:11px;color:var(--mut)}
+  .exlinks{display:flex;gap:14px;margin:5px 0 0;font-size:12.5px}
+  .exlinks a{color:var(--blue);text-decoration:none}
+  .exlinks button{color:var(--acc2);background:none;border:none;padding:0;font-size:12.5px;cursor:pointer}
+  .howto{display:none;font-size:12px;color:var(--mut);background:var(--card2);border-radius:8px;padding:8px 10px;margin:6px 0}
+  .howto.on{display:block}
+  .vlink{color:var(--blue);text-decoration:none;font-size:11px;white-space:nowrap;flex:0 0 auto;margin-top:2px}
+  .tag{display:inline-block;font-size:9.5px;font-weight:700;padding:1px 6px;border-radius:999px;margin-left:6px;vertical-align:middle}
+  .tag-cavi{background:rgba(224,122,95,.18);color:var(--warn)}
+  .tag-man{background:rgba(240,178,62,.18);color:var(--acc2)}
+  .tag-corpo{background:rgba(90,169,230,.18);color:var(--blue)}
+  .peso{margin:7px 0 2px 0;display:flex;align-items:center;gap:8px;font-size:12px;color:var(--mut)}
+  .peso input{width:66px;background:var(--card2);border:1px solid var(--line);color:var(--txt);border-radius:8px;padding:5px 8px;font-size:13px}
+  .fin{background:var(--card2);border-radius:10px;padding:9px 11px;margin-top:10px;border-left:3px solid var(--acc);font-size:13px}
+  .tmr{display:flex;flex-wrap:wrap;gap:7px;align-items:center;margin-top:7px}
+  .tmr button{background:var(--card2);color:var(--txt);border:1px solid var(--line);border-radius:8px;padding:6px 10px;font-size:12.5px;cursor:pointer}
+  .tmrout{font-weight:700;color:var(--acc2);min-width:44px}
+  .hidecavi .c-cavi{display:none}
+  .gymnote{width:100%;min-height:44px;background:var(--card2);border:1px solid var(--line);color:var(--txt);border-radius:8px;padding:8px;font-size:13px;margin-top:9px;font-family:inherit}
+  .gymbar{height:10px;background:var(--line);border-radius:999px;overflow:hidden;margin-top:6px}
+  .gymbar>div{height:10px;background:var(--acc);width:0%}
 </style>
 </head>
 <body>
@@ -528,12 +563,28 @@
   </div>
 </section>
 
+<!-- ============ PALESTRA ============ -->
+<section id="palestra">
+  <div class="card">
+    <h2>🏋️ Palestra — Forza Viva</h2>
+    <p class="mut">5 giorni. <b>Principale = macchina</b>. Sotto le varianti: <span class="tag tag-cavi">⚠ cavi</span> zona affollata da evitare · <span class="tag tag-man">manubri</span> da abituarsi · <span class="tag tag-corpo">corpo</span> a corpo libero. Cardio <b>12′ alla fine</b> di ogni sessione; in tabella max 7′. Segna il <b>peso</b> per crescere gradualmente. Salvato per settimana.</p>
+    <label class="toggle"><input type="checkbox" id="gymOnly"> Solo macchine/pesi (nascondi cavi/corde)</label>
+  </div>
+  <div class="card">
+    <div style="display:flex;justify-content:space-between;align-items:center"><b id="gymWeek">—</b><span class="pill" id="gymKpi">0</span></div>
+    <div class="gymbar"><div id="gymBar"></div></div>
+    <div class="legend" id="gymDays"></div>
+    <button class="btn" id="gymReset">↺ Reset settimana</button>
+  </div>
+  <div id="gymApp"></div>
+</section>
+
 <p class="foot">Fase 2 · protocollo naturopata + sistema turni. Non è consulenza medica: è l'organizzazione pratica del concordato. Dubbi clinici → naturopata.</p>
 </main>
 
 <script>
   const tabs=[
-    ["oggi","📅 Oggi"],["cambia","Cosa cambia"],["rotazione","Calendario 30gg"],["regole","Regole"],
+    ["oggi","📅 Oggi"],["palestra","🏋️ Palestra"],["cambia","Cosa cambia"],["rotazione","Calendario 30gg"],["regole","Regole"],
     ["proteine","Proteine"],["turni","Turni & orari"],["cena","Cena"],["spesa","Spesa"],["stock","Stock casa/lavoro"],["ricette","Ricette"],["test","Test verdure"]
   ];
   const nav=document.getElementById('nav');
@@ -702,6 +753,210 @@
     if(colB) h+='<div class="legend">*pomodoro solo se sei entro le 3/sett.</div>';
     h+='<div class="box goodbox" style="margin-top:8px">Obiettivo ~130 g proteine: shake dopo palestra + una proteina per ogni pasto.</div>';
     const el=document.getElementById("oggi-box"); if(el) el.innerHTML=h;
+  })();
+
+  // ---- Palestra (Forza Viva) ----
+  (function(){
+    function wk(d){d=d||new Date();var x=new Date(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate()));var n=x.getUTCDay()||7;x.setUTCDate(x.getUTCDate()+4-n);var ys=new Date(Date.UTC(x.getUTCFullYear(),0,1));var w=Math.ceil((((x-ys)/86400000)+1)/7);return x.getUTCFullYear()+"-W"+String(w).padStart(2,"0");}
+    var WK=wk(), PREV=wk(new Date(Date.now()-7*86400000));
+    var K="gym:"+WK+":", KP="gym:"+PREV+":";
+    function sv(k,v){try{localStorage.setItem(K+k,v)}catch(e){}}
+    function ld(k){try{return localStorage.getItem(K+k)}catch(e){return null}}
+    function ldp(k){try{return localStorage.getItem(KP+k)}catch(e){return null}}
+
+    var IC={
+      press:'<path d="M4 15h16"/><circle cx="7" cy="15" r="2"/><circle cx="17" cy="15" r="2"/><path d="M12 15V6"/><path d="M8.5 9.5 12 6l3.5 3.5"/>',
+      fly:'<path d="M12 5v14"/><path d="M12 8C8 8 6 10 5 12"/><path d="M12 8c4 0 6 2 7 4"/><path d="M4 11l1 2 2-1"/><path d="M20 11l-1 2-2-1"/>',
+      pulldown:'<path d="M4 6h16"/><path d="M8 6v3M16 6v3"/><path d="M12 6v12"/><path d="M9 15l3 3 3-3"/>',
+      row:'<path d="M18 4v16"/><path d="M18 12H6"/><path d="M9 9l-3 3 3 3"/>',
+      curl:'<path d="M8 19V9"/><path d="M8 9l4-4 4 4"/><circle cx="16" cy="9" r="1.8"/>',
+      shoulder:'<circle cx="12" cy="18" r="2"/><path d="M12 16V9"/><path d="M8 12l4-4 4 4"/><path d="M9 9h6"/>',
+      lateral:'<circle cx="12" cy="10" r="2"/><path d="M12 12v6"/><path d="M12 13l-6-1M12 13l6-1"/>',
+      squat:'<circle cx="12" cy="5" r="2"/><path d="M12 7v5"/><path d="M12 12l-3 3v4M12 12l3 3v4"/><path d="M8 8h8"/>',
+      legpress:'<rect x="4" y="6" width="4" height="12" rx="1"/><path d="M8 12h6"/><path d="M14 9l4 3-4 3"/>',
+      legext:'<circle cx="7" cy="8" r="2"/><path d="M7 10v4h4"/><path d="M11 14l6-3"/><path d="M14 9l3 2-1 3"/>',
+      legcurl:'<path d="M4 8h8"/><path d="M12 8v4"/><path d="M12 12c4 0 5 2 5 4"/><path d="M14 18l3-1v3"/>',
+      hip:'<path d="M4 16h6"/><path d="M10 16l4-4"/><path d="M14 12h6"/><path d="M10 20v-4"/><path d="M12 9l2-2 2 2"/>',
+      dead:'<path d="M4 18h16"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="18" r="2"/><path d="M12 18V8"/><path d="M9 11l3-3 3 3"/>',
+      kick:'<circle cx="9" cy="8" r="2"/><path d="M9 10v4"/><path d="M9 14l-3 4M9 14l6 2"/><path d="M13 15l3 1-1 3"/>',
+      abd:'<circle cx="12" cy="6" r="2"/><path d="M12 8v5"/><path d="M12 13l-5 5M12 13l5 5"/>',
+      calf:'<path d="M8 20h8"/><path d="M12 20v-6"/><path d="M10 12l2-3 2 3"/><path d="M12 9V4"/>',
+      lumbar:'<circle cx="8" cy="8" r="2"/><path d="M8 10c0 4 3 6 8 6"/><path d="M13 13l3 3-3 1"/>',
+      plank:'<circle cx="5" cy="9" r="2"/><path d="M5 12h13"/><path d="M18 12v3"/><path d="M8 15h8"/>',
+      crunch:'<path d="M4 18h9"/><circle cx="15" cy="9" r="2"/><path d="M15 11c-3 1-6 3-8 7"/><path d="M13 8l2-2 2 2"/>',
+      legraise:'<path d="M4 18h6"/><circle cx="6" cy="15" r="2"/><path d="M8 16l9-4"/><path d="M14 9l3 3-1 3"/>',
+      lunge:'<circle cx="10" cy="5" r="2"/><path d="M10 7v5"/><path d="M10 12l-4 6M10 12l4 3v3"/>',
+      cardio:'<circle cx="14" cy="5" r="2"/><path d="M14 7l-2 5 3 2 1 4"/><path d="M12 12l-4 1"/><path d="M9 9l3 1"/>'
+    };
+    function icon(n){return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">'+(IC[n]||IC.press)+'</svg>';}
+
+    var GYMD=[
+      {d:1,t:"Giorno 1 — Petto / Tricipiti / Addome",g:[
+        {ic:"press",n:"Press inclinato alla macchina",es:"Press pecho superior (máquina)",s:"4",r:"10",w:true,v:[{n:"Press inclinato con manubri",tag:"man"},{n:"Press guidato (multipower)"},{n:"Flessioni con sovraccarico",tag:"corpo"}]},
+        {ic:"fly",n:"Pec deck (macchina)",es:"Pec deck / contractor",s:"3",r:"10",w:true,v:[{n:"Croci con manubri",tag:"man"},{n:"Croci ai cavi",tag:"cavi"},{n:"Croci con banda elastica",tag:"corpo"}]},
+        {ic:"press",n:"Press orizzontale alla macchina",es:"Press horizontal (máquina)",s:"4",r:"10",w:true,v:[{n:"Panca piana con manubri",tag:"man"},{n:"Panca piana con bilanciere"},{n:"Flessioni",tag:"corpo"}]},
+        {ic:"press",n:"Spinta tricipiti alla macchina",es:"Tríceps máquina",s:"4",r:"10",w:true,v:[{n:"Dip alla macchina (assistiti)"},{n:"Pushdown ai cavi con corda",tag:"cavi"},{n:"Estensione tricipite con manubrio",tag:"man"}]},
+        {ic:"press",n:"Dip alla macchina (assistiti)",es:"Fondos máquina",s:"4",r:"10",w:true,v:[{n:"French press bilanciere EZ",tag:"man"},{n:"Dip su panca",tag:"corpo"},{n:"Estensione unilaterale manubrio",tag:"man"}]},
+        {ic:"plank",n:"Plank frontale",es:"Plancha",s:"4",r:"45″",w:false,plank:true,v:[{n:"Plank laterale",tag:"corpo"},{n:"Plank con fitball",tag:"corpo"},{n:"Plank con spostamento",tag:"corpo"}]},
+        {ic:"legraise",n:"Sollevamento gambe (appoggio/macchina)",es:"Elevación piernas",s:"4",r:"10",w:false,v:[{n:"Crunch inverso",tag:"corpo"},{n:"Sollevamenti alla sbarra",tag:"corpo"},{n:"Ab wheel",tag:"corpo"}]}
+      ]},
+      {d:2,t:"Giorno 2 — Gambe / Glutei / Lombari",g:[
+        {ic:"hip",n:"Hip thrust alla macchina",es:"Hip máquina",s:"4",r:"8",w:true,v:[{n:"Hip thrust con bilanciere"},{n:"Ponte glutei con disco",tag:"corpo"},{n:"Squat sumo con manubrio",tag:"man"}]},
+        {ic:"dead",n:"Stacco rumeno guidato (Smith)",es:"Peso muerto rumano (Smith)",s:"3",r:"10",w:true,v:[{n:"Stacco con bilanciere"},{n:"Good morning con bilanciere"},{n:"Stacco con manubri",tag:"man"}]},
+        {ic:"kick",n:"Macchina glutei (kickback)",es:"Glúteo máquina",s:"3",r:"10",w:true,v:[{n:"Kickback alla puleggia",tag:"cavi"},{n:"Elastico alla caviglia",tag:"corpo"},{n:"Step-up con manubrio",tag:"man"}]},
+        {ic:"legcurl",n:"Leg curl alla macchina",es:"Femoral máquina",s:"4",r:"10",w:true,v:[{n:"Leg curl prono (macchina)"},{n:"Curl con fitball",tag:"corpo"},{n:"Stacco rumeno"}]},
+        {ic:"abd",n:"Macchina abduzioni",es:"Abducción máquina",s:"3",r:"10",w:true,v:[{n:"Abduzione alla puleggia",tag:"cavi"},{n:"Camminata laterale con elastico",tag:"corpo"},{n:"Step laterale",tag:"corpo"}]},
+        {ic:"calf",n:"Polpacci alla pressa",es:"Gemelos prensa",s:"3",r:"10",w:true,v:[{n:"Calf in piedi (macchina)"},{n:"Calf seduto (macchina)"},{n:"Salite sul gradino",tag:"corpo"}]},
+        {ic:"lumbar",n:"Estensione lombare alla macchina",es:"Lumbar máquina",s:"3",r:"10",w:true,v:[{n:"Superman a terra",tag:"corpo"},{n:"Panca lombare (5 kg)"},{n:"Stacco rumeno leggero"}]}
+      ]},
+      {d:3,t:"Giorno 3 — Schiena / Bicipiti / Addome",g:[
+        {ic:"pulldown",n:"Lat machine avanti",es:"Jalón al pecho",s:"4",r:"10",w:true,v:[{n:"Trazioni assistite (macchina)"},{n:"Rematore con barra T"},{n:"Pullover alla macchina"}]},
+        {ic:"row",n:"Reverse pec deck (deltoide post.)",es:"Deltoide posterior máquina",s:"3",r:"10",w:true,v:[{n:"Face pull ai cavi",tag:"cavi"},{n:"Elastici al viso",tag:"corpo"},{n:"Rematore inverso TRX",tag:"corpo"}]},
+        {ic:"row",n:"Rematore alla macchina",es:"Remo máquina",s:"4",r:"10",w:true,v:[{n:"Rematore manubrio 1 braccio",tag:"man"},{n:"Rematore con bilanciere"},{n:"Rematore TRX",tag:"corpo"}]},
+        {ic:"curl",n:"Curl bicipiti alla macchina",es:"Bíceps máquina",s:"3",r:"10",w:true,v:[{n:"Curl alternato con manubri",tag:"man"},{n:"Curl con bilanciere EZ"},{n:"Curl ai cavi con corda",tag:"cavi"}]},
+        {ic:"curl",n:"Curl con bilanciere EZ",es:"Bíceps barra Z",s:"4",r:"10",w:true,v:[{n:"Curl alla macchina"},{n:"Curl a martello con manubri",tag:"man"},{n:"Curl con elastico",tag:"corpo"}]},
+        {ic:"crunch",n:"Macchina addominali laterali",es:"Oblicuos máquina",s:"3",r:"12",w:false,v:[{n:"Plank laterale",tag:"corpo"},{n:"Crunch laterale con manubrio",tag:"man"},{n:"Woodchopper ai cavi",tag:"cavi"}]},
+        {ic:"crunch",n:"Crunch alla macchina",es:"Crunch máquina",s:"4",r:"10",w:false,v:[{n:"Crunch su fitball",tag:"corpo"},{n:"Crunch al cavo",tag:"cavi"},{n:"Crunch inverso",tag:"corpo"}]}
+      ]},
+      {d:4,t:"Giorno 4 — Gambe / Spalle / Cardio",g:[
+        {ic:"squat",n:"Squat guidato (multipower)",es:"Sentadilla multipower",s:"4",r:"10",w:true,v:[{n:"Squat libero"},{n:"Pressa inclinata (macchina)"},{n:"Goblet squat",tag:"man"}]},
+        {ic:"legpress",n:"Hack squat (macchina)",es:"Hack cuádriceps",s:"3",r:"10",w:true,v:[{n:"Pressa orizzontale"},{n:"Affondo bulgaro",tag:"corpo"},{n:"Leg extension unilaterale"}]},
+        {ic:"abd",n:"Macchina abduzioni",es:"Abducción máquina",s:"3",r:"10",w:true,v:[{n:"Camminata laterale con elastico",tag:"corpo"},{n:"Puleggia alla caviglia",tag:"cavi"},{n:"Step laterale",tag:"corpo"}]},
+        {ic:"legext",n:"Leg extension (macchina)",es:"Cuádriceps máquina",s:"4",r:"10",w:true,v:[{n:"Affondi camminati",tag:"corpo"},{n:"Salita sul gradino",tag:"corpo"},{n:"Sissy squat",tag:"corpo"}]},
+        {ic:"shoulder",n:"Spinta spalle alla macchina",es:"Press hombros máquina",s:"3",r:"10",w:true,v:[{n:"Military press con manubri",tag:"man"},{n:"Military press con bilanciere"},{n:"Pike push-up",tag:"corpo"}]},
+        {ic:"lateral",n:"Macchina deltoide laterale",es:"Deltoide lateral máquina",s:"3",r:"10",w:true,v:[{n:"Alzate laterali con manubri",tag:"man"},{n:"Alzate al cavo",tag:"cavi"},{n:"Elastici",tag:"corpo"}]},
+        {ic:"cardio",n:"Cardio in tabella 7′ (ellittica)",es:"Cardio 7′",s:"—",r:"7′",w:false,cardio:420,v:[{n:"Cyclette"},{n:"Tapis roulant"},{n:"Vogatore"}]}
+      ]},
+      {d:5,t:"Giorno 5 — Mix",g:[
+        {ic:"press",n:"Press orizzontale alla macchina",es:"Press máquina",s:"3",r:"10",w:true,v:[{n:"Flessioni",tag:"corpo"},{n:"Dip alle parallele",tag:"corpo"},{n:"Panca con manubri",tag:"man"}]},
+        {ic:"legpress",n:"Pressa gambe (macchina)",es:"Prensa pierna",s:"3",r:"10",w:true,v:[{n:"Squat libero"},{n:"Hack squat"},{n:"Salita sul gradino",tag:"corpo"}]},
+        {ic:"row",n:"Rematore alla macchina",es:"Remo máquina",s:"3",r:"10",w:true,v:[{n:"Rematore con manubrio",tag:"man"},{n:"Rematore TRX",tag:"corpo"},{n:"Rematore al cavo basso",tag:"cavi"}]},
+        {ic:"lunge",n:"Affondi (corpo libero o manubri leggeri)",es:"Zancadas",s:"3",r:"10",w:true,v:[{n:"Split squat",tag:"corpo"},{n:"Affondo indietro",tag:"corpo"},{n:"Camminata con manubri",tag:"man"}]},
+        {ic:"squat",n:"Squat sumo (manubrio) o pressa",es:"Sentadilla sumo",s:"3",r:"10",w:true,v:[{n:"Stacco sumo"},{n:"Kettlebell swing",tag:"man"},{n:"Ponte glutei",tag:"corpo"}]},
+        {ic:"cardio",n:"Cardio in tabella 7′ (ellittica)",es:"Cardio 7′",s:"—",r:"7′",w:false,cardio:420,v:[{n:"Tapis inclinato"},{n:"Bici"},{n:"Saltelli leggeri",tag:"corpo"}]}
+      ]}
+    ];
+
+    function yt(q){return 'https://www.youtube.com/results?search_query='+encodeURIComponent(q+' esercizio tecnica');}
+    function choiceRow(nm,val,label,tag,ytname){
+      var t=''; if(tag==='cavi')t=' <span class="tag tag-cavi">⚠ cavi</span>'; else if(tag==='man')t=' <span class="tag tag-man">manubri</span>'; else if(tag==='corpo')t=' <span class="tag tag-corpo">corpo</span>';
+      var vl=ytname? '<a class="vlink" href="'+yt(ytname)+'" target="_blank" rel="noopener">▶ video</a>':'';
+      return '<div class="cwrap'+(tag==='cavi'?' c-cavi':'')+'"><label class="choice"><input type="radio" name="'+nm+'" value="'+val+'"><span>'+label+t+'</span></label>'+vl+'</div>';
+    }
+    var HOW={
+      d1g0:"Seduto, schienale ~30°. Spingi le maniglie avanti/alto senza bloccare i gomiti, torna lento.",
+      d1g1:"Seduto, gomiti all'altezza delle spalle. Chiudi le braccia davanti stringendo il petto, apri controllando.",
+      d1g2:"Seduto, maniglie all'altezza del petto. Spingi avanti fin quasi a distendere, torna lento.",
+      d1g3:"Gomiti fermi ai fianchi. Estendi gli avambracci verso il basso, poi risali controllando.",
+      d1g4:"Imposta l'assistenza. Scendi piegando i gomiti ~90°, risali spingendo, busto quasi verticale.",
+      d1g5:"Avambracci a terra, corpo dritto testa-tallone, addome contratto. Niente sedere su né schiena curva. 45″.",
+      d1g6:"Schiena appoggiata. Solleva le gambe controllando fino ~90°, scendi senza dondolare.",
+      d2g0:"Schiena sull'appoggio. Spingi coi talloni e porta i fianchi in alto stringendo i glutei; non inarcare.",
+      d2g1:"Gambe semi-tese. Scendi spingendo i fianchi indietro, schiena dritta, fino a metà stinco, risali.",
+      d2g2:"Spingi la gamba indietro contraendo il gluteo, senza inarcare la lombare; torna lento.",
+      d2g3:"Fletti le ginocchia portando i talloni verso i glutei, controlla il ritorno.",
+      d2g4:"Seduto, apri le gambe spingendo verso l'esterno coi glutei, chiudi controllando.",
+      d2g5:"Spingi con gli avampiedi estendendo le caviglie: massima salita, discesa lenta.",
+      d2g6:"Estendi il busto fino all'allineamento (non oltre), torna controllando. Movimento breve.",
+      d3g0:"Petto alto. Tira la barra allo sterno portando i gomiti in basso; non tirare col collo.",
+      d3g1:"Braccia avanti. Apri all'indietro stringendo le scapole (deltoide posteriore), controlla.",
+      d3g2:"Petto contro l'appoggio. Tira le maniglie verso i fianchi stringendo le scapole.",
+      d3g3:"Gomiti fermi. Fletti gli avambracci contraendo i bicipiti, scendi lento.",
+      d3g4:"In piedi, gomiti ai fianchi. Sali senza dondolare il busto, scendi controllando.",
+      d3g5:"Fletti il busto di lato contraendo gli obliqui, senza spingere col collo.",
+      d3g6:"Arrotonda il busto in avanti contraendo l'addome, torna lento senza strappi.",
+      d4g0:"Piedi a larghezza spalle. Scendi fino a coscia ~parallela con schiena dritta, risali spingendo coi talloni.",
+      d4g1:"Schiena sul carrello. Scendi controllando ~90°, spingi coi talloni senza staccare la schiena.",
+      d4g2:"Seduto, apri le gambe verso l'esterno coi glutei, chiudi controllando.",
+      d4g3:"Seduto. Estendi le ginocchia in alto contraendo i quadricipiti, scendi lento (non bloccare di scatto).",
+      d4g4:"Maniglie all'altezza spalle. Spingi in alto senza inarcare, torna controllando.",
+      d4g5:"Alza le braccia lateralmente fino all'altezza spalle, gomiti morbidi, scendi lento.",
+      d4g6:"Ellittica/bici/tapis a ritmo moderato, 7 minuti.",
+      d5g0:"Seduto, maniglie al petto. Spingi avanti fin quasi a distendere, torna lento.",
+      d5g1:"Piedi a larghezza spalle sulla pedana. Scendi ~90° e spingi coi talloni; non bloccare le ginocchia.",
+      d5g2:"Petto contro l'appoggio. Tira le maniglie ai fianchi stringendo le scapole.",
+      d5g3:"Passo avanti, scendi col ginocchio dietro verso terra, busto dritto; alterna le gambe.",
+      d5g4:"Gambe larghe, punte in fuori. Scendi tenendo un manubrio, schiena dritta, risali coi glutei.",
+      d5g5:"Ellittica/bici a ritmo moderato, 7 minuti."
+    };
+    function render(){
+      var app=document.getElementById('gymApp'); if(!app)return; var H='';
+      GYMD.forEach(function(day){
+        H+='<div class="gymday"><h3>'+day.t+'</h3>';
+        day.g.forEach(function(g,gi){
+          var nm='g_d'+day.d+'_'+gi;
+          H+='<div class="exq"><div class="exhead"><div style="flex:1"><div class="extitle">'+g.n+'</div><div class="exsub">ES: '+g.es+'</div></div><div class="exmeta">'+g.s+'×'+g.r+'</div></div>';
+          H+='<div class="exlinks"><a href="'+yt(g.n)+'" target="_blank" rel="noopener">▶ Video</a><button type="button" class="howbtn" data-h="h_'+day.d+'_'+gi+'">ℹ️ Come si fa</button></div>';
+          H+='<div class="howto" id="h_'+day.d+'_'+gi+'">'+(HOW['d'+day.d+'g'+gi]||'Vedi il video ▶ per la tecnica.')+'</div>';
+          H+='<div>';
+          H+=choiceRow(nm,'main','<b>Principale</b> — '+g.n,null,null);
+          g.v.forEach(function(v,vi){ H+=choiceRow(nm,'v'+(vi+1),'Var '+(vi+1)+' — '+v.n,v.tag,v.n); });
+          H+='</div>';
+          if(g.w){ var pk='d'+day.d+'g'+gi+'w'; var pv=ldp(pk); H+='<div class="peso">⚖ Peso <input type="number" inputmode="decimal" class="pesoI" data-k="'+pk+'" placeholder="kg"> kg'+(pv?' <span class="cs">· sett. scorsa: '+pv+'</span>':'')+'</div>'; }
+          H+='</div>';
+        });
+        var to='tmr_d'+day.d;
+        var hasCardio=day.g.some(function(x){return x.cardio;});
+        var hasPlank=day.g.some(function(x){return x.plank;});
+        H+='<div class="fin"><b>🔚 Cardio finale 12′</b> (fine sessione)';
+        H+='<div><label class="choice"><input type="checkbox" class="ck" data-k="d'+day.d+'fin"><span>Cardio finale fatto</span></label></div>';
+        H+='<div><label class="choice"><input type="checkbox" class="ck" data-k="d'+day.d+'closed"><span>Palestra chiusa → corsa 12′ al parco</span></label></div>';
+        H+='<div class="tmr"><span class="tmrout" id="'+to+'">—</span><button data-sec="720" data-out="'+to+'">⏱ 12′ finale</button>';
+        if(hasCardio)H+='<button data-sec="420" data-out="'+to+'">⏱ 7′ cardio</button>';
+        if(hasPlank)H+='<button data-sec="45" data-out="'+to+'">⏱ 45″ plank</button>';
+        H+='<button data-sec="720" data-out="'+to+'">⏱ corsa 12′</button></div></div>';
+        H+='<textarea class="gymnote" data-k="d'+day.d+'notes" placeholder="📝 Note giorno '+day.d+'"></textarea>';
+        H+='</div>';
+      });
+      app.innerHTML=H;
+      GYMD.forEach(function(day){
+        day.g.forEach(function(g,gi){
+          var nm='g_d'+day.d+'_'+gi, val=ld(nm);
+          if(val){var r=app.querySelector('input[name="'+nm+'"][value="'+val+'"]'); if(r)r.checked=true;}
+          if(g.w){var pk='d'+day.d+'g'+gi+'w', pv=ld(pk), inp=app.querySelector('.pesoI[data-k="'+pk+'"]'); if(inp&&pv)inp.value=pv;}
+        });
+        ['fin','closed'].forEach(function(s){var k='d'+day.d+s,c=app.querySelector('.ck[data-k="'+k+'"]'); if(c&&ld(k)==='1')c.checked=true;});
+        var nk='d'+day.d+'notes',na=app.querySelector('textarea[data-k="'+nk+'"]'); if(na&&ld(nk))na.value=ld(nk);
+      });
+      stats();
+    }
+    function stats(){
+      var total=0,done=0,daysDone=0;
+      GYMD.forEach(function(day){
+        var dd=0; day.g.forEach(function(g,gi){ total++; if(ld('g_d'+day.d+'_'+gi)){done++;dd++;} });
+        if(dd===day.g.length || ld('d'+day.d+'closed')==='1') daysDone++;
+      });
+      var pct=total?Math.round(done/total*100):0;
+      var e;
+      if(e=document.getElementById('gymKpi'))e.textContent=done+'/'+total+' · '+pct+'%';
+      if(e=document.getElementById('gymBar'))e.style.width=pct+'%';
+      if(e=document.getElementById('gymWeek'))e.textContent='Settimana '+WK;
+      if(e=document.getElementById('gymDays'))e.textContent='Giorni completati: '+daysDone+'/5';
+    }
+    var gymTi=null;
+    function startT(sec,out){ if(!out)return; clearInterval(gymTi); var s=sec; function r(){var m=Math.floor(s/60),x=s%60; out.textContent=(m>0?m+"m ":"")+String(x).padStart(2,"0")+"s";} r(); gymTi=setInterval(function(){s--; if(s<=0){clearInterval(gymTi); out.textContent="✔️"; return;} r();},1000); }
+
+    var app=document.getElementById('gymApp');
+    if(app){
+      app.addEventListener('change',function(e){var t=e.target;
+        if(t.matches('input[type="radio"]')){sv(t.name,t.value);stats();}
+        else if(t.matches('.ck')){sv(t.dataset.k,t.checked?'1':'0');stats();}
+      });
+      app.addEventListener('input',function(e){var t=e.target;
+        if(t.matches('.pesoI'))sv(t.dataset.k,t.value);
+        else if(t.matches('textarea'))sv(t.dataset.k,t.value);
+      });
+      app.addEventListener('click',function(e){
+        var hb=e.target.closest('.howbtn'); if(hb){var d=document.getElementById(hb.dataset.h); if(d)d.classList.toggle('on'); return;}
+        var b=e.target.closest('button[data-sec]'); if(b)startT(parseInt(b.dataset.sec),document.getElementById(b.dataset.out));
+      });
+    }
+    var only=document.getElementById('gymOnly'), pal=document.getElementById('palestra');
+    if(only&&pal){ var pref=null; try{pref=localStorage.getItem('gymOnlyMachines')}catch(e){} only.checked=pref==='1'; pal.classList.toggle('hidecavi',only.checked);
+      only.addEventListener('change',function(){ try{localStorage.setItem('gymOnlyMachines',only.checked?'1':'0')}catch(e){} pal.classList.toggle('hidecavi',only.checked); }); }
+    var rb=document.getElementById('gymReset');
+    if(rb)rb.onclick=function(){ if(confirm('Reset settimana '+WK+' (palestra)?')){ Object.keys(localStorage).filter(function(k){return k.indexOf(K)===0}).forEach(function(k){localStorage.removeItem(k)}); render(); } };
+    render();
   })();
 </script>
 </body>
