@@ -2,550 +2,598 @@
 <html lang="it">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Turni & Pasti</title>
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#11131c">
-<link rel="icon" href="icon-192.png">
-<link rel="apple-touch-icon" href="icon-192.png">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dieta Fase 2 · Giorgio</title>
 <style>
-:root{
-  --bg:#11131c; --surface:#1a1d29; --surface2:#232739; --border:#2c3145;
-  --text:#eef0f6; --muted:#8d93ab;
-  --night:#6c8eff; --night-dim:#3b4a8f;
-  --day:#f2a65a; --day-dim:#8a5f34;
-  --alert:#e8604c; --ok:#6fcf97;
-  --mono:'IBM Plex Mono',ui-monospace,monospace;
-  --disp:'Space Grotesk',sans-serif;
-  --body:'Inter',sans-serif;
-}
-*{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
-html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:var(--body);}
-body{padding-bottom:76px; min-height:100vh;}
-.wrap{max-width:480px;margin:0 auto;padding:16px 16px 8px;}
-h1,h2,h3{font-family:var(--disp);margin:0;}
-.header{position:sticky;top:0;z-index:5;background:linear-gradient(180deg,var(--bg) 80%,transparent);padding-top:14px;}
-.clockRow{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:10px;}
-.clock{font-family:var(--mono);font-size:28px;font-weight:500;letter-spacing:0.5px;}
-.dateLabel{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;}
-.nowCard{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:14px 16px;margin-bottom:14px;display:flex;gap:12px;align-items:center;}
-.nowDot{width:10px;height:10px;border-radius:50%;background:var(--night);flex-shrink:0;box-shadow:0 0 0 4px rgba(108,142,255,.15);}
-.nowDot.day{background:var(--day);box-shadow:0 0 0 4px rgba(242,166,90,.15);}
-.nowDot.alert{background:var(--alert);box-shadow:0 0 0 4px rgba(232,96,76,.15);}
-.nowTxt .lbl{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;}
-.nowTxt .val{font-family:var(--disp);font-size:16px;font-weight:700;margin-top:2px;}
-.chipsRow{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;margin-bottom:4px;scrollbar-width:none;}
-.chipsRow::-webkit-scrollbar{display:none;}
-.chip{flex-shrink:0;padding:8px 14px;border-radius:20px;border:1px solid var(--border);background:var(--surface);color:var(--muted);font-size:13px;font-weight:600;font-family:var(--body);cursor:pointer;white-space:nowrap;}
-.chip.active{background:var(--night-dim);border-color:var(--night);color:#fff;}
-.autoNote{font-size:12px;color:var(--muted);margin:6px 2px 16px;}
-.autoNote b{color:var(--day);}
-.dayMeta{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
-.dayMeta h2{font-size:19px;}
-.dayMeta .sub{font-size:12px;color:var(--muted);margin-top:2px;}
-.heavyTag{font-size:11px;padding:4px 9px;border-radius:8px;font-weight:600;white-space:nowrap;}
-.heavyTag.pesante{background:rgba(232,96,76,.15);color:var(--alert);}
-.heavyTag.leggero{background:rgba(111,207,151,.15);color:var(--ok);}
-.timeline{position:relative;padding-left:6px;}
-.tItem{position:relative;padding:0 0 20px 26px;border-left:2px solid var(--border);}
-.tItem:last-child{border-color:transparent;}
-.tItem .dot{position:absolute;left:-7px;top:2px;width:12px;height:12px;border-radius:50%;background:var(--surface2);border:2px solid var(--border);}
-.tItem.pasto .dot{border-color:var(--night);}
-.tItem.prep .dot{border-color:var(--day);}
-.tItem.vietato .dot{border-color:var(--alert);background:rgba(232,96,76,.2);}
-.tItem.transito .dot{border-color:var(--muted);}
-.tItem.active .dot{background:var(--night);box-shadow:0 0 0 5px rgba(108,142,255,.2);}
-.card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:12px 14px;}
-.tItem.active .card{border-color:var(--night);}
-.cardTop{display:flex;align-items:center;gap:8px;margin-bottom:4px;}
-.time{font-family:var(--mono);font-size:12px;color:var(--muted);}
-.place{font-size:15px;}
-.label{font-family:var(--disp);font-size:14.5px;font-weight:700;flex:1;}
-.chk{width:18px;height:18px;border-radius:6px;border:1.5px solid var(--border);flex-shrink:0;cursor:pointer;display:flex;align-items:center;justify-content:center;background:var(--surface2);}
-.chk.on{background:var(--ok);border-color:var(--ok);}
-.chk.on::after{content:'✓';font-size:12px;color:#0c1710;font-weight:700;}
-.desc{font-size:13px;color:#c4c8d8;line-height:1.4;margin-top:2px;}
-.planb{font-size:12px;color:var(--day);margin-top:6px;line-height:1.4;}
-.planb b{color:var(--day);}
-.note{background:var(--surface2);border:1px dashed var(--border);border-radius:12px;padding:12px 14px;font-size:13px;color:var(--muted);margin-top:8px;line-height:1.5;}
-
-.tabbar{position:fixed;bottom:0;left:0;right:0;background:var(--surface);border-top:1px solid var(--border);display:flex;padding:6px 10px calc(6px + env(safe-area-inset-bottom));z-index:10;}
-.tabbtn{flex:1;background:none;border:none;color:var(--muted);font-family:var(--body);font-size:11px;font-weight:600;display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 0;cursor:pointer;}
-.tabbtn .ic{font-size:19px;}
-.tabbtn.active{color:var(--night);}
-
-.section{display:none;}
-.section.show{display:block;}
-
-.timerGrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
-.timerCard{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px;text-align:center;}
-.timerCard .food{font-size:22px;margin-bottom:2px;}
-.timerCard .fname{font-family:var(--disp);font-weight:700;font-size:13px;}
-.timerCard .fmin{font-size:11px;color:var(--muted);margin-bottom:8px;}
-.timerCard .tdisp{font-family:var(--mono);font-size:22px;margin-bottom:8px;}
-.timerCard.running{border-color:var(--night);}
-.timerCard.done{border-color:var(--ok);}
-.timerCard.done .tdisp{color:var(--ok);}
-.tbtns{display:flex;gap:6px;justify-content:center;}
-.tbtn{background:var(--surface2);border:1px solid var(--border);color:var(--text);font-size:11px;padding:6px 9px;border-radius:8px;font-weight:600;cursor:pointer;}
-.batchNote{font-size:12px;color:var(--muted);line-height:1.5;background:var(--surface2);border-radius:12px;padding:12px 14px;margin-bottom:12px;}
-
-.shopGroup{margin-bottom:18px;}
-.shopHead{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
-.shopHead h3{font-size:14.5px;}
-.resetBtn{font-size:11px;color:var(--muted);background:none;border:1px solid var(--border);border-radius:8px;padding:4px 8px;cursor:pointer;}
-.shopItem{display:flex;align-items:center;gap:10px;padding:9px 4px;border-bottom:1px solid var(--border);font-size:13.5px;}
-.shopItem.on span{text-decoration:line-through;color:var(--muted);}
-.shopWhen{font-size:11px;color:var(--muted);margin-bottom:10px;}
-
-.emCard{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px 16px;margin-bottom:12px;}
-.emCard h3{font-size:14px;margin-bottom:8px;display:flex;gap:8px;align-items:center;}
-.emCard .n{width:20px;height:20px;border-radius:50%;background:var(--night-dim);color:#fff;font-size:11px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);flex-shrink:0;}
-.emRow{font-size:13px;line-height:1.5;margin-bottom:6px;}
-.emRow b{color:var(--day);}
-.scala li{margin-bottom:6px;}
-.hoursBox{display:flex;gap:10px;margin-top:8px;}
-.hoursBox div{flex:1;background:var(--surface2);border-radius:10px;padding:10px;font-size:12px;}
-.hoursBox b{display:block;font-size:13px;margin-bottom:2px;}
+  :root{
+    --bg:#0f1417; --card:#182126; --card2:#1f2a30; --line:#2c3a42;
+    --txt:#e8eef1; --mut:#9fb2bd; --acc:#4bbf9a; --acc2:#f0b23e;
+    --warn:#e07a5f; --blue:#5aa9e6; --rad:14px;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    background:var(--bg);color:var(--txt);line-height:1.5;padding-bottom:70px}
+  header{padding:18px 16px 10px;border-bottom:1px solid var(--line);position:sticky;top:0;
+    background:rgba(15,20,23,.92);backdrop-filter:blur(8px);z-index:20}
+  h1{margin:0;font-size:19px;letter-spacing:.2px}
+  header p{margin:3px 0 0;color:var(--mut);font-size:12.5px}
+  nav{display:flex;gap:6px;overflow-x:auto;padding:10px 12px;position:sticky;top:56px;
+    background:rgba(15,20,23,.92);backdrop-filter:blur(8px);z-index:19;border-bottom:1px solid var(--line);
+    scrollbar-width:none}
+  nav::-webkit-scrollbar{display:none}
+  nav button{flex:0 0 auto;background:var(--card);color:var(--mut);border:1px solid var(--line);
+    padding:8px 13px;border-radius:999px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap}
+  nav button.on{background:var(--acc);color:#062018;border-color:var(--acc)}
+  main{padding:16px 14px;max-width:780px;margin:0 auto}
+  section{display:none;animation:f .25s ease}
+  section.on{display:block}
+  @keyframes f{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--rad);padding:14px 15px;margin:0 0 12px}
+  .card h2{margin:0 0 8px;font-size:16px}
+  .card h3{margin:14px 0 6px;font-size:14px;color:var(--acc)}
+  .mut{color:var(--mut)}
+  .pill{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:999px;margin:0 4px 4px 0}
+  .p-new{background:rgba(75,191,154,.16);color:var(--acc)}
+  .p-lim{background:rgba(224,122,95,.16);color:var(--warn)}
+  .p-keep{background:rgba(90,169,230,.16);color:var(--blue)}
+  ul{margin:6px 0;padding-left:18px}
+  li{margin:3px 0}
+  table{width:100%;border-collapse:collapse;font-size:13px;margin-top:6px}
+  th,td{text-align:left;padding:7px 6px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{color:var(--acc2);font-size:11.5px;text-transform:uppercase;letter-spacing:.3px}
+  td small{color:var(--mut)}
+  .day{background:var(--card2);border-radius:10px;padding:10px 12px;margin:10px 0;border-left:3px solid var(--acc)}
+  .day.wk{border-left-color:var(--blue)}
+  .day.free{border-left-color:var(--acc2)}
+  .day b.t{font-size:14px}
+  .tl{list-style:none;padding-left:0;margin:8px 0 2px}
+  .tl li{display:flex;gap:10px;margin:5px 0;font-size:13px}
+  .tl .hr{flex:0 0 74px;color:var(--acc2);font-weight:700;font-variant-numeric:tabular-nums}
+  .tl.wk .hr{color:var(--blue)}
+  .tl.free .hr{color:var(--acc2)}
+  .rec{border-left:3px solid var(--acc2)}
+  .rec h3{color:var(--acc2)}
+  .box{background:var(--card2);border-radius:10px;padding:10px 12px;margin:8px 0;font-size:13px}
+  .warnbox{border-left:3px solid var(--warn)}
+  .goodbox{border-left:3px solid var(--acc)}
+  .flag{color:var(--warn);font-weight:600}
+  .ok{color:var(--acc);font-weight:600}
+  .blue{color:var(--blue)}
+  tr.r-wk td{background:rgba(90,169,230,.07)}
+  tr.r-free td{background:rgba(240,178,62,.06)}
+  #rotazione td{font-size:12px;padding:6px 5px}
+  .track{display:flex;flex-wrap:wrap;gap:7px;margin-top:8px}
+  .veg{background:var(--card2);border:1px solid var(--line);border-radius:10px;padding:8px 10px;
+    font-size:12.5px;cursor:pointer;user-select:none;min-width:96px;text-align:center;transition:.15s}
+  .veg small{display:block;color:var(--mut);font-size:10.5px;margin-top:2px}
+  .veg.good{border-color:var(--acc);background:rgba(75,191,154,.14)}
+  .veg.bad{border-color:var(--warn);background:rgba(224,122,95,.14)}
+  .veg.test{border-color:var(--acc2);background:rgba(240,178,62,.12)}
+  .legend{font-size:11px;color:var(--mut);margin-top:6px}
+  .foot{color:var(--mut);font-size:11.5px;text-align:center;padding:20px 10px 0}
+  b.k{color:var(--acc)}
+  .egg{display:flex;align-items:center;gap:12px;margin-top:8px}
+  .egg .dots{font-size:22px;letter-spacing:3px}
+  .egg button{background:var(--card2);color:var(--txt);border:1px solid var(--line);width:38px;height:38px;
+    border-radius:10px;font-size:18px;cursor:pointer}
+  .btn{background:var(--card2);color:var(--mut);border:1px solid var(--line);padding:7px 12px;
+    border-radius:8px;font-size:12px;cursor:pointer;margin-top:8px}
+  .item{display:flex;align-items:center;gap:10px;padding:7px 4px;border-bottom:1px solid var(--line);
+    font-size:13.5px;cursor:pointer;user-select:none}
+  .item:last-child{border-bottom:none}
+  .item .bx{flex:0 0 20px;height:20px;border:2px solid var(--line);border-radius:6px;
+    display:flex;align-items:center;justify-content:center;font-size:13px;color:transparent}
+  .item.done .bx{background:var(--acc);border-color:var(--acc);color:#062018}
+  .item.done .nm{text-decoration:line-through;color:var(--mut)}
+  .item .qt{margin-left:auto;color:var(--mut);font-size:12px;flex:0 0 auto}
 </style>
 </head>
 <body>
-<div class="wrap">
+<header>
+  <h1>🍃 Dieta · Fase 2</h1>
+  <p>Aggiornamento naturopata (giorno 14) · formato operativo con turni, orari palestra e pasti</p>
+</header>
 
-  <div class="header">
-    <div class="clockRow">
-      <div>
-        <div class="dateLabel" id="dateLabel">—</div>
-        <div class="clock" id="clock">--:--</div>
-      </div>
+<nav id="nav"></nav>
+
+<main>
+
+<!-- ============ COSA CAMBIA ============ -->
+<section id="cambia" class="on">
+  <div class="card">
+    <h2>Cosa cambia in Fase 2</h2>
+    <p class="mut">Criterio guida sempre uno: <b class="k">mangia → osserva 24-48 h → se gonfia o fa male, riduci quantità/frequenza o togli quel singolo alimento.</b></p>
+
+    <h3>Colazione</h3>
+    <ul>
+      <li><span class="pill p-keep">RESTA</span> Giorno sì: vecchia (latte vegetale + fiocchi grano saraceno + frutta).</li>
+      <li><span class="pill p-new">NUOVA</span> Giorno alterno: pane <b>senza glutine</b> tostato + tahini + avocado + pomodoro* + olio EVO/lino + sale. <span class="mut">*pomodoro max 3×/sett</span></li>
+    </ul>
+
+    <h3>Pranzo</h3>
+    <ul>
+      <li><span class="pill p-new">NUOVI</span> Lenticchie rosse (4×) e ceci (1×) oltre al riso (max 1 giorno su 3).</li>
+      <li><span class="pill p-new">VERDURE</span> <b>3 verdure per pranzo</b> nel soffritto (non una sola), a fianco della base. <b>Broccoli</b> in rotazione ~3×/sett con zucchine, spinaci, asparagi, zucca, bietole, cavolfiore, fagiolini…</li>
+      <li><span class="pill p-new">NUOVE</span> Patate e patate dolci ammesse a pranzo e cena.</li>
+    </ul>
+
+    <h3>Cena / merenda</h3>
+    <ul>
+      <li><span class="pill p-new">SEMI</span> Su insalata serale + quinoa: <b>lino + sesamo + goji</b> (goji trattati come semi, in <span class="flag">prova</span>).</li>
+      <li><span class="pill p-lim">UOVA</span> <b>Max 3/sett</b>, obiettivo ridurle gradualmente <b>verso 0</b> (sei tendenzialmente vegano).</li>
+      <li><span class="pill p-new">PROTEINE CENA</span> Rotazione: tofu/tempeh · 1 uovo + hummus · pane proteico <span class="mut">(pane proteico solo a casa, non in turno)</span>.</li>
+      <li><span class="pill p-new">NUOVE</span> Zuppe carote/zucca (~4/7, sere a casa) · frullato carote (metà mattina/merenda).</li>
+      <li><span class="pill p-lim">REGOLA</span> Proteina vegetale in polvere → solo merenda/intermedio, <u>mai a cena</u>.</li>
+    </ul>
+  </div>
+
+  <div class="box warnbox">
+    <b>Regole ferme (storico):</b>
+    <ul>
+      <li>Proteine (shake) <b>sempre dopo la palestra</b>.</li>
+      <li>Frutta <b>solo a colazione</b> (goji = eccezione in prova, come seme).</li>
+      <li><b>No aglio e cipolla.</b></li>
+      <li>Finestra <b>02:00–06:00</b> in turno: niente cibo (digiuno notturno esteso).</li>
+      <li>Integratori: Candismic Plus (prima 1° e ultimo pasto) + Alicina (prima pasto principale).</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ ROTAZIONE ============ -->
+<section id="rotazione">
+  <div class="card">
+    <h2>📅 Calendario 30 giorni</h2>
+    <p class="mut">Dal <b>sab 11 lug</b> a <b>dom 9 ago</b>. Tipo turno già incastrato (settimana di oggi = riposo, lun 13 lavori). <b>3 verdure per pranzo</b>. Colazione A/B alternata.</p>
+    <div class="legend" style="margin-bottom:6px"><span class="blue">🌙</span> notte lavoro · 🌅 riposo · ☀️ libero/smonto</div>
+    <table>
+      <tr><th>Data</th><th>Tipo</th><th>Col.</th><th>Base</th><th>Soffritto · 3 verdure</th></tr>
+      <tr class="r-free"><td>11/07 sab</td><td>🌅 Riposo</td><td>B +🍅</td><td>Lenticchie</td><td>Borragine · zucchine · carote</td></tr>
+      <tr class="r-free"><td>12/07 dom</td><td>🌅 Riposo</td><td>A</td><td>Lenticchie</td><td>Asparagi · zucca · bietole</td></tr>
+      <tr class="r-wk"><td>13/07 lun</td><td>🌙 Lun-lavoro</td><td>B +🍅</td><td>Riso</td><td>Broccoli · fagiolini · carote</td></tr>
+      <tr class="r-free"><td>14/07 mar</td><td>🌅 Riposo</td><td>A</td><td>Lenticchie</td><td>Zucchine · spinaci · finocchio</td></tr>
+      <tr class="r-free"><td>15/07 mer</td><td>🌅 Riposo</td><td>B +🍅</td><td>Ceci</td><td>Broccoli · zucca · cavolfiore</td></tr>
+      <tr class="r-free"><td>16/07 gio</td><td>🌅 Riposo</td><td>A</td><td>Lenticchie</td><td>Asparagi · peperoni · zucchine</td></tr>
+      <tr class="r-wk"><td>17/07 ven</td><td>🌙 Feriale</td><td>B +🍅</td><td>Riso</td><td>Spinaci · bietole · zucca</td></tr>
+      <tr class="r-wk"><td>18/07 sab</td><td>🌙 Notte 12h</td><td>A</td><td>Lenticchie</td><td>Broccoli · zucchine · spinaci</td></tr>
+      <tr class="r-wk"><td>19/07 dom</td><td>🌙 Notte 12h</td><td>B +🍅</td><td>Lenticchie</td><td>Asparagi · zucca · bietole</td></tr>
+      <tr class="r-free"><td>20/07 lun</td><td>☀️ Libero</td><td>A</td><td>Riso</td><td>Broccoli · fagiolini · carote</td></tr>
+      <tr class="r-wk"><td>21/07 mar</td><td>🌙 Feriale</td><td>B +🍅</td><td>Lenticchie</td><td>Zucchine · spinaci · finocchio</td></tr>
+      <tr class="r-wk"><td>22/07 mer</td><td>🌙 Feriale</td><td>A</td><td>Ceci</td><td>Broccoli · zucca · cavolfiore</td></tr>
+      <tr class="r-wk"><td>23/07 gio</td><td>🌙 Feriale</td><td>B +🍅</td><td>Lenticchie</td><td>Asparagi · peperoni · zucchine</td></tr>
+      <tr class="r-free"><td>24/07 ven</td><td>🌅 Riposo</td><td>A</td><td>Riso</td><td>Spinaci · bietole · zucca</td></tr>
+      <tr class="r-free"><td>25/07 sab</td><td>🌅 Riposo</td><td>B +🍅</td><td>Lenticchie</td><td>Broccoli · zucchine · spinaci</td></tr>
+      <tr class="r-free"><td>26/07 dom</td><td>🌅 Riposo</td><td>A</td><td>Lenticchie</td><td>Asparagi · zucca · bietole</td></tr>
+      <tr class="r-wk"><td>27/07 lun</td><td>🌙 Lun-lavoro</td><td>B +🍅</td><td>Riso</td><td>Broccoli · fagiolini · carote</td></tr>
+      <tr class="r-free"><td>28/07 mar</td><td>🌅 Riposo</td><td>A</td><td>Lenticchie</td><td>Zucchine · spinaci · finocchio</td></tr>
+      <tr class="r-free"><td>29/07 mer</td><td>🌅 Riposo</td><td>B +🍅</td><td>Ceci</td><td>Broccoli · zucca · cavolfiore</td></tr>
+      <tr class="r-free"><td>30/07 gio</td><td>🌅 Riposo</td><td>A</td><td>Lenticchie</td><td>Asparagi · peperoni · zucchine</td></tr>
+      <tr class="r-wk"><td>31/07 ven</td><td>🌙 Feriale</td><td>B +🍅</td><td>Riso</td><td>Spinaci · bietole · zucca</td></tr>
+      <tr class="r-wk"><td>01/08 sab</td><td>🌙 Notte 12h</td><td>A</td><td>Lenticchie</td><td>Broccoli · zucchine · spinaci</td></tr>
+      <tr class="r-wk"><td>02/08 dom</td><td>🌙 Notte 12h</td><td>B +🍅</td><td>Lenticchie</td><td>Asparagi · zucca · bietole</td></tr>
+      <tr class="r-free"><td>03/08 lun</td><td>☀️ Libero</td><td>A</td><td>Riso</td><td>Broccoli · fagiolini · carote</td></tr>
+      <tr class="r-wk"><td>04/08 mar</td><td>🌙 Feriale</td><td>B +🍅</td><td>Lenticchie</td><td>Zucchine · spinaci · finocchio</td></tr>
+      <tr class="r-wk"><td>05/08 mer</td><td>🌙 Feriale</td><td>A</td><td>Ceci</td><td>Broccoli · zucca · cavolfiore</td></tr>
+      <tr class="r-wk"><td>06/08 gio</td><td>🌙 Feriale</td><td>B +🍅</td><td>Lenticchie</td><td>Asparagi · peperoni · zucchine</td></tr>
+      <tr class="r-free"><td>07/08 ven</td><td>🌅 Riposo</td><td>A</td><td>Riso</td><td>Spinaci · bietole · zucca</td></tr>
+      <tr class="r-free"><td>08/08 sab</td><td>🌅 Riposo</td><td>B +🍅</td><td>Lenticchie</td><td>Broccoli · zucchine · spinaci</td></tr>
+      <tr class="r-free"><td>09/08 dom</td><td>🌅 Riposo</td><td>A</td><td>Lenticchie</td><td>Asparagi · zucca · bietole</td></tr>
+    </table>
+    <p class="legend">Frequenze ogni 7 gg: Lenticchie 4 · Riso 2 · Ceci 1 · Broccoli ~3×. Pomodoro (🍅) solo colazione B, max 3/sett. Sui giorni <b>☀️ Libero/Smonto</b> il pranzo si salta (2 pasti): la "Base" indica comunque il legume del pasto principale. Extra (frullato/zuppa/proteina veg/pane proteico) come da tab Cena e Regole.</p>
+  </div>
+</section>
+
+<!-- ============ REGOLE ============ -->
+<section id="regole">
+  <div class="card">
+    <h2>Regole & frequenze</h2>
+    <table>
+      <tr><th>Alimento</th><th>Frequenza</th><th>Nota</th></tr>
+      <tr><td>Lenticchie rosse</td><td class="ok">4×/sett</td><td>Cottura corta</td></tr>
+      <tr><td>Riso basmati</td><td>max 1 su 3 (~2×)</td><td>70 g crudo</td></tr>
+      <tr><td>Ceci</td><td class="flag">1×/sett</td><td>Include il pane proteico di ceci</td></tr>
+      <tr><td>Broccoli</td><td>a rotazione (~3×)</td><td>Nel soffritto, alterni con altre verdure</td></tr>
+      <tr><td>Pomodoro fresco</td><td class="flag">max 3×/sett</td><td>Solo colazione B</td></tr>
+      <tr><td>Patate / p. dolci</td><td>libere</td><td>Pranzo o cena</td></tr>
+      <tr><td>Uova</td><td class="flag">max 3/sett → 0</td><td>Riduzione graduale</td></tr>
+      <tr><td>Semi (lino/sesamo)</td><td>ogni sera</td><td>Su quinoa + insalata</td></tr>
+      <tr><td>Goji</td><td>in prova</td><td>Trattati come seme, poca quantità</td></tr>
+      <tr><td>Zuppe carote/zucca</td><td>~4/7</td><td>Sere a casa o merenda</td></tr>
+      <tr><td>Proteina veg. polvere</td><td>merenda</td><td class="flag">mai a cena</td></tr>
+      <tr><td>Frutta</td><td>solo colazione</td><td>Ferma</td></tr>
+    </table>
+  </div>
+  <div class="box">
+    <b>Distanza pasti — principio, non orologio.</b> ~3,5–4,5 h tra i pasti del tuo giorno soggettivo, ma priorità = mangiare quando cala il carico. Non ingozzarti per "recuperare": meglio un pasto in meno che due pasti appiccicati. In turno la finestra <b>02:00–06:00</b> è sempre libera da cibo.
+  </div>
+</section>
+
+<!-- ============ PROTEINE ============ -->
+<section id="proteine">
+  <div class="card">
+    <h2>💪 Proteine & obiettivo</h2>
+    <p class="mut">74 kg · 1,63 m · obiettivo ricomposizione (↓ grasso addome/fianchi, ↑ massa). Su base vegana serve proteina alta e ben distribuita.</p>
+    <div class="box goodbox"><b>Target: ~130 g di proteine/giorno</b> (≈1,7–1,8 g/kg). Non oltre 2 g/kg: peserebbe sulla digestione. <b>Regola d'oro: 25–40 g per occasione.</b></div>
+  </div>
+
+  <div class="card">
+    <h3>🔥 Calorie & deficit (ricomposizione)</h3>
+    <table>
+      <tr><th>Voce</th><th>Valore</th></tr>
+      <tr><td>Metabolismo basale (BMR)</td><td>~1.490 kcal</td></tr>
+      <tr><td>Mantenimento (TDEE)</td><td>~2.200–2.250 kcal</td></tr>
+      <tr><td>Target ricomposizione (−15%)</td><td class="ok">~1.900 kcal/giorno</td></tr>
+    </table>
+    <p class="mut" style="margin-top:8px">Macro a 1.900 kcal:</p>
+    <table>
+      <tr><th>Macro</th><th>Grammi</th><th>Da dove</th></tr>
+      <tr><td>Proteine</td><td class="ok">~130 g</td><td>soia/tofu/edamame/legumi/shake</td></tr>
+      <tr><td>Grassi</td><td>~60 g</td><td>olio EVO/lino, avocado, semi, tahini</td></tr>
+      <tr><td>Carboidrati</td><td>~210 g</td><td>grano saraceno, riso, legumi, patate, quinoa</td></tr>
+    </table>
+    <div class="box warnbox"><b>Deficit lieve apposta:</b> forte + turni + 50 anni = rischio di perdere massa invece di costruirla. Meglio piano.</div>
+    <ul>
+      <li><b>Smonto = giorni "leggeri":</b> i 2 pasti abbassano le calorie da soli → media settimanale in deficit senza contare nulla.</li>
+      <li><b>Cena in turno:</b> proteica + verdura, <b>non</b> carica di carboidrati (gestione zuccheri peggiore di notte; il digiuno 02:00–06:00 aiuta).</li>
+      <li><b>Allenamento:</b> prima la <b>forza</b> (da fresco), poi il cardio → è la forza progressiva che fa massa.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>Àncore per tipo di giornata</h3>
+    <table>
+      <tr><th>Giornata</th><th>Occasioni</th><th>Totale</th></tr>
+      <tr><td>Lavoro / Riposo</td><td>Colaz+shake ~40 · Pranzo ~30 · Merenda ~15–20 · Cena ~30</td><td class="ok">~125 g</td></tr>
+      <tr><td>Smonto (2 pasti)</td><td>Pasto 1 ~40–45 · Cena ~35–40</td><td>~80–90 g</td></tr>
+    </table>
+    <p class="legend">Lo smonto è più leggero ed è ok: conta la <b>media settimanale</b>, non il singolo giorno. Niente ingozzarsi per pareggiare.</p>
+  </div>
+
+  <div class="card">
+    <h3>3 leve che cambiano tutto (vegano)</h3>
+    <ul>
+      <li><b>Latte di soia</b> (non riso/avena) per shake e colazione: ~10 g / 300 ml, il guadagno più facile.</li>
+      <li><b>Tofu, edamame e soia testurizzata (TVP)</b> come proteine principali (facili da trovare). La <b>soia testurizzata è secca</b> = ottima per lo stock al lavoro. Anche <b>Heura</b> (Mercadona) è comoda. Tempeh solo quando ne trovi di buono (barrio chino); quello dell'Alcampo è troppo salato — semmai sbollentalo 2 min.</li>
+      <li><b>2ª proteina serale dal cibo</b> (edamame, tofu), <u>mai</u> un secondo shake tardi. Lo shake resta post-palestra.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>Grammi di proteina per porzione</h3>
+    <table>
+      <tr><th>Alimento</th><th>Porzione</th><th>Prot.</th></tr>
+      <tr><td>Shake proteico</td><td>1 misurino</td><td class="ok">~20–22 g</td></tr>
+      <tr><td>Soia testurizzata (TVP)</td><td>30 g secca</td><td class="ok">~15–16 g</td></tr>
+      <tr><td>Edamame</td><td>150 g</td><td>~17 g</td></tr>
+      <tr><td>Lenticchie rosse</td><td>70 g secche</td><td>~17 g</td></tr>
+      <tr><td>Tofu firme</td><td>120 g</td><td>~16 g</td></tr>
+      <tr><td>Heura</td><td>100 g</td><td>~15 g</td></tr>
+      <tr><td>Ceci</td><td>1 porzione</td><td>~15 g</td></tr>
+      <tr><td>Tempeh <small>(quando lo trovi)</small></td><td>120 g</td><td>~24 g</td></tr>
+      <tr><td>Latte di soia</td><td>300 ml</td><td>~10 g</td></tr>
+      <tr><td>Fiocchi grano saraceno</td><td>60 g</td><td>~8 g</td></tr>
+      <tr><td>Quinoa</td><td>50 g secca</td><td>~7 g</td></tr>
+      <tr><td>Pane proteico</td><td>grano saraceno / con uovo</td><td>~7 g / ~13 g</td></tr>
+      <tr><td>Uovo</td><td>1</td><td>~6 g</td></tr>
+      <tr><td>Semi (lino/sesamo)</td><td>spolverata</td><td>~2–3 g</td></tr>
+    </table>
+  </div>
+
+  <div class="box warnbox"><b>Ricomposizione:</b> il grasso su addome/fianchi non si riduce "a zone" (lo spot-reduction non esiste): cala con un leggero deficit generale. La massa cresce con <b>forza progressiva + proteine + sonno</b>. Il sonno è il tuo punto critico coi turni: proteggilo dove puoi.</div>
+</section>
+
+<!-- ============ TURNI & ORARI ============ -->
+<section id="turni">
+  <div class="card">
+    <h2>Turni & orari operativi</h2>
+    <p class="mut">Ciclo: settimana di lavoro (tutte le notti, <b>lunedì libero</b>) → settimana di riposo (solo il <b>lunedì</b> è notte). Feriali (incl. venerdì) 22:30–8:15 · <b>Sab/Dom</b> 20:00–8:00 (12 h). Trasporto ~1–1,5 h.</p>
+    <div class="box"><b>Integratori (seguono i pasti, anche a orari strani):</b> Candismic Plus subito <b>prima di colazione e cena</b> · Alicina subito <b>prima del pranzo</b>.</div>
+  </div>
+
+  <div class="day wk">
+    <b class="t">🌙 Turno feriale</b> <span class="mut">(Ven, Mar, Mer, Gio · 22:30–8:15)</span>
+    <ul class="tl wk">
+      <li><span class="hr">15:00</span><span>Sveglia · idratazione/infuso</span></li>
+      <li><span class="hr">15:45</span><span>Palestra (50′), rientro ~16:35</span></li>
+      <li><span class="hr">17:00</span><span><b>Candismic</b> → <b>Colazione</b> (A o B) + <b>shake proteico</b> (post-workout)</span></li>
+      <li><span class="hr">20:00</span><span><b>Alicina</b> → <b>Pranzo / pasto principale</b> a casa</span></li>
+      <li><span class="hr">~23:00</span><span>Arrivo turno · merenda leggera <i>opzionale</i> (frullato/edamame)</span></li>
+      <li><span class="hr">00:30–01:30</span><span><b>Candismic</b> → <b>Cena cucinata in sede</b> (dallo stock), <b>prima delle 2:00</b> · no pane proteico</span></li>
+      <li><span class="hr">02:00–06:00</span><span><b>Digiuno notturno</b> · niente cibo (+ pisolino)</span></li>
+      <li><span class="hr">08:15</span><span>Fine turno → rientro → dormi</span></li>
+    </ul>
+    <span class="legend">Venerdì (giorno pesante col laptop): porti <b>2 pasti pronti</b> da casa. Gli altri giorni: <b>cucini la cena in sede</b> con lo stock del lavoro.</span>
+  </div>
+
+  <div class="day wk">
+    <b class="t">🌙 Lunedì di lavoro</b> <span class="mut">(settimana di riposo · vieni dal ritmo diurno)</span>
+    <ul class="tl wk">
+      <li><span class="hr">06:00</span><span>Sveglia (ritmo riposo) · <b>Candismic</b> → colazione dopo palestra</span></li>
+      <li><span class="hr">07:15</span><span>Palestra (50′)</span></li>
+      <li><span class="hr">~08:30</span><span><b>Colazione</b> + shake</span></li>
+      <li><span class="hr">~13:00</span><span><b>Alicina</b> → <b>Pranzo</b></span></li>
+      <li><span class="hr">~15:30</span><span><b>Pisolino pomeridiano</b> (fondamentale: dovrai stare sveglio tutta la notte)</span></li>
+      <li><span class="hr">~20:00</span><span>Merenda/spuntino prima di uscire</span></li>
+      <li><span class="hr">00:30–01:30</span><span><b>Candismic</b> → <b>Cena</b>: qui puoi <b>portartela da casa</b> (eri a casa in ritmo diurno)</span></li>
+      <li><span class="hr">02:00–06:00</span><span><b>Digiuno notturno</b></span></li>
+    </ul>
+    <span class="legend">Non ti svegli alle 15: parti dal ritmo diurno della settimana di riposo, con pisolino prima del turno.</span>
+  </div>
+
+  <div class="day wk">
+    <b class="t">🛌 Giornata weekend 12 h</b> <span class="mut">(Sab/Dom · 20:00–8:00)</span>
+    <ul class="tl wk">
+      <li><span class="hr">~12:30</span><span>Sveglia · idratazione</span></li>
+      <li><span class="hr">13:15</span><span>Palestra (50′)</span></li>
+      <li><span class="hr">14:30</span><span><b>Candismic</b> → <b>Colazione</b> + <b>shake</b></span></li>
+      <li><span class="hr">17:30</span><span><b>Alicina</b> → <b>Pranzo</b> a casa · poi esci</span></li>
+      <li><span class="hr">20:30→</span><span><b>Candismic</b> → <b>Cena cucinata in sede</b> (Sab/Dom <b>non porti nulla</b>), in 3 porzioni prima delle 2:00 (es. 21 · 23 · 01)</span></li>
+      <li><span class="hr">02:00–06:00</span><span><b>Digiuno notturno</b> · niente cibo (+ pisolino)</span></li>
+      <li><span class="hr">06:00+</span><span>Spuntino leggero se serve</span></li>
+    </ul>
+    <span class="legend">Sabato: spesa <b>Alcampo</b> vicino al lavoro (rifornisci lo stock) + colonia gatti. <b>Venerdì</b> invece porti i 2 pasti da casa.</span>
+    <div class="box goodbox">Sab/Dom <b>non porti nulla</b>: cucini in sede dallo stock. Zuppe in sede possibili se il carico lo permette.</div>
+  </div>
+
+  <div class="day free">
+    <b class="t">☀️ Giorno di smonto / transizione</b> <span class="mut">(dormi dopo la notte, NON lavori la sera)</span>
+    <ul class="tl free">
+      <li><span class="hr">15:00</span><span>Sveglia · Candismic</span></li>
+      <li><span class="hr">15:45</span><span>Palestra (50′)</span></li>
+      <li><span class="hr">17:00</span><span><b>Pasto 1</b> (colazione/brunch completo) + <b>shake</b> post-workout</span></li>
+      <li><span class="hr">~20:00</span><span><b>Pasto 2 = cena</b> leggera-media: pane proteico · zuppa · quinoa+insalata+semi</span></li>
+      <li><span class="hr">~23:30</span><span>A letto: rientri nel ritmo per la sveglia del riposo (6:00)</span></li>
+    </ul>
+    <div class="box warnbox"><b>Solo 2 pasti, ed è giusto così.</b> La finestra utile è corta (sveglia 15:00 → sonno notturno) e non va allungata mangiando tardi. <b>Il "pranzo" si salta</b>: non lo compensi ingozzandoti, semmai rendi i 2 pasti un po' più completi. Se hai davvero fame nel mezzo: piccolo spuntino proteico (non un pasto).</div>
+  </div>
+
+  <div class="day free">
+    <b class="t">🌅 Giorno di riposo</b> <span class="mut">(sveglia 6:00)</span>
+    <ul class="tl free">
+      <li><span class="hr">06:00</span><span>Sveglia · Candismic</span></li>
+      <li><span class="hr">07:15</span><span>Palestra (50′), fine ~8:05</span></li>
+      <li><span class="hr">08:30</span><span><b>Colazione</b> + <b>shake</b> (post-workout)</span></li>
+      <li><span class="hr">13:00</span><span><b>Pranzo</b> (base a rotazione + soffritto)</span></li>
+      <li><span class="hr">17:00</span><span><b>Merenda</b>: frullato carote / proteina veg / zuppa</span></li>
+      <li><span class="hr">20:30</span><span><b>Cena a casa</b>: quinoa + insalata + semi (+goji) · o pane proteico · o zuppa (4/7)</span></li>
+    </ul>
+    <span class="legend">Qui il ritmo è regolare: facile tenere ~4 h tra i pasti.</span>
+  </div>
+</section>
+
+<!-- ============ CENA ============ -->
+<section id="cena">
+  <div class="card">
+    <h2>🍽️ Cena · varianti per turno</h2>
+    <p class="mut">La cena cambia soprattutto se <b>lavori</b> quella notte o <b>no</b>. Il pane proteico (molti ingredienti) resta per le sere a casa.</p>
+  </div>
+
+  <div class="card">
+    <h3>Quando LAVORI (cena in sede, entro le 2:00)</h3>
+    <p class="legend">Requisiti: pochi passaggi, dallo stock frigo Alcampo, scaldabile/assemblabile. No pane proteico.</p>
+    <ul>
+      <li><b>V1 — Fredda (top col caldo):</b> quinoa (già cotta) + insalata (canónigos/rucola/carota/olive) + <b>semi lino+sesamo+goji</b> + hummus 35 g. Zero cottura.</li>
+      <li><b>V2 — Tiepida:</b> patata / patata dolce (cotta in batch) + <b>tofu o tempeh</b> + verdura. Solo da scaldare.</li>
+      <li><b>V3 — Weekend:</b> pasto principale in <b>3 contenitori</b> (strategia già collaudata).</li>
+    </ul>
+    <div class="box">Logistica: <b>Venerdì</b> porti 2 pasti pronti · <b>Lunedì di lavoro</b> puoi portarti qualcosa · gli altri giorni prepari in sede con lo stock settimanale Alcampo.</div>
+  </div>
+
+  <div class="card">
+    <h3>Quando NON lavori (cena a casa: smonto / riposo)</h3>
+    <ul>
+      <li><b>V1 —</b> <b>Pane proteico</b> (con 1 uovo) + insalata + semi.</li>
+      <li><b>V2 —</b> Quinoa 50 g + insalata + <b>semi (lino+sesamo+goji)</b> + <b>1 uovo</b> (dentro le 3/sett) <i>oppure</i> hummus 35 g.</li>
+      <li><b>V3 —</b> <b>Zuppa</b> carote/zucca (~4/7 sere a casa) + crostino GF/semi.</li>
+      <li><b>V4 —</b> Patata dolce + tofu/tempeh + verdura tollerata.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>🥚 Contatore uova · settimana</h3>
+    <p class="legend">Obiettivo: max 3, in calo verso 0. Tocca per aggiornare (si salva sul dispositivo).</p>
+    <div class="egg">
+      <button onclick="egg(-1)">−</button>
+      <div class="dots" id="eggdots"></div>
+      <button onclick="egg(1)">+</button>
+      <span id="eggtxt" class="mut"></span>
     </div>
-    <div class="nowCard">
-      <div class="nowDot" id="nowDot"></div>
-      <div class="nowTxt">
-        <div class="lbl">adesso</div>
-        <div class="val" id="nowVal">seleziona un tipo di giorno</div>
-      </div>
+    <button class="btn" onclick="egg(0,true)">↺ Reset settimana</button>
+  </div>
+</section>
+
+<!-- ============ SPESA ============ -->
+<section id="spesa">
+  <div class="card">
+    <h2>🛒 Lista spesa settimanale</h2>
+    <p class="mut">Divisa per supermercato secondo i tuoi giri. Tocca per spuntare (si salva sul dispositivo). Quantità per 1 persona / 1 settimana, da tarare.</p>
+    <div class="box"><b>Giorni consigliati:</b> spesa grossa Mercadona/Dia/Ahorramas in un giorno <u>non pesante</u> (evita Ven e Mar, che porti il laptop). <b>Sabato = Alcampo</b> vicino al lavoro: rifornisci lo <b>stock del frigo al lavoro</b> per le cene in turno.</p></div>
+  </div>
+
+  <div class="card">
+    <h3>🟢 Mercadona <span class="mut">(principale · dispensa e proteine)</span></h3>
+    <div id="s-merc"></div>
+  </div>
+  <div class="card">
+    <h3>🔵 Dia <span class="mut">(complementari)</span></h3>
+    <div id="s-dia"></div>
+  </div>
+  <div class="card">
+    <h3>🟠 Ahorramás <span class="mut">(verdura e frutta fresca)</span></h3>
+    <div id="s-aho"></div>
+  </div>
+  <div class="card">
+    <h3>🟣 Alcampo — sabato, vicino al lavoro <span class="mut">(stock frigo lavoro)</span></h3>
+    <div id="s-alc"></div>
+  </div>
+  <div class="card">
+    <h3>📦 Erboristeria online / Amazon <span class="mut">(ordine periodico, non deperibili)</span></h3>
+    <div id="s-onl"></div>
+    <p class="legend">Ordina con anticipo: questi durano, tienine sempre una scorta per non restare senza.</p>
+  </div>
+  <div class="card">
+    <h3>⚪ Farmacia <span class="mut">(o erboristeria online)</span></h3>
+    <div id="s-far"></div>
+  </div>
+  <button class="btn" onclick="resetSpesa()">↺ Reset spunte spesa</button>
+</section>
+
+<!-- ============ STOCK ============ -->
+<section id="stock">
+  <div class="card">
+    <h2>📦 Stock: casa vs lavoro</h2>
+    <p class="mut">A casa = dispensa completa. Al lavoro = ridotto, per poco spazio e per il frigo debole (raffredda poco). Cucini la cena in sede quasi ogni turno; solo Venerdì porti i 2 pasti da casa.</p>
+    <div class="box warnbox"><b>Regola deperibili al lavoro:</b> compra i freschi (tofu, verdura, Heura) in quantità che <b>finiscono entro la settimana di lavoro</b>, così il frigo debole resta quasi vuoto nella settimana di riposo (solo lunedì). Il resto dello stock lavoro dev'essere <b>secco/shelf-stable</b>.</div>
+  </div>
+
+  <div class="card">
+    <h3>🏠 Stock a CASA</h3>
+    <p class="mut" style="margin:4px 0">Dispensa (secco, lunga durata):</p>
+    <div id="k-casa-disp"></div>
+    <p class="mut" style="margin:10px 0 4px">Frigo / fresco:</p>
+    <div id="k-casa-frigo"></div>
+  </div>
+
+  <div class="card">
+    <h3>🏢 Stock al LAVORO <span class="mut">(ridotto)</span></h3>
+    <p class="mut" style="margin:4px 0">Armadietto (secco = la spina dorsale · non teme il frigo debole):</p>
+    <div id="k-lav-sec"></div>
+    <p class="mut" style="margin:10px 0 4px">Frigo (minimo · a consumo rapido, finire entro la settimana):</p>
+    <div id="k-lav-frigo"></div>
+    <div class="box goodbox"><b>La soia testurizzata è la chiave:</b> secca, occupa poco, la reidrati in sede con acqua calda in 10 min → cena proteica veloce anche col frigo scarso.</div>
+  </div>
+
+  <div class="card">
+    <h3>🍳 Cene "da stock lavoro" (poco tempo, pochi passaggi)</h3>
+    <ul>
+      <li><b>Spezzatino veloce:</b> soia testurizzata reidratata + verdura (carota/zucca o in scatola) + olio + spezie.</li>
+      <li><b>Insalata tiepida:</b> quinoa/riso in busta precotta + legumi in scatola + olive + semi + olio.</li>
+      <li><b>Dahl express:</b> lenticchie rosse (cuociono in ~12 min) o lenticchie in scatola + verdura.</li>
+      <li><b>Tofu + verdura</b> saltati, se hai la piastra.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ RICETTE ============ -->
+<section id="ricette">
+  <div class="card rec">
+    <h2>🍳 Pane proteico in padella — con 1 uovo</h2>
+    <p class="mut">Solo per le sere <b>a casa</b>. Niente farine da comprare apposta: solo cose che hai già. Ogni pane = <b>1 uovo dei 3 settimanali</b>.</p>
+    <div class="box goodbox"><b>Impasto (tutto in una ciotola):</b> 1 uovo sbattuto + 1 cucchiaio di <b>lino macinato</b> (lega, lo usi già sui semi) + 1 cucchiaio di <b>yogurt vegetale</b> + pizzico di sale.</div>
+    <p><b>Cottura:</b> versa in padella antiaderente con un filo d'olio, fuoco medio-basso, <b>coperchio ~3 min</b>, gira, altri 2 min. Viene una focaccina/frittatina soda che puoi <b>piegare o farcire</b>.</p>
+    <div class="box"><b>Come riempirlo</b> (salato, in linea con la dieta · no aglio/cipolla):
+      <ul>
+        <li>Avocado schiacciato + tahini + semi + sale</li>
+        <li>Hummus + rucola (+ pomodoro se rientri nelle 3/sett)</li>
+        <li>Tofu sbriciolato + spinaci saltati</li>
+        <li>Crema di zucca + semi di sesamo</li>
+        <li>Tahini + carota grattugiata + goccio di limone</li>
+        <li>Zucchine grigliate + hummus</li>
+      </ul>
     </div>
+    <p class="legend">L'uovo è già la proteina della cena: pane farcito + insalata basta. Conta come 1 dei 3 uova settimanali.</p>
   </div>
 
-  <div class="section show" id="tab-oggi">
-    <div class="chipsRow" id="chipsRow"></div>
-    <div class="autoNote" id="autoNote"></div>
-    <div class="dayMeta">
-      <div>
-        <h2 id="dayName">—</h2>
-        <div class="sub" id="daySub">—</div>
-      </div>
-      <div class="heavyTag" id="heavyTag"></div>
-    </div>
-    <div class="timeline" id="timeline"></div>
-    <div class="note" id="dayNote" style="display:none"></div>
+  <div class="card rec">
+    <h3>🌰 Mix di semi (insalata serale)</h3>
+    <p>Lino + sesamo + <b>goji</b> spolverati su quinoa e insalata. Goji = seme/topping in poca quantità, <span class="flag">in prova</span>: se noti reazioni o li senti “dolci/acidi”, spostali a colazione.</p>
   </div>
 
-  <div class="section" id="tab-cottura">
-    <h2 style="margin-bottom:4px;">Timer di cottura</h2>
-    <div class="sub" style="font-size:12px;color:var(--muted);margin-bottom:14px;">Patate e uova nella stessa pentola: parti insieme, le uova entrano a metà.</div>
-    <div class="timerGrid" id="timerGrid"></div>
-    <div class="batchNote">
-      <b style="color:var(--text)">Sessione batch consigliata (~1h15):</b><br>
-      0′ → riso + patate sul fuoco (fuochi diversi)<br>
-      15′ → uova dentro la pentola patate (15′ residui, finiscono insieme)<br>
-      15-30′ → quinoa, o lava/taglia insalata<br>
-      30′ → patate+uova pronte<br>
-      40′ → riso pronto<br>
-      40-50′ → verdure saltate (10′)<br>
-      50-75′ → porziona nei tupperware, frigo
-    </div>
+  <div class="card rec">
+    <h3>🥤 Frullato di carote</h3>
+    <p>5 carote + 1 gambo sedano + zenzero crudo 2 cm, poca acqua. Metà mattina o merenda. Fresco col caldo.</p>
   </div>
 
-  <div class="section" id="tab-spesa">
-    <h2 style="margin-bottom:4px;">Spesa e logistica</h2>
-    <div class="sub" style="font-size:12px;color:var(--muted);margin-bottom:16px;">Tre flussi separati: dispensa fissa a lavoro, spesa di casa (giorni leggeri), spesa Alcampo del sabato (doppia, per Sab+Dom).</div>
-    <div id="shopLists"></div>
+  <div class="card rec">
+    <h3>🍲 Zuppa carote / zucca</h3>
+    <p>Carote o zucca cotte in acqua/brodo veg senza aglio/cipolla, frullate, olio EVO/lino a crudo. Sere a casa (~4/7) o merenda. Col caldo: falla la mattina, consumala tiepida.</p>
   </div>
+</section>
 
-  <div class="section" id="tab-emergenza">
-    <h2 style="margin-bottom:4px;">Piano di emergenza</h2>
-    <div class="sub" style="font-size:12px;color:var(--muted);margin-bottom:16px;">Se la dispensa fissa a lavoro è piena, quasi nessuno scenario diventa un problema serio.</div>
-    <div id="emList"></div>
+<!-- ============ TEST VERDURE ============ -->
+<section id="test">
+  <div class="card">
+    <h2>🧪 Test tolleranza verdure</h2>
+    <p class="mut">Tocca per ciclare: <span class="ok">verde</span> ok · <span style="color:var(--acc2)">giallo</span> da testare · <span class="flag">rosso</span> gonfia (riduci/togli). Si salva sul dispositivo.</p>
+    <div class="track" id="track"></div>
+    <p class="legend">Metodo: una verdura nuova per volta, osserva 24–48 h. Se gonfia → prima riduci quantità/frequenza, poi eventualmente togli. Broccoli: già in rotazione, se dovessero gonfiare scendi a 1×/sett.</p>
+    <button class="btn" onclick="resetVeg()">↺ Reset stati</button>
   </div>
+</section>
 
-</div>
-
-<div class="tabbar">
-  <button class="tabbtn active" data-tab="oggi"><span class="ic">📆</span>Oggi</button>
-  <button class="tabbtn" data-tab="cottura"><span class="ic">🍳</span>Cottura</button>
-  <button class="tabbtn" data-tab="spesa"><span class="ic">🛒</span>Spesa</button>
-  <button class="tabbtn" data-tab="emergenza"><span class="ic">🆘</span>Emergenza</button>
-</div>
+<p class="foot">Fase 2 · protocollo naturopata + sistema turni. Non è consulenza medica: è l'organizzazione pratica del concordato. Dubbi clinici → naturopata.</p>
+</main>
 
 <script>
-const DAYTYPES = {
-  T: {name:'Transizione', sub:'Venerdì o Martedì — apre un blocco di 3 notti', heavy:'pesante', tag:'notte',
-    fasce:[
-      {s:'08:15',e:'09:00',l:'Colazione',p:'🏠',d:'Fiocchi di grano saraceno + latte veg + mirtilli',t:'pasto'},
-      {s:'10:00',e:'11:15',l:'Batch riso (40′) per 3 giorni',p:'🏠',d:'Cuoci una volta: oggi + 2 giorni extra. In parallelo prepara patate+uova o quinoa',b:'Mattino corto? Riso solo per 2 giorni, il 3° con quinoa a lavoro',t:'prep'},
-      {s:'12:30',e:'13:30',l:'Pranzo forte + Alicina',p:'🏠',d:'Dal batch appena fatto',t:'pasto'},
-      {s:'16:30',e:'17:30',l:'Yogurt soia (⅓)',p:'🏠',d:'Cuscinetto leggero',b:'Salta pure, non è un pasto vero',t:'pasto'},
-      {s:'19:00',e:'20:00',l:'Cena + Candismic',p:'🏠',d:'Dal batch — prepara anche i tupperware per la notte',b:'Tempo stretto? Porta cruda e finisci a lavoro',t:'pasto'},
-      {s:'21:00',e:'21:15',l:'Partenza',p:'🚌',d:'Zaino pesante: laptop + 2 porzioni riso extra da lasciare in frigo lavoro',t:'transito'},
-      {s:'02:30',e:'03:00',l:'Merenda',p:'🏭',d:'Shake proteico o gelatina',b:'Non ce la fai? Vedi Emergenza → scala merenda',t:'pasto'},
-      {s:'03:00',e:'05:00',l:'Finestra nap — vietato mangiare',p:'🏭',d:'Solo acqua/tisane',t:'vietato'},
-    ]},
-  A: {name:'Notte feriale', sub:'Mercoledì, giovedì — giorno "zaino leggero"', heavy:'leggero', tag:'notte',
-    fasce:[
-      {s:'16:50',e:'17:30',l:'Colazione (post-gym)',p:'🏠',d:'Sempre dopo l\'allenamento, mai prima',t:'pasto'},
-      {s:'19:00',e:'20:30',l:'Pranzo forte + Alicina — cuoci la cena in parallelo',p:'🏠',d:'Un solo giro fornelli, due pasti pronti',b:'Non fai in tempo? Cucina la cena a lavoro con la dispensa',t:'prep'},
-      {s:'21:00',e:'21:15',l:'Partenza',p:'🚌',d:'Zaino leggero: solo cena + merenda, niente laptop né riso',t:'transito'},
-      {s:'23:00',e:'00:30',l:'Cena + Candismic',p:'🏭',d:'5 min microonde, o cruda se serve',t:'pasto'},
-      {s:'02:00',e:'03:00',l:'Merenda',p:'🏭',t:'pasto'},
-      {s:'03:00',e:'05:00',l:'Finestra nap — vietato mangiare',p:'🏭',t:'vietato'},
-    ]},
-  SAB: {name:'Sabato di lavoro', sub:'Con supermercato Alcampo prima del turno', heavy:'leggero', tag:'notte',
-    fasce:[
-      {s:'17:30',e:'17:45',l:'Proteina + latte soia',p:'🛒',t:'pasto'},
-      {s:'18:00',e:'19:30',l:'Spesa Alcampo + gatti',p:'🛒',d:'Compra la cena di Sab E Dom, più tofu/verdure fresche',t:'prep'},
-      {s:'20:00',e:'20:15',l:'Pranzo forte + Alicina — 3 mini-piatti',p:'🏭',d:'Dividi in 3 porzioni dal frigo, estrai e scaldi UN piattino alla volta appena prima di mangiarlo',b:'AC a lavoro aiuta: scalda solo il piattino che stai per mangiare, il resto resta al fresco',t:'pasto'},
-      {s:'00:30',e:'01:30',l:'Cena cucinata sul posto + Candismic',p:'🏭',d:'Uova 15′, o quinoa 15′ + insalata',t:'pasto'},
-      {s:'02:30',e:'03:30',l:'Merenda',p:'🏭',t:'pasto'},
-      {s:'03:30',e:'05:00',l:'Finestra nap — vietato mangiare',p:'🏭',t:'vietato'},
-    ]},
-  DOM: {name:'Domenica di lavoro', sub:'Zaino quasi vuoto — tutto già a lavoro dal sabato', heavy:'leggero', tag:'notte',
-    fasce:[
-      {s:'16:00',e:'16:45',l:'Colazione vera',p:'🏠',t:'pasto'},
-      {s:'18:45',e:'19:00',l:'Partenza',p:'🚌',d:'Zaino quasi vuoto',t:'transito'},
-      {s:'21:00',e:'22:30',l:'Pranzo forte + Alicina',p:'🏭',d:'Riso avanzo di venerdì',t:'pasto'},
-      {s:'00:30',e:'01:30',l:'Cena cucinata sul posto + Candismic',p:'🏭',d:'Stock comprato sabato',t:'pasto'},
-      {s:'02:30',e:'03:30',l:'Merenda',p:'🏭',t:'pasto'},
-      {s:'03:30',e:'05:00',l:'Finestra nap — vietato mangiare',p:'🏭',t:'vietato'},
-    ]},
-  R: {name:'Riposo pieno', sub:'Giorno batch per eccellenza', heavy:'leggero', tag:'giorno',
-    fasce:[
-      {s:'08:15',e:'09:00',l:'Colazione (post-gym)',p:'🏠',t:'pasto'},
-      {s:'12:30',e:'13:30',l:'Pranzo forte + Alicina',p:'🏠',t:'pasto'},
-      {s:'16:30',e:'17:30',l:'Yogurt soia',p:'🏠',t:'pasto'},
-      {s:'20:00',e:'21:00',l:'Cena + Candismic',p:'🏠',t:'pasto'},
-    ],
-    note:'Pomeriggio libero → sessione batch (~1h15) che copre i turni successivi. Fallo subito prima di un blocco di notti.'},
-  ALIB: {name:'Smonto libero', sub:'Smonto senza turno la sera stessa', heavy:'leggero', tag:'giorno',
-    fasce:[
-      {s:'16:50',e:'17:30',l:'Colazione (post-gym)',p:'🏠',t:'pasto'},
-      {s:'19:00',e:'20:00',l:'Pranzo forte + Alicina',p:'🏠',t:'pasto'},
-      {s:'20:30',e:'21:30',l:'Cena normale',p:'🏠',d:'Niente turno stasera — orario umano, poi letto',t:'pasto'},
-    ],
-    note:'Seconda finestra batch della settimana: sera libera per cucinare in vista dei giorni dopo.'},
-  LUNISO: {name:'Lunedì isolato', sub:'Lavora in settimana di riposo — turno singolo', heavy:'pesante', tag:'notte',
-    fasce:[
-      {s:'08:15',e:'09:00',l:'Colazione',p:'🏠',t:'pasto'},
-      {s:'10:00',e:'10:20',l:'Quinoa (15′) — niente batch da 3 giorni',p:'🏠',d:'Notte isolata: quinoa più veloce del riso, basta per oggi',t:'prep'},
-      {s:'12:30',e:'13:30',l:'Pranzo forte + Alicina',p:'🏠',t:'pasto'},
-      {s:'16:30',e:'17:30',l:'Yogurt soia',p:'🏠',t:'pasto'},
-      {s:'19:00',e:'20:00',l:'Cena + Candismic',p:'🏠',t:'pasto'},
-      {s:'21:00',e:'21:15',l:'Partenza',p:'🚌',d:'Zaino pesante ma contenuto: laptop + un solo pasto (va e torna lo stesso giro)',t:'transito'},
-      {s:'02:30',e:'03:00',l:'Merenda',p:'🏭',t:'pasto'},
-      {s:'03:00',e:'05:00',l:'Finestra nap — vietato mangiare',p:'🏭',t:'vietato'},
-    ]},
-};
-
-const CYCLE_START = new Date(2026,6,3);
-const WEEK_A = ['T','SAB','DOM','R','T','A','A'];
-const WEEK_B = ['ALIB','R','R','LUNISO','ALIB','R','R'];
-
-function autoDetectType(date){
-  const d0 = new Date(date.getFullYear(),date.getMonth(),date.getDate());
-  const diff = Math.round((d0 - CYCLE_START)/86400000);
-  let idx = diff % 14; if(idx<0) idx+=14;
-  return idx<7 ? WEEK_A[idx] : WEEK_B[idx-7];
-}
-
-let selectedType = null;
-let autoType = null;
-
-function pad(n){return n.toString().padStart(2,'0');}
-function nowMinutes(){const n=new Date();return n.getHours()*60+n.getMinutes();}
-function toMin(hhmm){const p=hhmm.split(':').map(Number);return p[0]*60+p[1];}
-function inRange(now,s,e){let end=e; if(end<=s) end+=1440; let n=now; if(n<s && end>1440) n+=1440; return n>=s && n<end;}
-
-function updateClock(){
-  const n = new Date();
-  document.getElementById('clock').textContent = pad(n.getHours())+':'+pad(n.getMinutes());
-  const giorni=['domenica','lunedì','martedì','mercoledì','giovedì','venerdì','sabato'];
-  const mesi=['gen','feb','mar','apr','mag','giu','lug','ago','set','ott','nov','dic'];
-  document.getElementById('dateLabel').textContent = giorni[n.getDay()]+' '+n.getDate()+' '+mesi[n.getMonth()];
-  updateNowCard();
-}
-
-function updateNowCard(){
-  const dot=document.getElementById('nowDot'), val=document.getElementById('nowVal');
-  if(!selectedType){ val.textContent='seleziona un tipo di giorno'; dot.className='nowDot'; return; }
-  const dt = DAYTYPES[selectedType];
-  const now = nowMinutes();
-  let active=null;
-  dt.fasce.forEach(f=>{ if(inRange(now,toMin(f.s),toMin(f.e))) active=f; });
-  if(active){
-    val.textContent = active.l;
-    dot.className = 'nowDot ' + (active.t==='vietato'?'alert':(dt.tag==='giorno'?'day':''));
-  } else {
-    val.textContent = 'nessuna fascia attiva ora';
-    dot.className = 'nowDot';
-  }
-  renderTimeline();
-}
-
-function todayKey(){ const n=new Date(); return n.getFullYear()+'-'+pad(n.getMonth()+1)+'-'+pad(n.getDate()); }
-
-async function loadChecks(){
-  try{
-    const v = localStorage.getItem('checks:'+todayKey());
-    return v ? JSON.parse(v) : {type:selectedType, idx:[]};
-  }catch(e){ return {type:selectedType, idx:[]}; }
-}
-async function saveChecks(obj){
-  try{ localStorage.setItem('checks:'+todayKey(), JSON.stringify(obj)); }catch(e){}
-}
-let checksCache = {type:null, idx:[]};
-
-function renderChips(){
-  const row=document.getElementById('chipsRow'); row.innerHTML='';
-  Object.keys(DAYTYPES).forEach(id=>{
-    const c=document.createElement('div');
-    c.className='chip'+(id===selectedType?' active':'');
-    c.textContent=id;
-    c.onclick=()=>selectType(id);
-    row.appendChild(c);
-  });
-}
-
-async function selectType(id){
-  selectedType=id;
-  renderChips();
-  checksCache = await loadChecks();
-  if(checksCache.type!==id){ checksCache={type:id, idx:[]}; }
-  const dt=DAYTYPES[id];
-  document.getElementById('dayName').textContent=dt.name;
-  document.getElementById('daySub').textContent=dt.sub;
-  const ht=document.getElementById('heavyTag');
-  ht.textContent = dt.heavy==='pesante' ? '🎒 pesante' : '🎒 leggero';
-  ht.className = 'heavyTag '+dt.heavy;
-  const noteEl=document.getElementById('dayNote');
-  if(dt.note){ noteEl.style.display='block'; noteEl.textContent=dt.note; } else { noteEl.style.display='none'; }
-  const auto = document.getElementById('autoNote');
-  auto.innerHTML = id===autoType ? 'Rilevato automaticamente in base al ciclo turni: <b>'+id+'</b>' : 'Selezione manuale (il ciclo suggerirebbe <b>'+autoType+'</b>)';
-  renderTimeline();
-}
-
-function renderTimeline(){
-  if(!selectedType) return;
-  const dt=DAYTYPES[selectedType];
-  const now=nowMinutes();
-  const tl=document.getElementById('timeline'); tl.innerHTML='';
-  dt.fasce.forEach((f,i)=>{
-    const active = inRange(now,toMin(f.s),toMin(f.e));
-    const item=document.createElement('div');
-    item.className='tItem '+f.t+(active?' active':'');
-    const checked = checksCache.idx.includes(i);
-    item.innerHTML = `
-      <div class="dot"></div>
-      <div class="card">
-        <div class="cardTop">
-          <span class="time">${f.s}${f.e&&f.e!==f.s?'–'+f.e:''}</span>
-          <span class="place">${f.p}</span>
-          <span class="label">${f.l}</span>
-          ${f.t!=='vietato'&&f.t!=='transito'?`<div class="chk${checked?' on':''}" data-i="${i}"></div>`:''}
-        </div>
-        ${f.d?`<div class="desc">${f.d}</div>`:''}
-        ${f.b?`<div class="planb"><b>Piano B:</b> ${f.b}</div>`:''}
-      </div>`;
-    tl.appendChild(item);
-  });
-  tl.querySelectorAll('.chk').forEach(el=>{
-    el.onclick=()=>{
-      const i=Number(el.dataset.i);
-      const pos=checksCache.idx.indexOf(i);
-      if(pos>-1) checksCache.idx.splice(pos,1); else checksCache.idx.push(i);
-      checksCache.type=selectedType;
-      saveChecks(checksCache);
-      el.classList.toggle('on');
+  const tabs=[
+    ["cambia","Cosa cambia"],["rotazione","Calendario 30gg"],["regole","Regole"],
+    ["proteine","Proteine"],["turni","Turni & orari"],["cena","Cena"],["spesa","Spesa"],["stock","Stock casa/lavoro"],["ricette","Ricette"],["test","Test verdure"]
+  ];
+  const nav=document.getElementById('nav');
+  tabs.forEach(([id,label],i)=>{
+    const b=document.createElement('button');
+    b.textContent=label; if(i===0)b.classList.add('on');
+    b.onclick=()=>{
+      document.querySelectorAll('nav button').forEach(x=>x.classList.remove('on'));
+      document.querySelectorAll('section').forEach(x=>x.classList.remove('on'));
+      b.classList.add('on'); document.getElementById(id).classList.add('on');
+      window.scrollTo({top:0,behavior:'smooth'});
     };
+    nav.appendChild(b);
   });
-}
 
-const FOODS=[
-  {id:'riso',ic:'🍚',name:'Riso basmati',min:40,note:'fuoco medio, a freddo'},
-  {id:'patate',ic:'🥔',name:'Patate',min:30,note:'stessa pentola delle uova'},
-  {id:'uova',ic:'🥚',name:'Uova sode',min:15,note:'entrano a metà cottura patate'},
-  {id:'quinoa',ic:'🌾',name:'Quinoa',min:15,note:'ammollo previo facoltativo'},
-];
-const timers={};
-function renderTimers(){
-  const grid=document.getElementById('timerGrid'); grid.innerHTML='';
-  FOODS.forEach(f=>{
-    timers[f.id]={remaining:f.min*60, running:false, handle:null};
-    const card=document.createElement('div');
-    card.className='timerCard'; card.id='timer-'+f.id;
-    card.innerHTML=`
-      <div class="food">${f.ic}</div>
-      <div class="fname">${f.name}</div>
-      <div class="fmin">${f.min}′ · ${f.note}</div>
-      <div class="tdisp" id="disp-${f.id}">${pad(f.min)}:00</div>
-      <div class="tbtns">
-        <button class="tbtn" data-a="start" data-id="${f.id}">Avvia</button>
-        <button class="tbtn" data-a="reset" data-id="${f.id}">Reset</button>
-      </div>`;
-    grid.appendChild(card);
-  });
-  grid.querySelectorAll('.tbtn').forEach(btn=>{
-    btn.onclick=()=>{
-      const id=btn.dataset.id, action=btn.dataset.a;
-      if(action==='start') toggleTimer(id);
-      else resetTimer(id);
-    };
-  });
-}
-function fmt(sec){ return pad(Math.floor(sec/60))+':'+pad(sec%60); }
-function toggleTimer(id){
-  const t=timers[id]; const card=document.getElementById('timer-'+id);
-  const btn=card.querySelector('[data-a="start"]');
-  if(t.running){
-    clearInterval(t.handle); t.running=false; card.classList.remove('running'); btn.textContent='Avvia';
-  } else {
-    t.running=true; card.classList.add('running'); btn.textContent='Pausa';
-    t.handle=setInterval(()=>{
-      t.remaining--;
-      document.getElementById('disp-'+id).textContent=fmt(Math.max(t.remaining,0));
-      if(t.remaining<=0){
-        clearInterval(t.handle); t.running=false;
-        card.classList.remove('running'); card.classList.add('done');
-        btn.textContent='Avvia';
-      }
-    },1000);
-  }
-}
-function resetTimer(id){
-  const f=FOODS.find(x=>x.id===id); const t=timers[id]; const card=document.getElementById('timer-'+id);
-  clearInterval(t.handle); t.running=false; t.remaining=f.min*60;
-  card.classList.remove('running','done');
-  document.getElementById('disp-'+id).textContent=fmt(t.remaining);
-  card.querySelector('[data-a="start"]').textContent='Avvia';
-}
-
-const SHOP = {
-  dispensa: {title:'🏭 Dispensa fissa a lavoro', when:'Rifornisci quando porti il laptop (venerdì/martedì) — spazio limitato, questi bastano', items:[
-    '6 uova (si rinnovano da sole)','Quinoa secca (2 conf. piccole)','Hummus di scorta (se c\'è spazio)','Olio, sale, spezie base','Verdure/insalata che reggono 6 giorni'
-  ]},
-  mercadona: {title:'🏠 Spesa di casa — Mercadona', when:'Mercoledì/giovedì (giorni leggeri, senza laptop)', items:[
-    'Latte vegetale — 1,75L','Grano saraceno — 500g','Mirtilli surgelati — 500g','Riso basmati — 500-700g','Verdure da saltare — ~1kg','Tofu o tempeh — ~600g','Patate — ~600g','Uova — 4-6','Yogurt soia — 2-3 vasetti'
-  ]},
-  alcampo: {title:'🛒 Spesa Alcampo — sabato', when:'18:00–19:30, prima del turno — compra per Sab+Dom insieme', items:[
-    'Uova (4) o quinoa ~100g','Insalata mix — ~300g','Hummus — 1 vasetto','Tofu o tempeh — ~240g','Verdure fresche — ~400g'
-  ]},
-};
-let shopState={};
-async function loadShop(){
-  try{ const v=localStorage.getItem('spesa-state'); shopState = v? JSON.parse(v): {}; }
-  catch(e){ shopState={}; }
-}
-async function saveShop(){ try{ localStorage.setItem('spesa-state', JSON.stringify(shopState)); }catch(e){} }
-
-function renderShop(){
-  const wrap=document.getElementById('shopLists'); wrap.innerHTML='';
-  Object.entries(SHOP).forEach(([gid,g])=>{
-    const box=document.createElement('div'); box.className='shopGroup';
-    box.innerHTML=`<div class="shopHead"><h3>${g.title}</h3><button class="resetBtn" data-g="${gid}">reset</button></div>
-      <div class="shopWhen">${g.when}</div>`;
-    g.items.forEach((it,i)=>{
-      const key=gid+':'+i;
-      const on = !!shopState[key];
-      const row=document.createElement('div');
-      row.className='shopItem'+(on?' on':'');
-      row.innerHTML=`<div class="chk${on?' on':''}" data-k="${key}"></div><span>${it}</span>`;
-      box.appendChild(row);
+  // ---- Veg tracker ----
+  const veggies=["Broccoli","Spinaci","Asparagi","Zucca","Zucchine","Carote","Sedano","Bietole",
+    "Borragine","Cavolfiore","Fagiolini","Melanzane","Peperoni","Cetriolo","Rucola","Finocchio"];
+  const states=["test","good","bad"];
+  const labels={test:"da testare",good:"ok",bad:"gonfia →↓"};
+  let store={};
+  try{store=JSON.parse(localStorage.getItem('vegState_f2b')||'null')}catch(e){store=null}
+  if(!store){store={Broccoli:"good",Spinaci:"good",Asparagi:"good",Zucca:"good",Zucchine:"good",Carote:"good"};
+    try{localStorage.setItem('vegState_f2b',JSON.stringify(store))}catch(e){}}
+  const track=document.getElementById('track');
+  function render(){
+    track.innerHTML='';
+    veggies.forEach(v=>{
+      const st=store[v]||'test';
+      const el=document.createElement('div');
+      el.className='veg '+st;
+      el.innerHTML=v+'<small>'+labels[st]+'</small>';
+      el.onclick=()=>{
+        const ni=(states.indexOf(store[v]||'test')+1)%states.length;
+        store[v]=states[ni];
+        try{localStorage.setItem('vegState_f2b',JSON.stringify(store))}catch(e){}
+        render();
+      };
+      track.appendChild(el);
     });
-    wrap.appendChild(box);
-  });
-  wrap.querySelectorAll('.chk').forEach(el=>{
-    el.onclick=()=>{
-      const k=el.dataset.k;
-      shopState[k]=!shopState[k];
-      el.classList.toggle('on');
-      el.closest('.shopItem').classList.toggle('on');
-      saveShop();
-    };
-  });
-  wrap.querySelectorAll('.resetBtn').forEach(btn=>{
-    btn.onclick=()=>{
-      const g=btn.dataset.g;
-      Object.keys(shopState).forEach(k=>{ if(k.startsWith(g+':')) delete shopState[k]; });
-      saveShop(); renderShop();
-    };
-  });
-}
+  }
+  function resetVeg(){store={};try{localStorage.removeItem('vegState_f2b')}catch(e){}location.reload();}
+  render();
 
-const EMERGENZE = [
-  {n:1, t:'Pranzo dimenticato a casa', ora:'Dispensa a lavoro: quinoa (15′) + hummus + verdure. Non è il pasto perfetto, è il pasto che c\'è.', prev:'Un "punto di raccolta" fisso vicino alla porta — il tupperware ci va appena pronto, prima di ogni altra cosa.'},
-  {n:2, t:'Cena dimenticata a casa', ora:'Scorta permanente a lavoro: uova (15′) o quinoa+hummus. È l\'unico scenario che non puoi risolvere "andando a comprare", a mezzanotte è tutto chiuso.', prev:'La scorta fissa a lavoro esiste apposta per questo — tienila sempre piena.'},
-  {n:3, t:'Ingrediente mancante (pasto incompleto)', ora:'Mangi quello che hai + completi con la dispensa. Non serve identico allo schema, serve equilibrato.', prev:'Giro visivo sul tavolo prima di chiudere lo zaino — tutti i tupperware insieme, non sparsi.'},
-  {n:4, t:'Non hai comprato qualcosa', ora:'Sostituisci con quello che hai — il sistema regge le sostituzioni.', prev:'Usa la lista spesa come checklist attiva al supermercato, non a memoria.'},
-  {n:5, t:'Weekend, domenica quasi tutto chiuso', ora:'DIA vicino casa: aperto fino alle 20:00 anche la domenica. Alcampo: tutti i giorni 10:00–22:00.', prev:'La doppia spesa del sabato (Sab+Dom insieme) esiste apposta per non doverti mai affidare al DIA della domenica.'},
-  {n:6, t:'Niente tempo per il pranzo forte appena entri (Sab/Dom)', ora:'Domenica: se lo sai già, sposta il pranzo forte a casa prima di uscire. Sabato: dividi il pranzo in 3 mini-piatti dal frigo, scaldi solo quello che stai per mangiare — il resto resta al fresco. Con l\'AC a lavoro il rischio "tiepido per ore" quasi sparisce, perché non esponi mai tutto il pasto insieme.', prev:'Regola non negoziabile: un piattino scaldato va mangiato entro un\'ora. Se resta tiepido più a lungo, si butta solo quella porzione (non l\'intero pasto, visto che è diviso).'},
-];
-function renderEmergenze(){
-  const wrap=document.getElementById('emList'); wrap.innerHTML='';
-  EMERGENZE.forEach(e=>{
-    const c=document.createElement('div'); c.className='emCard';
-    c.innerHTML=`<h3><span class="n">${e.n}</span>${e.t}</h3>
-      <div class="emRow"><b>Ora:</b> ${e.ora}</div>
-      <div class="emRow"><b>Prevenzione:</b> ${e.prev}</div>`;
-    wrap.appendChild(c);
-  });
-  const scala=document.createElement('div'); scala.className='emCard';
-  scala.innerHTML=`<h3><span class="n">💤</span>Merenda saltata o in ritardo</h3>
-    <ol class="scala" style="padding-left:18px;font-size:13px;line-height:1.5;">
-      <li>Riesci a mangiare entro le 05:00-05:30? Fallo, ma <b>leggero</b> — mezza porzione.</li>
-      <li>Non riesci affatto durante il turno? <b>Salta</b>, il digiuno si allunga e il corpo lo regge.</li>
-      <li>Arrivi a casa con fame vera? <b>Boccone-ponte</b> (mezzo yogurt/shake), mai pasto pieno prima di dormire.</li>
-    </ol>
-    <div class="emRow" style="margin-top:4px;color:var(--muted)">Più ti avvicini al sonno, più il cibo si assottiglia — mai l'inverso.</div>`;
-  wrap.appendChild(scala);
-  const hb=document.createElement('div'); hb.className='emCard';
-  hb.innerHTML=`<h3><span class="n">🕒</span>Orari di salvezza</h3>
-    <div class="hoursBox">
-      <div><b>DIA</b>fino alle 20:00<br>anche domenica</div>
-      <div><b>Alcampo</b>tutti i giorni<br>10:00–22:00</div>
-    </div>`;
-  wrap.appendChild(hb);
-}
-
-document.querySelectorAll('.tabbtn').forEach(btn=>{
-  btn.onclick=()=>{
-    document.querySelectorAll('.tabbtn').forEach(b=>b.classList.remove('active'));
-    document.querySelectorAll('.section').forEach(s=>s.classList.remove('show'));
-    btn.classList.add('active');
-    document.getElementById('tab-'+btn.dataset.tab).classList.add('show');
-  };
-});
-
-async function init(){
-  autoType = autoDetectType(new Date());
-  renderChips();
-  await selectType(autoType);
-  renderTimers();
-  await loadShop();
-  renderShop();
-  renderEmergenze();
-  updateClock();
-  setInterval(updateClock, 30000);
-}
-init();
-</script>
-<script>
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => navigator.serviceWorker.register('sw.js'));
-}
-</script>
-</body>
-</html>
+  // ---- Shopping list ----
+  const spesa={
+    "s-merc":[
+      ["Latte di soia (proteine)","1–2 L"],["Lenticchie rosse","300 g"],["Quinoa","250 g"],
+      ["Tofu firme","2–3 conf"],["Heura (tiras/tacos)","1–2 conf"],["Edamame congelato","1 busta"],
+      ["Hummus","1 (o farina ceci)"],["Tahini","1 barattolo"],
+      ["Olio EVO","1 bott"],["Yogurt vegetale","1 conf"],["Olive","1 barattolo"]
+    ],
+    "s-onl":[
+      ["Soia testurizzata (TVP)","scorta · stock lavoro"],
+      ["Fiocchi grano saraceno","scorta"],
+      ["Riso basmati integrale","scorta"],["Olio di lino","1–2 bott"],
+      ["Semi di lino macinati","1 conf"],["Semi di sesamo","1 conf"],["Goji","1 conf"],
+      ["Proteina veg (Vegenutril)","1 barattolo"],["Infuso digestivo (boldo)","1"],
+      ["Integratori vari (scorta)","secondo protocollo"]
+    ],
+    "s-dia":[
+      ["Pane senza glutine","1 conf"],["Uova","½ dozzina (max 3/sett)"],
+      ["Frutta colazione (mirtilli/rotaz.)","1–2 conf"],["Sale","se serve"]
+    ],
+    "s-aho":[
+      ["Broccoli","1"],["Zucchine","3–4"],["Spinaci","1 busta"],["Asparagi","1 mazzo"],
+      ["Bietole","1 mazzo"],["Insalata (canónigos/rucola)","1–2 buste"],["Sedano","1"],
+      ["Zenzero","1 radice"],["Pomodori","3 (max 3/sett)"]
+    ],
+    "s-alc":[
+      ["Carote","2 kg (frullati+zuppe
