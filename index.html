@@ -92,20 +92,17 @@
   .gymday h3{margin:0 0 4px;font-size:15px}
   .exq{border-top:1px solid var(--line);padding:9px 0}
   .exhead{display:flex;gap:10px;align-items:flex-start}
-  .exicon{flex:0 0 34px;width:34px;height:34px;color:var(--acc)}
-  .exicon svg{width:34px;height:34px;display:block}
   .extitle{font-weight:700;font-size:13.5px;line-height:1.25}
   .exsub{font-size:11px;color:var(--mut)}
   .exmeta{margin-left:auto;font-size:12px;color:var(--acc2);white-space:nowrap;font-weight:700}
-  .cwrap{display:flex;align-items:flex-start;gap:8px;margin:5px 0 0}
-  .choice{display:flex;gap:9px;align-items:flex-start;margin:0;font-size:13px;flex:1}
-  .choice input{transform:scale(1.2);margin-top:2px;flex:0 0 auto}
-  .choice .cs{font-size:11px;color:var(--mut)}
   .exlinks{display:flex;gap:14px;margin:5px 0 0;font-size:12.5px}
   .exlinks a{color:var(--blue);text-decoration:none}
   .exlinks button{color:var(--acc2);background:none;border:none;padding:0;font-size:12.5px;cursor:pointer}
   .howto{display:none;font-size:12px;color:var(--mut);background:var(--card2);border-radius:8px;padding:8px 10px;margin:6px 0}
   .howto.on{display:block}
+  .cwrap{display:flex;align-items:flex-start;gap:8px;margin:5px 0 0}
+  .choice{display:flex;gap:9px;align-items:flex-start;margin:0;font-size:13px;flex:1}
+  .choice input{transform:scale(1.2);margin-top:2px;flex:0 0 auto}
   .vlink{color:var(--blue);text-decoration:none;font-size:11px;white-space:nowrap;flex:0 0 auto;margin-top:2px}
   .tag{display:inline-block;font-size:9.5px;font-weight:700;padding:1px 6px;border-radius:999px;margin-left:6px;vertical-align:middle}
   .tag-cavi{background:rgba(224,122,95,.18);color:var(--warn)}
@@ -113,10 +110,14 @@
   .tag-corpo{background:rgba(90,169,230,.18);color:var(--blue)}
   .peso{margin:7px 0 2px 0;display:flex;align-items:center;gap:8px;font-size:12px;color:var(--mut)}
   .peso input{width:66px;background:var(--card2);border:1px solid var(--line);color:var(--txt);border-radius:8px;padding:5px 8px;font-size:13px}
+  .cs{font-size:11px;color:var(--mut)}
   .fin{background:var(--card2);border-radius:10px;padding:9px 11px;margin-top:10px;border-left:3px solid var(--acc);font-size:13px}
   .tmr{display:flex;flex-wrap:wrap;gap:7px;align-items:center;margin-top:7px}
   .tmr button{background:var(--card2);color:var(--txt);border:1px solid var(--line);border-radius:8px;padding:6px 10px;font-size:12.5px;cursor:pointer}
   .tmrout{font-weight:700;color:var(--acc2);min-width:44px}
+  .gymnote{width:100%;min-height:44px;background:var(--card2);border:1px solid var(--line);color:var(--txt);border-radius:8px;padding:8px;font-size:13px;margin-top:9px;font-family:inherit}
+  .gymbar{height:10px;background:var(--line);border-radius:999px;overflow:hidden;margin-top:6px}
+  .gymbar>div{height:10px;background:var(--acc);width:0%}
   .hidecavi .c-cavi{display:none}
   .glsearch{width:100%;background:var(--card2);border:1px solid var(--line);color:var(--txt);border-radius:8px;padding:9px 11px;font-size:14px;font-family:inherit;margin-top:8px}
   .glcat{margin:14px 0 2px;font-size:11.5px;font-weight:700;color:var(--acc2);text-transform:uppercase;letter-spacing:.3px}
@@ -124,190 +125,159 @@
   .glt{font-weight:700;font-size:13.5px}
   .gla{color:var(--blue);text-decoration:none;font-size:11.5px;margin-left:6px;white-space:nowrap}
   .gld{font-size:12.5px;color:var(--mut);margin-top:2px}
-  .gymnote{width:100%;min-height:44px;background:var(--card2);border:1px solid var(--line);color:var(--txt);border-radius:8px;padding:8px;font-size:13px;margin-top:9px;font-family:inherit}
-  .gymbar{height:10px;background:var(--line);border-radius:999px;overflow:hidden;margin-top:6px}
-  .gymbar>div{height:10px;background:var(--acc);width:0%}
 </style>
 </head>
 <body>
 <header>
   <h1>🍃 Dieta · Fase 2</h1>
-  <p>Aggiornamento naturopata (giorno 14) · formato operativo con turni, orari palestra e pasti</p>
+  <p>Dieta + Palestra + Glossario · turni, orari, pasti</p>
 </header>
 
 <nav id="nav"></nav>
 
 <main>
 
-<!-- ============ OGGI ============ -->
+<!-- OGGI -->
 <section id="oggi" class="on">
-  <div class="card">
-    <h2>📅 Oggi</h2>
-    <div id="oggi-box"></div>
-  </div>
+  <div class="card"><h2>📅 Oggi</h2><div id="oggi-box"></div></div>
 </section>
 
-<!-- ============ COSA CAMBIA ============ -->
+<!-- COSA CAMBIA -->
 <section id="cambia">
   <div class="card">
     <h2>Cosa cambia in Fase 2</h2>
-    <p class="mut">Criterio guida sempre uno: <b class="k">mangia → osserva 24-48 h → se gonfia o fa male, riduci quantità/frequenza o togli quel singolo alimento.</b></p>
-
+    <p class="mut">Criterio guida: <b class="k">mangia → osserva 24-48 h → se gonfia o fa male, riduci quantità/frequenza o togli quel singolo alimento.</b></p>
     <h3>Colazione</h3>
     <ul>
-      <li><span class="pill p-keep">RESTA</span> Giorno sì: vecchia (latte vegetale + fiocchi grano saraceno + frutta).</li>
-      <li><span class="pill p-new">NUOVA</span> Giorno alterno: pane <b>senza glutine</b> tostato + tahini + avocado + pomodoro* + olio EVO/lino + sale. <span class="mut">*pomodoro max 3×/sett</span></li>
+      <li><span class="pill p-keep">RESTA</span> Giorno sì: vecchia (latte di soia + fiocchi grano saraceno + frutta).</li>
+      <li><span class="pill p-new">NUOVA</span> Giorno alterno: pane <b>senza glutine</b> + tahini + avocado + pomodoro* + olio. <span class="mut">*pomodoro max 3×/sett</span></li>
     </ul>
-
     <h3>Pranzo</h3>
     <ul>
-      <li><span class="pill p-new">NUOVI</span> Lenticchie rosse (4×) e ceci (1×) oltre al riso (max 1 giorno su 3).</li>
-      <li><span class="pill p-new">VERDURE</span> <b>3 verdure per pranzo</b> nel soffritto (non una sola), a fianco della base. <b>Broccoli</b> in rotazione ~3×/sett con zucchine, spinaci, asparagi, zucca, bietole, cavolfiore, fagiolini…</li>
-      <li><span class="pill p-new">NUOVE</span> Patate e patate dolci ammesse a pranzo e cena.</li>
+      <li><span class="pill p-new">NUOVI</span> Lenticchie rosse (4×) e ceci (1×, interi) oltre al riso (max 1 su 3).</li>
+      <li><span class="pill p-new">VERDURE</span> <b>3 verdure per pranzo</b> nel soffritto. Broccoli in rotazione ~3×/sett.</li>
+      <li><span class="pill p-new">NUOVE</span> Patate e patate dolci a pranzo e cena.</li>
     </ul>
-
     <h3>Cena / merenda</h3>
     <ul>
-      <li><span class="pill p-new">SEMI</span> Su insalata serale + quinoa: <b>lino + sesamo + goji</b> (goji trattati come semi, in <span class="flag">prova</span>).</li>
-      <li><span class="pill p-lim">UOVA</span> <b>Max 3/sett</b>, obiettivo ridurle gradualmente <b>verso 0</b> (sei tendenzialmente vegano).</li>
-      <li><span class="pill p-new">PROTEINE CENA</span> Rotazione: tofu/tempeh · 1 uovo + hummus · pane proteico <span class="mut">(pane proteico solo a casa, non in turno)</span>.</li>
-      <li><span class="pill p-new">NUOVE</span> Zuppe carote/zucca (~4/7, sere a casa) · frullato carote (metà mattina/merenda).</li>
-      <li><span class="pill p-lim">REGOLA</span> Proteina vegetale in polvere → solo merenda/intermedio, <u>mai a cena</u>.</li>
+      <li><span class="pill p-new">SEMI</span> Su insalata + quinoa: lino + sesamo + goji (in <span class="flag">prova</span>).</li>
+      <li><span class="pill p-lim">UOVA</span> Max 3/sett → verso 0 (1 va nel pane proteico).</li>
+      <li><span class="pill p-new">PROTEINE CENA</span> tofu · soia testurizzata · edamame · Heura · 1 uovo+hummus · pane proteico (solo a casa).</li>
+      <li><span class="pill p-lim">REGOLA</span> Proteina veg. in polvere → solo merenda, mai a cena.</li>
     </ul>
   </div>
-
   <div class="box warnbox">
-    <b>Regole ferme (storico):</b>
+    <b>Regole ferme:</b>
     <ul>
-      <li>Proteine (shake) <b>sempre dopo la palestra</b>.</li>
-      <li>Frutta <b>solo a colazione</b> (goji = eccezione in prova, come seme).</li>
+      <li>Proteine (shake) <b>dopo la palestra</b>.</li>
+      <li>Frutta <b>solo a colazione</b> (goji eccezione in prova).</li>
       <li><b>No aglio e cipolla.</b></li>
-      <li>Finestra <b>02:00–06:00</b> in turno: niente cibo (digiuno notturno esteso).</li>
-      <li>Integratori: Candismic Plus (prima 1° e ultimo pasto) + Alicina (prima pasto principale).</li>
+      <li>In turno: <b>02:00–06:00 niente cibo</b> (digiuno esteso).</li>
+      <li>Candismic prima di colazione e cena · Alicina prima del pranzo.</li>
     </ul>
   </div>
 </section>
 
-<!-- ============ ROTAZIONE ============ -->
+<!-- CALENDARIO -->
 <section id="rotazione">
   <div class="card">
     <h2>📅 Calendario 30 giorni</h2>
-    <p class="mut">Dal <b>sab 11 lug</b> a <b>dom 9 ago</b>. Tipo turno già incastrato (settimana di oggi = riposo, lun 13 lavori). <b>3 verdure per pranzo</b>. Colazione A/B alternata.</p>
-    <div class="legend" style="margin-bottom:6px"><span class="blue">🌙</span> notte lavoro · 🌅 riposo · ☀️ libero/smonto</div>
+    <p class="mut">Dal <b>sab 11 lug</b> a <b>dom 9 ago</b>. <b>3 verdure per pranzo</b>. Il giorno dopo ogni notte lavorata è <b>smonto</b> (2 pasti).</p>
+    <div class="legend" style="margin-bottom:6px"><span class="blue">🌙</span> notte lavoro · 🌅 riposo · ☀️ smonto (2 pasti)</div>
     <table>
       <tr><th>Data</th><th>Tipo</th><th>Col.</th><th>Base</th><th>Soffritto · 3 verdure</th></tr>
       <tr class="r-free"><td>11/07 sab</td><td>🌅 Riposo</td><td>B +🍅</td><td>Lenticchie</td><td>Borragine · zucchine · carote</td></tr>
       <tr class="r-free"><td>12/07 dom</td><td>🌅 Riposo</td><td>A</td><td>Lenticchie</td><td>Asparagi · zucca · bietole</td></tr>
       <tr class="r-wk"><td>13/07 lun</td><td>🌙 Lun-lavoro</td><td>B +🍅</td><td>Riso</td><td>Broccoli · fagiolini · carote</td></tr>
-      <tr class="r-free"><td>14/07 mar</td><td>🌅 Riposo</td><td>A</td><td>Lenticchie</td><td>Zucchine · spinaci · finocchio</td></tr>
+      <tr class="r-free"><td>14/07 mar</td><td>☀️ Smonto</td><td>A</td><td>Lenticchie</td><td>Zucchine · spinaci · finocchio</td></tr>
       <tr class="r-free"><td>15/07 mer</td><td>🌅 Riposo</td><td>B +🍅</td><td>Ceci</td><td>Broccoli · zucca · cavolfiore</td></tr>
       <tr class="r-free"><td>16/07 gio</td><td>🌅 Riposo</td><td>A</td><td>Lenticchie</td><td>Asparagi · peperoni · zucchine</td></tr>
       <tr class="r-wk"><td>17/07 ven</td><td>🌙 Feriale</td><td>B +🍅</td><td>Riso</td><td>Spinaci · bietole · zucca</td></tr>
       <tr class="r-wk"><td>18/07 sab</td><td>🌙 Notte 12h</td><td>A</td><td>Lenticchie</td><td>Broccoli · zucchine · spinaci</td></tr>
       <tr class="r-wk"><td>19/07 dom</td><td>🌙 Notte 12h</td><td>B +🍅</td><td>Lenticchie</td><td>Asparagi · zucca · bietole</td></tr>
-      <tr class="r-free"><td>20/07 lun</td><td>☀️ Libero</td><td>A</td><td>Riso</td><td>Broccoli · fagiolini · carote</td></tr>
+      <tr class="r-free"><td>20/07 lun</td><td>☀️ Smonto</td><td>A</td><td>Riso</td><td>Broccoli · fagiolini · carote</td></tr>
       <tr class="r-wk"><td>21/07 mar</td><td>🌙 Feriale</td><td>B +🍅</td><td>Lenticchie</td><td>Zucchine · spinaci · finocchio</td></tr>
       <tr class="r-wk"><td>22/07 mer</td><td>🌙 Feriale</td><td>A</td><td>Ceci</td><td>Broccoli · zucca · cavolfiore</td></tr>
       <tr class="r-wk"><td>23/07 gio</td><td>🌙 Feriale</td><td>B +🍅</td><td>Lenticchie</td><td>Asparagi · peperoni · zucchine</td></tr>
-      <tr class="r-free"><td>24/07 ven</td><td>🌅 Riposo</td><td>A</td><td>Riso</td><td>Spinaci · bietole · zucca</td></tr>
+      <tr class="r-free"><td>24/07 ven</td><td>☀️ Smonto</td><td>A</td><td>Riso</td><td>Spinaci · bietole · zucca</td></tr>
       <tr class="r-free"><td>25/07 sab</td><td>🌅 Riposo</td><td>B +🍅</td><td>Lenticchie</td><td>Broccoli · zucchine · spinaci</td></tr>
       <tr class="r-free"><td>26/07 dom</td><td>🌅 Riposo</td><td>A</td><td>Lenticchie</td><td>Asparagi · zucca · bietole</td></tr>
       <tr class="r-wk"><td>27/07 lun</td><td>🌙 Lun-lavoro</td><td>B +🍅</td><td>Riso</td><td>Broccoli · fagiolini · carote</td></tr>
-      <tr class="r-free"><td>28/07 mar</td><td>🌅 Riposo</td><td>A</td><td>Lenticchie</td><td>Zucchine · spinaci · finocchio</td></tr>
+      <tr class="r-free"><td>28/07 mar</td><td>☀️ Smonto</td><td>A</td><td>Lenticchie</td><td>Zucchine · spinaci · finocchio</td></tr>
       <tr class="r-free"><td>29/07 mer</td><td>🌅 Riposo</td><td>B +🍅</td><td>Ceci</td><td>Broccoli · zucca · cavolfiore</td></tr>
       <tr class="r-free"><td>30/07 gio</td><td>🌅 Riposo</td><td>A</td><td>Lenticchie</td><td>Asparagi · peperoni · zucchine</td></tr>
       <tr class="r-wk"><td>31/07 ven</td><td>🌙 Feriale</td><td>B +🍅</td><td>Riso</td><td>Spinaci · bietole · zucca</td></tr>
       <tr class="r-wk"><td>01/08 sab</td><td>🌙 Notte 12h</td><td>A</td><td>Lenticchie</td><td>Broccoli · zucchine · spinaci</td></tr>
       <tr class="r-wk"><td>02/08 dom</td><td>🌙 Notte 12h</td><td>B +🍅</td><td>Lenticchie</td><td>Asparagi · zucca · bietole</td></tr>
-      <tr class="r-free"><td>03/08 lun</td><td>☀️ Libero</td><td>A</td><td>Riso</td><td>Broccoli · fagiolini · carote</td></tr>
+      <tr class="r-free"><td>03/08 lun</td><td>☀️ Smonto</td><td>A</td><td>Riso</td><td>Broccoli · fagiolini · carote</td></tr>
       <tr class="r-wk"><td>04/08 mar</td><td>🌙 Feriale</td><td>B +🍅</td><td>Lenticchie</td><td>Zucchine · spinaci · finocchio</td></tr>
       <tr class="r-wk"><td>05/08 mer</td><td>🌙 Feriale</td><td>A</td><td>Ceci</td><td>Broccoli · zucca · cavolfiore</td></tr>
       <tr class="r-wk"><td>06/08 gio</td><td>🌙 Feriale</td><td>B +🍅</td><td>Lenticchie</td><td>Asparagi · peperoni · zucchine</td></tr>
-      <tr class="r-free"><td>07/08 ven</td><td>🌅 Riposo</td><td>A</td><td>Riso</td><td>Spinaci · bietole · zucca</td></tr>
+      <tr class="r-free"><td>07/08 ven</td><td>☀️ Smonto</td><td>A</td><td>Riso</td><td>Spinaci · bietole · zucca</td></tr>
       <tr class="r-free"><td>08/08 sab</td><td>🌅 Riposo</td><td>B +🍅</td><td>Lenticchie</td><td>Broccoli · zucchine · spinaci</td></tr>
       <tr class="r-free"><td>09/08 dom</td><td>🌅 Riposo</td><td>A</td><td>Lenticchie</td><td>Asparagi · zucca · bietole</td></tr>
     </table>
-    <p class="legend">Frequenze ogni 7 gg: Lenticchie 4 · Riso 2 · Ceci 1 · Broccoli ~3×. Pomodoro (🍅) solo colazione B, max 3/sett. Sui giorni <b>☀️ Libero/Smonto</b> il pranzo si salta (2 pasti): la "Base" indica comunque il legume del pasto principale. Extra (frullato/zuppa/proteina veg/pane proteico) come da tab Cena e Regole.</p>
+    <p class="legend">Ogni 7 gg: Lenticchie 4 · Riso 2 · Ceci 1 · Broccoli ~3×. 🍅 solo colazione B, max 3/sett. Sui giorni <b>☀️ Smonto</b> il pranzo si salta (2 pasti): la "Base" resta il legume del pasto principale.</p>
   </div>
 </section>
 
-<!-- ============ REGOLE ============ -->
+<!-- REGOLE -->
 <section id="regole">
   <div class="card">
     <h2>Regole & frequenze</h2>
     <table>
       <tr><th>Alimento</th><th>Frequenza</th><th>Nota</th></tr>
       <tr><td>Lenticchie rosse</td><td class="ok">4×/sett</td><td>Cottura corta</td></tr>
-      <tr><td>Riso basmati</td><td>max 1 su 3 (~2×)</td><td>70 g crudo</td></tr>
+      <tr><td>Riso basmati integrale</td><td>max 1 su 3 (~2×)</td><td>70 g crudo</td></tr>
       <tr><td>Ceci</td><td class="flag">1×/sett</td><td>Interi (o hummus)</td></tr>
-      <tr><td>Broccoli</td><td>a rotazione (~3×)</td><td>Nel soffritto, alterni con altre verdure</td></tr>
+      <tr><td>Broccoli</td><td>a rotazione (~3×)</td><td>Nel soffritto</td></tr>
       <tr><td>Pomodoro fresco</td><td class="flag">max 3×/sett</td><td>Solo colazione B</td></tr>
       <tr><td>Patate / p. dolci</td><td>libere</td><td>Pranzo o cena</td></tr>
       <tr><td>Uova</td><td class="flag">max 3/sett → 0</td><td>1 va nel pane proteico</td></tr>
       <tr><td>Semi (lino/sesamo)</td><td>ogni sera</td><td>Su quinoa + insalata</td></tr>
-      <tr><td>Goji</td><td>in prova</td><td>Trattati come seme, poca quantità</td></tr>
+      <tr><td>Goji</td><td>in prova</td><td>Come seme, poca quantità</td></tr>
       <tr><td>Zuppe carote/zucca</td><td>~4/7</td><td>Sere a casa o merenda</td></tr>
       <tr><td>Proteina veg. polvere</td><td>merenda</td><td class="flag">mai a cena</td></tr>
       <tr><td>Frutta</td><td>solo colazione</td><td>Ferma</td></tr>
     </table>
   </div>
-  <div class="box">
-    <b>Distanza pasti — principio, non orologio.</b> ~3,5–4,5 h tra i pasti del tuo giorno soggettivo, ma priorità = mangiare quando cala il carico. Non ingozzarti per "recuperare": meglio un pasto in meno che due pasti appiccicati. In turno la finestra <b>02:00–06:00</b> è sempre libera da cibo.
-  </div>
+  <div class="box"><b>Distanza pasti — principio, non orologio.</b> ~3,5–4,5 h, priorità = mangiare quando cala il carico. Non ingozzarti per recuperare. In turno la finestra <b>02:00–06:00</b> è sempre libera.</div>
 </section>
 
-<!-- ============ PROTEINE ============ -->
+<!-- PROTEINE -->
 <section id="proteine">
   <div class="card">
     <h2>💪 Proteine & obiettivo</h2>
-    <p class="mut">74 kg · 1,63 m · obiettivo ricomposizione (↓ grasso addome/fianchi, ↑ massa). Su base vegana serve proteina alta e ben distribuita.</p>
-    <div class="box goodbox"><b>Target: ~130 g di proteine/giorno</b> (≈1,7–1,8 g/kg). Non oltre 2 g/kg: peserebbe sulla digestione. <b>Regola d'oro: 25–40 g per occasione.</b></div>
+    <p class="mut">74 kg · 1,63 m · 50-59 · misto forza+cardio. Ricomposizione (↓ grasso addome/fianchi, ↑ massa).</p>
+    <div class="box goodbox"><b>Target: ~130 g proteine/giorno</b> (≈1,7–1,8 g/kg). <b>25–40 g per occasione.</b></div>
   </div>
-
   <div class="card">
-    <h3>🔥 Calorie & deficit (ricomposizione)</h3>
+    <h3>🔥 Calorie & deficit</h3>
     <table>
       <tr><th>Voce</th><th>Valore</th></tr>
-      <tr><td>Metabolismo basale (BMR)</td><td>~1.490 kcal</td></tr>
+      <tr><td>BMR</td><td>~1.490 kcal</td></tr>
       <tr><td>Mantenimento (TDEE)</td><td>~2.200–2.250 kcal</td></tr>
       <tr><td>Target ricomposizione (−15%)</td><td class="ok">~1.900 kcal/giorno</td></tr>
+      <tr><td>Proteine · Grassi · Carbo</td><td>~130 g · ~60 g · ~210 g</td></tr>
     </table>
-    <p class="mut" style="margin-top:8px">Macro a 1.900 kcal:</p>
-    <table>
-      <tr><th>Macro</th><th>Grammi</th><th>Da dove</th></tr>
-      <tr><td>Proteine</td><td class="ok">~130 g</td><td>soia/tofu/edamame/legumi/shake</td></tr>
-      <tr><td>Grassi</td><td>~60 g</td><td>olio EVO/lino, avocado, semi, tahini</td></tr>
-      <tr><td>Carboidrati</td><td>~210 g</td><td>grano saraceno, riso, legumi, patate, quinoa</td></tr>
-    </table>
-    <div class="box warnbox"><b>Deficit lieve apposta:</b> forte + turni + 50 anni = rischio di perdere massa invece di costruirla. Meglio piano.</div>
     <ul>
-      <li><b>Smonto = giorni "leggeri":</b> i 2 pasti abbassano le calorie da soli → media settimanale in deficit senza contare nulla.</li>
-      <li><b>Cena in turno:</b> proteica + verdura, <b>non</b> carica di carboidrati (gestione zuccheri peggiore di notte; il digiuno 02:00–06:00 aiuta).</li>
-      <li><b>Allenamento:</b> prima la <b>forza</b> (da fresco), poi il cardio → è la forza progressiva che fa massa.</li>
+      <li>Smonto = giorni leggeri (2 pasti): media settimanale in deficit da sola.</li>
+      <li>Cena in turno proteica + verdura, non carica di carboidrati.</li>
+      <li>Prima forza (da fresco), poi cardio.</li>
     </ul>
   </div>
-
   <div class="card">
     <h3>Àncore per tipo di giornata</h3>
     <table>
-      <tr><th>Giornata</th><th>Occasioni</th><th>Totale</th></tr>
+      <tr><th>Giornata</th><th>Distribuzione</th><th>Tot.</th></tr>
       <tr><td>Lavoro / Riposo</td><td>Colaz+shake ~40 · Pranzo ~30 · Merenda ~15–20 · Cena ~30</td><td class="ok">~125 g</td></tr>
       <tr><td>Smonto (2 pasti)</td><td>Pasto 1 ~40–45 · Cena ~35–40</td><td>~80–90 g</td></tr>
     </table>
-    <p class="legend">Lo smonto è più leggero ed è ok: conta la <b>media settimanale</b>, non il singolo giorno. Niente ingozzarsi per pareggiare.</p>
+    <p class="legend">Lo smonto è più leggero ed è ok: conta la media settimanale.</p>
   </div>
-
   <div class="card">
-    <h3>3 leve che cambiano tutto (vegano)</h3>
-    <ul>
-      <li><b>Latte di soia</b> (non riso/avena) per shake e colazione: ~10 g / 300 ml, il guadagno più facile.</li>
-      <li><b>Tofu, edamame e soia testurizzata (TVP)</b> come proteine principali (facili da trovare). La <b>soia testurizzata è secca</b> = ottima per lo stock al lavoro. Anche <b>Heura</b> (Mercadona) è comoda. Tempeh solo quando ne trovi di buono (barrio chino); quello dell'Alcampo è troppo salato — semmai sbollentalo 2 min.</li>
-      <li><b>2ª proteina serale dal cibo</b> (edamame, tofu), <u>mai</u> un secondo shake tardi. Lo shake resta post-palestra.</li>
-    </ul>
-  </div>
-
-  <div class="card">
-    <h3>Grammi di proteina per porzione</h3>
+    <h3>Fonti (Spagna · problema tempeh)</h3>
+    <div class="box warnbox">Tempeh scarso/salato: usa <b>soia testurizzata</b> (secca, per lo stock lavoro), tofu, edamame, Heura.</div>
     <table>
       <tr><th>Alimento</th><th>Porzione</th><th>Prot.</th></tr>
       <tr><td>Shake proteico</td><td>1 misurino</td><td class="ok">~20–22 g</td></tr>
@@ -316,130 +286,113 @@
       <tr><td>Lenticchie rosse</td><td>70 g secche</td><td>~17 g</td></tr>
       <tr><td>Tofu firme</td><td>120 g</td><td>~16 g</td></tr>
       <tr><td>Heura</td><td>100 g</td><td>~15 g</td></tr>
-      <tr><td>Ceci</td><td>1 porzione</td><td>~15 g</td></tr>
-      <tr><td>Tempeh <small>(quando lo trovi)</small></td><td>120 g</td><td>~24 g</td></tr>
       <tr><td>Latte di soia</td><td>300 ml</td><td>~10 g</td></tr>
-      <tr><td>Fiocchi grano saraceno</td><td>60 g</td><td>~8 g</td></tr>
-      <tr><td>Quinoa</td><td>50 g secca</td><td>~7 g</td></tr>
       <tr><td>Pane proteico</td><td>con uovo</td><td>~13 g</td></tr>
-      <tr><td>Uovo</td><td>1</td><td>~6 g</td></tr>
-      <tr><td>Semi (lino/sesamo)</td><td>spolverata</td><td>~2–3 g</td></tr>
     </table>
   </div>
-
-  <div class="box warnbox"><b>Ricomposizione:</b> il grasso su addome/fianchi non si riduce "a zone" (lo spot-reduction non esiste): cala con un leggero deficit generale. La massa cresce con <b>forza progressiva + proteine + sonno</b>. Il sonno è il tuo punto critico coi turni: proteggilo dove puoi.</div>
+  <div class="box warnbox"><b>Ricomposizione:</b> il grasso su addome/fianchi non si riduce "a zone": cala con un leggero deficit generale. La massa cresce con <b>forza progressiva + proteine + sonno</b> (il tuo punto critico coi turni).</div>
 </section>
 
-<!-- ============ TURNI & ORARI ============ -->
+<!-- TURNI -->
 <section id="turni">
   <div class="card">
     <h2>Turni & orari operativi</h2>
-    <p class="mut">Ciclo: settimana di lavoro (tutte le notti, <b>lunedì libero</b>) → settimana di riposo (solo il <b>lunedì</b> è notte). Feriali (incl. venerdì) 22:30–8:15 · <b>Sab/Dom</b> 20:00–8:00 (12 h). Trasporto ~1–1,5 h.</p>
-    <div class="box"><b>Integratori (seguono i pasti, anche a orari strani):</b> Candismic Plus subito <b>prima di colazione e cena</b> · Alicina subito <b>prima del pranzo</b>.</div>
+    <p class="mut">Ciclo: settimana di lavoro (tutte le notti, <b>lunedì libero</b>) → settimana di riposo (solo il <b>lunedì</b> è notte). Feriali (incl. venerdì) 22:30–8:15 · <b>Sab/Dom</b> 20:00–8:00. Il giorno dopo ogni notte = smonto.</p>
+    <div class="box"><b>Integratori:</b> Candismic Plus prima di colazione e cena · Alicina prima del pranzo.</div>
   </div>
 
   <div class="day wk">
     <b class="t">🌙 Turno feriale</b> <span class="mut">(Ven, Mar, Mer, Gio · 22:30–8:15)</span>
     <ul class="tl wk">
       <li><span class="hr">15:00</span><span>Sveglia · idratazione/infuso</span></li>
-      <li><span class="hr">15:45</span><span>Palestra (50′), rientro ~16:35</span></li>
-      <li><span class="hr">17:00</span><span><b>Candismic</b> → <b>Colazione</b> (A o B) + <b>shake proteico</b> (post-workout)</span></li>
-      <li><span class="hr">20:00</span><span><b>Alicina</b> → <b>Pranzo / pasto principale</b> a casa</span></li>
-      <li><span class="hr">~23:00</span><span>Arrivo turno · merenda leggera <i>opzionale</i> (frullato/edamame)</span></li>
-      <li><span class="hr">00:30–01:30</span><span><b>Candismic</b> → <b>Cena cucinata in sede</b> (dallo stock), <b>prima delle 2:00</b> · no pane proteico</span></li>
-      <li><span class="hr">02:00–06:00</span><span><b>Digiuno notturno</b> · niente cibo (+ pisolino)</span></li>
-      <li><span class="hr">08:15</span><span>Fine turno → rientro → dormi</span></li>
-    </ul>
-    <span class="legend">Venerdì (giorno pesante col laptop): porti <b>2 pasti pronti</b> da casa. Gli altri giorni: <b>cucini la cena in sede</b> con lo stock del lavoro.</span>
-  </div>
-
-  <div class="day wk">
-    <b class="t">🌙 Lunedì di lavoro</b> <span class="mut">(settimana di riposo · vieni dal ritmo diurno)</span>
-    <ul class="tl wk">
-      <li><span class="hr">06:00</span><span>Sveglia (ritmo riposo) · <b>Candismic</b> → colazione dopo palestra</span></li>
-      <li><span class="hr">07:15</span><span>Palestra (50′)</span></li>
-      <li><span class="hr">~08:30</span><span><b>Colazione</b> + shake</span></li>
-      <li><span class="hr">~13:00</span><span><b>Alicina</b> → <b>Pranzo</b></span></li>
-      <li><span class="hr">~15:30</span><span><b>Pisolino pomeridiano</b> (fondamentale: dovrai stare sveglio tutta la notte)</span></li>
-      <li><span class="hr">~20:00</span><span>Merenda/spuntino prima di uscire</span></li>
-      <li><span class="hr">00:30–01:30</span><span><b>Candismic</b> → <b>Cena</b>: qui puoi <b>portartela da casa</b> (eri a casa in ritmo diurno)</span></li>
+      <li><span class="hr">15:45</span><span>Palestra (forza→cardio)</span></li>
+      <li><span class="hr">17:00</span><span><b>Candismic</b> → <b>Colazione</b> + <b>shake</b> (post-workout)</span></li>
+      <li><span class="hr">20:00</span><span><b>Alicina</b> → <b>Pranzo</b> a casa</span></li>
+      <li><span class="hr">00:30–01:30</span><span><b>Candismic</b> → <b>Cena in sede</b>, entro le 2:00 · no pane proteico</span></li>
       <li><span class="hr">02:00–06:00</span><span><b>Digiuno notturno</b></span></li>
     </ul>
-    <span class="legend">Non ti svegli alle 15: parti dal ritmo diurno della settimana di riposo, con pisolino prima del turno.</span>
+    <span class="legend">Venerdì (laptop): porti 2 pasti da casa. Altri giorni: cucini la cena in sede dallo stock.</span>
   </div>
 
   <div class="day wk">
-    <b class="t">🛌 Giornata weekend 12 h</b> <span class="mut">(Sab/Dom · 20:00–8:00)</span>
+    <b class="t">🌙 Lunedì di lavoro</b> <span class="mut">(settimana di riposo · ritmo diurno)</span>
     <ul class="tl wk">
-      <li><span class="hr">~12:30</span><span>Sveglia · idratazione</span></li>
-      <li><span class="hr">13:15</span><span>Palestra (50′)</span></li>
-      <li><span class="hr">14:30</span><span><b>Candismic</b> → <b>Colazione</b> + <b>shake</b></span></li>
-      <li><span class="hr">17:30</span><span><b>Alicina</b> → <b>Pranzo</b> a casa · poi esci</span></li>
-      <li><span class="hr">20:30→</span><span><b>Candismic</b> → <b>Cena cucinata in sede</b> (Sab/Dom <b>non porti nulla</b>), in 3 porzioni prima delle 2:00 (es. 21 · 23 · 01)</span></li>
-      <li><span class="hr">02:00–06:00</span><span><b>Digiuno notturno</b> · niente cibo (+ pisolino)</span></li>
-      <li><span class="hr">06:00+</span><span>Spuntino leggero se serve</span></li>
+      <li><span class="hr">06:00</span><span>Sveglia · <b>Candismic</b> → colazione dopo palestra</span></li>
+      <li><span class="hr">07:15</span><span>Palestra + shake</span></li>
+      <li><span class="hr">~13:00</span><span><b>Alicina</b> → <b>Pranzo</b></span></li>
+      <li><span class="hr">~15:30</span><span><b>Pisolino</b> (starai sveglio la notte)</span></li>
+      <li><span class="hr">~20:00</span><span><b>Candismic</b> → <b>Cena a CASA</b> prima di uscire (proteica + verdura, leggera sui carboidrati)</span></li>
+      <li><span class="hr">00:30–01:30</span><span><b>Rinforzo notturno leggero</b> (proteico) entro le 2:00 — non un pasto pieno</span></li>
+      <li><span class="hr">02:00–06:00</span><span><b>Digiuno notturno</b></span></li>
     </ul>
-    <span class="legend">Sabato: spesa <b>Alcampo</b> vicino al lavoro (rifornisci lo stock) + colonia gatti. <b>Venerdì</b> invece porti i 2 pasti da casa.</span>
-    <div class="box goodbox">Sab/Dom <b>non porti nulla</b>: cucini in sede dallo stock. Zuppe in sede possibili se il carico lo permette.</div>
+    <span class="legend">Ceni a casa (più logico che portarla). Il giorno dopo è <b>smonto</b> (2 pasti): la cena di stasera imposta bene il ritmo.</span>
+  </div>
+
+  <div class="day wk">
+    <b class="t">🛌 Weekend 12 h</b> <span class="mut">(Sab/Dom · 20:00–8:00)</span>
+    <ul class="tl wk">
+      <li><span class="hr">~12:30</span><span>Sveglia</span></li>
+      <li><span class="hr">13:15</span><span>Palestra</span></li>
+      <li><span class="hr">14:30</span><span><b>Candismic</b> → <b>Colazione</b> + <b>shake</b></span></li>
+      <li><span class="hr">17:30</span><span><b>Alicina</b> → <b>Pranzo</b> · poi esci</span></li>
+      <li><span class="hr">20:30→</span><span><b>Candismic</b> → <b>Cena in sede</b> (non porti nulla), 3 porzioni entro le 2:00</span></li>
+      <li><span class="hr">02:00–06:00</span><span><b>Digiuno notturno</b></span></li>
+    </ul>
+    <span class="legend">Sabato: spesa Alcampo (stock) + colonia gatti.</span>
   </div>
 
   <div class="day free">
-    <b class="t">☀️ Giorno di smonto / transizione</b> <span class="mut">(dormi dopo la notte, NON lavori la sera)</span>
+    <b class="t">☀️ Smonto</b> <span class="mut">(il giorno dopo una notte · 2 pasti)</span>
     <ul class="tl free">
       <li><span class="hr">15:00</span><span>Sveglia · Candismic</span></li>
-      <li><span class="hr">15:45</span><span>Palestra (50′)</span></li>
-      <li><span class="hr">17:00</span><span><b>Pasto 1</b> (colazione/brunch completo) + <b>shake</b> post-workout</span></li>
-      <li><span class="hr">~20:00</span><span><b>Pasto 2 = cena</b> leggera-media: pane proteico · zuppa · quinoa+insalata+semi</span></li>
-      <li><span class="hr">~23:30</span><span>A letto: rientri nel ritmo per la sveglia del riposo (6:00)</span></li>
+      <li><span class="hr">15:45</span><span>Palestra</span></li>
+      <li><span class="hr">17:00</span><span><b>Pasto 1</b> (brunch, fa da pranzo) + <b>shake</b></span></li>
+      <li><span class="hr">~20:00</span><span><b>Cena</b> leggera-media: pane proteico · zuppa · quinoa+insalata+semi</span></li>
+      <li><span class="hr">~23:30</span><span>A letto (rientri nel ritmo diurno)</span></li>
     </ul>
-    <div class="box warnbox"><b>Solo 2 pasti, ed è giusto così.</b> La finestra utile è corta (sveglia 15:00 → sonno notturno) e non va allungata mangiando tardi. <b>Il "pranzo" si salta</b>: non lo compensi ingozzandoti, semmai rendi i 2 pasti un po' più completi. Se hai davvero fame nel mezzo: piccolo spuntino proteico (non un pasto).</div>
+    <div class="box warnbox"><b>Solo 2 pasti, ed è giusto.</b> Il "pranzo" si salta: non compensare ingozzandoti.</div>
   </div>
 
   <div class="day free">
-    <b class="t">🌅 Giorno di riposo</b> <span class="mut">(sveglia 6:00)</span>
+    <b class="t">🌅 Riposo</b> <span class="mut">(sveglia 6:00, giornata normale)</span>
     <ul class="tl free">
       <li><span class="hr">06:00</span><span>Sveglia · Candismic</span></li>
-      <li><span class="hr">07:15</span><span>Palestra (50′), fine ~8:05</span></li>
-      <li><span class="hr">08:30</span><span><b>Colazione</b> + <b>shake</b> (post-workout)</span></li>
-      <li><span class="hr">13:00</span><span><b>Pranzo</b> (base a rotazione + soffritto)</span></li>
-      <li><span class="hr">17:00</span><span><b>Merenda</b>: frullato carote / proteina veg / zuppa</span></li>
-      <li><span class="hr">20:30</span><span><b>Cena a casa</b>: quinoa + insalata + semi (+goji) · o pane proteico · o zuppa (4/7)</span></li>
+      <li><span class="hr">07:15</span><span>Palestra</span></li>
+      <li><span class="hr">08:30</span><span><b>Colazione</b> + shake</span></li>
+      <li><span class="hr">13:00</span><span><b>Alicina</b> → <b>Pranzo</b></span></li>
+      <li><span class="hr">17:00</span><span><b>Merenda</b>: frullato / zuppa</span></li>
+      <li><span class="hr">20:30</span><span><b>Cena</b>: quinoa+insalata+semi / pane proteico / zuppa</span></li>
     </ul>
-    <span class="legend">Qui il ritmo è regolare: facile tenere ~4 h tra i pasti.</span>
   </div>
 </section>
 
-<!-- ============ CENA ============ -->
+<!-- CENA -->
 <section id="cena">
   <div class="card">
     <h2>🍽️ Cena · varianti per turno</h2>
-    <p class="mut">La cena cambia soprattutto se <b>lavori</b> quella notte o <b>no</b>. Il pane proteico resta per le sere a casa.</p>
+    <p class="mut">Cambia se <b>lavori</b> o <b>no</b>. Pane proteico solo per le sere a casa.</p>
   </div>
-
   <div class="card">
-    <h3>Quando LAVORI (cena in sede, entro le 2:00)</h3>
-    <p class="legend">Requisiti: pochi passaggi, dallo stock, scaldabile/assemblabile. No pane proteico.</p>
+    <h3>Quando LAVORI (in sede, entro le 2:00)</h3>
     <ul>
-      <li><b>V1 — Fredda (top col caldo):</b> quinoa (già cotta) + insalata (canónigos/rucola/carota/olive) + <b>semi lino+sesamo+goji</b> + hummus 35 g. Zero cottura.</li>
-      <li><b>V2 — Tiepida:</b> patata / patata dolce (cotta in batch) + <b>tofu o soia testurizzata</b> + verdura. Solo da scaldare.</li>
-      <li><b>V3 — Weekend:</b> pasto principale in <b>3 contenitori</b> (strategia già collaudata).</li>
+      <li><b>V1 Fredda:</b> quinoa + insalata + semi + hummus. Zero cottura.</li>
+      <li><b>V2 Tiepida:</b> patata / p. dolce + tofu o soia testurizzata + verdura.</li>
+      <li><b>V3 Weekend:</b> pasto principale in 3 contenitori.</li>
     </ul>
-    <div class="box">Logistica: <b>Venerdì</b> porti 2 pasti pronti · <b>Lunedì di lavoro</b> puoi portarti qualcosa · gli altri giorni cucini in sede con lo stock (soia testurizzata reidratata = comoda).</div>
+    <div class="box"><b>Lunedì di lavoro:</b> cena a casa prima di uscire + rinforzo leggero in turno. Altri feriali: cena in sede. Venerdì: 2 pasti da casa.</div>
   </div>
-
   <div class="card">
-    <h3>Quando NON lavori (cena a casa: smonto / riposo)</h3>
+    <h3>Quando NON lavori (a casa: smonto / riposo)</h3>
     <ul>
-      <li><b>V1 —</b> <b>Pane proteico</b> (con 1 uovo) + insalata + semi.</li>
-      <li><b>V2 —</b> Quinoa 50 g + insalata + <b>semi (lino+sesamo+goji)</b> + <b>1 uovo</b> (dentro le 3/sett) <i>oppure</i> hummus 35 g.</li>
-      <li><b>V3 —</b> <b>Zuppa</b> carote/zucca (~4/7 sere a casa) + crostino GF/semi.</li>
-      <li><b>V4 —</b> Patata dolce + tofu/edamame + verdura tollerata.</li>
+      <li><b>V1</b> Pane proteico (con 1 uovo) + insalata + semi.</li>
+      <li><b>V2</b> Quinoa + insalata + semi + 1 uovo (o hummus).</li>
+      <li><b>V3</b> Zuppa carote/zucca + una proteina.</li>
+      <li><b>V4</b> Patata dolce + tofu/edamame + verdura.</li>
     </ul>
   </div>
-
   <div class="card">
     <h3>🥚 Contatore uova · settimana</h3>
-    <p class="legend">Obiettivo: max 3, in calo verso 0. Tocca per aggiornare (si salva sul dispositivo).</p>
+    <p class="legend">Obiettivo: max 3, verso 0. Tocca per aggiornare.</p>
     <div class="egg">
       <button onclick="egg(-1)">−</button>
       <div class="dots" id="eggdots"></div>
@@ -450,130 +403,70 @@
   </div>
 </section>
 
-<!-- ============ SPESA ============ -->
+<!-- SPESA -->
 <section id="spesa">
   <div class="card">
     <h2>🛒 Lista spesa settimanale</h2>
-    <p class="mut">Divisa per supermercato secondo i tuoi giri. Tocca per spuntare (si salva sul dispositivo). Quantità per 1 persona / 1 settimana, da tarare.</p>
-    <div class="box"><b>Giorni consigliati:</b> spesa grossa Mercadona/Dia/Ahorramas in un giorno <u>non pesante</u> (evita Ven e Mar, che porti il laptop). <b>Sabato = Alcampo</b> vicino al lavoro: rifornisci lo <b>stock del frigo al lavoro</b> per le cene in turno.</p></div>
+    <div class="box"><b>Giorni:</b> spesa grossa in giorno non pesante (evita Ven e Mar). <b>Sabato = Alcampo</b> per lo stock del frigo al lavoro.</div>
   </div>
-
-  <div class="card">
-    <h3>🟢 Mercadona <span class="mut">(principale · dispensa e proteine)</span></h3>
-    <div id="s-merc"></div>
-  </div>
-  <div class="card">
-    <h3>🔵 Dia <span class="mut">(complementari)</span></h3>
-    <div id="s-dia"></div>
-  </div>
-  <div class="card">
-    <h3>🟠 Ahorramás <span class="mut">(verdura e frutta fresca)</span></h3>
-    <div id="s-aho"></div>
-  </div>
-  <div class="card">
-    <h3>🟣 Alcampo — sabato, vicino al lavoro <span class="mut">(stock frigo lavoro)</span></h3>
-    <div id="s-alc"></div>
-  </div>
-  <div class="card">
-    <h3>📦 Erboristeria online / Amazon <span class="mut">(ordine periodico, non deperibili)</span></h3>
-    <div id="s-onl"></div>
-    <p class="legend">Ordina con anticipo: questi durano, tienine sempre una scorta per non restare senza.</p>
-  </div>
-  <div class="card">
-    <h3>⚪ Farmacia <span class="mut">(o erboristeria online)</span></h3>
-    <div id="s-far"></div>
-  </div>
+  <div class="card"><h3>🟢 Mercadona</h3><div id="s-merc"></div></div>
+  <div class="card"><h3>🔵 Dia</h3><div id="s-dia"></div></div>
+  <div class="card"><h3>🟠 Ahorramás</h3><div id="s-aho"></div></div>
+  <div class="card"><h3>🟣 Alcampo — sabato</h3><div id="s-alc"></div></div>
+  <div class="card"><h3>📦 Erboristeria online / Amazon</h3><div id="s-onl"></div></div>
+  <div class="card"><h3>⚪ Farmacia</h3><div id="s-far"></div></div>
   <button class="btn" onclick="resetSpesa()">↺ Reset spunte spesa</button>
 </section>
 
-<!-- ============ STOCK ============ -->
+<!-- STOCK -->
 <section id="stock">
   <div class="card">
     <h2>📦 Stock: casa vs lavoro</h2>
-    <p class="mut">A casa = dispensa completa. Al lavoro = ridotto, per poco spazio e per il frigo debole (raffredda poco). Cucini la cena in sede quasi ogni turno; solo Venerdì porti i 2 pasti da casa.</p>
-    <div class="box warnbox"><b>Regola deperibili al lavoro:</b> compra i freschi (tofu, verdura, Heura) in quantità che <b>finiscono entro la settimana di lavoro</b>, così il frigo debole resta quasi vuoto nella settimana di riposo (solo lunedì). Il resto dello stock lavoro dev'essere <b>secco/shelf-stable</b>.</div>
+    <div class="box warnbox"><b>Deperibili al lavoro:</b> compra i freschi in quantità che finiscono entro la settimana di lavoro (frigo debole). Il resto secco/shelf-stable.</div>
   </div>
-
-  <div class="card">
-    <h3>🏠 Stock a CASA</h3>
-    <p class="mut" style="margin:4px 0">Dispensa (secco, lunga durata):</p>
-    <div id="k-casa-disp"></div>
-    <p class="mut" style="margin:10px 0 4px">Frigo / fresco:</p>
-    <div id="k-casa-frigo"></div>
-  </div>
-
-  <div class="card">
-    <h3>🏢 Stock al LAVORO <span class="mut">(ridotto)</span></h3>
-    <p class="mut" style="margin:4px 0">Armadietto (secco = la spina dorsale · non teme il frigo debole):</p>
-    <div id="k-lav-sec"></div>
-    <p class="mut" style="margin:10px 0 4px">Frigo (minimo · a consumo rapido, finire entro la settimana):</p>
-    <div id="k-lav-frigo"></div>
-    <div class="box goodbox"><b>La soia testurizzata è la chiave:</b> secca, occupa poco, la reidrati in sede con acqua calda in 10 min → cena proteica veloce anche col frigo scarso.</div>
-  </div>
-
-  <div class="card">
-    <h3>🍳 Cene "da stock lavoro" (poco tempo, pochi passaggi)</h3>
+  <div class="card"><h3>🏠 Casa · dispensa</h3><div id="k-casa-disp"></div><h3>🏠 Casa · frigo</h3><div id="k-casa-frigo"></div></div>
+  <div class="card"><h3>🏢 Lavoro · secco</h3><div id="k-lav-sec"></div><h3>🏢 Lavoro · frigo (minimo)</h3><div id="k-lav-frigo"></div>
+    <div class="box goodbox">Soia testurizzata secca = spina dorsale: reidrati in sede in 10 min.</div></div>
+  <div class="card"><h3>🍳 Cene da stock lavoro</h3>
     <ul>
-      <li><b>Spezzatino veloce:</b> soia testurizzata reidratata + verdura (carota/zucca o in scatola) + olio + spezie.</li>
-      <li><b>Insalata tiepida:</b> quinoa/riso in busta precotta + legumi in scatola + olive + semi + olio.</li>
-      <li><b>Dahl express:</b> lenticchie rosse (cuociono in ~12 min) o lenticchie in scatola + verdura.</li>
-      <li><b>Tofu + verdura</b> saltati, se hai la piastra.</li>
+      <li><b>Spezzatino:</b> soia testurizzata reidratata + verdura + olio + spezie.</li>
+      <li><b>Insalata tiepida:</b> quinoa/riso in busta + legumi in scatola + semi.</li>
+      <li><b>Dahl express:</b> lenticchie rosse (12 min) o in scatola + verdura.</li>
     </ul>
   </div>
 </section>
 
-<!-- ============ RICETTE ============ -->
+<!-- RICETTE -->
 <section id="ricette">
   <div class="card rec">
     <h2>🍳 Pane proteico in padella — con 1 uovo</h2>
-    <p class="mut">Solo per le sere <b>a casa</b>. Niente farine da comprare apposta: solo cose che hai già. Ogni pane = <b>1 uovo dei 3 settimanali</b>.</p>
-    <div class="box goodbox"><b>Impasto (tutto in una ciotola):</b> 1 uovo sbattuto + 1 cucchiaio di <b>lino macinato</b> (lega, lo usi già sui semi) + 1 cucchiaio di <b>yogurt vegetale</b> + pizzico di sale.</div>
-    <p><b>Cottura:</b> versa in padella antiaderente con un filo d'olio, fuoco medio-basso, <b>coperchio ~3 min</b>, gira, altri 2 min. Viene una focaccina/frittatina soda che puoi <b>piegare o farcire</b>.</p>
-    <div class="box"><b>Come riempirlo</b> (salato, in linea con la dieta · no aglio/cipolla):
-      <ul>
-        <li>Avocado schiacciato + tahini + semi + sale</li>
-        <li>Hummus + rucola (+ pomodoro se rientri nelle 3/sett)</li>
-        <li>Tofu sbriciolato + spinaci saltati</li>
-        <li>Crema di zucca + semi di sesamo</li>
-        <li>Tahini + carota grattugiata + goccio di limone</li>
-        <li>Zucchine grigliate + hummus</li>
-      </ul>
-    </div>
-    <p class="legend">L'uovo è già la proteina della cena: pane farcito + insalata basta. Conta come 1 dei 3 uova settimanali.</p>
+    <p class="mut">Attenzione: <b>non contiene pane vero</b>. È una frittatina soda che <b>fa da pane</b>: la pieghi/farcisci. Solo sere a casa.</p>
+    <div class="box goodbox"><b>Impasto:</b> 1 uovo sbattuto + 1 cucchiaio di <b>lino macinato</b> + un po' di liquido (1-2 cucchiai di <b>latte di soia</b> o un goccio d'acqua) + sale. <span class="mut">Lo yogurt vegetale è opzionale: solo naturale, MAI ai mirtilli (dolce + frutta). Se non l'hai, usa latte di soia o acqua.</span></div>
+    <p><b>Cottura:</b> padella con filo d'olio, medio-basso, coperchio ~3 min, gira, altri 2 min. Poi farcisci.</p>
+    <div class="box"><b>Farciture</b> (salate · no aglio/cipolla): avocado+tahini+semi · hummus+rucola · tofu sbriciolato+spinaci · crema di zucca+sesamo · tahini+carota+limone · zucchine grigliate+hummus.</div>
+    <p class="legend">L'uovo è già la proteina della cena. Conta come 1 dei 3 uova settimanali.</p>
   </div>
-
-  <div class="card rec">
-    <h3>🌰 Mix di semi (insalata serale)</h3>
-    <p>Lino + sesamo + <b>goji</b> spolverati su quinoa e insalata. Goji = seme/topping in poca quantità, <span class="flag">in prova</span>: se noti reazioni o li senti “dolci/acidi”, spostali a colazione.</p>
-  </div>
-
-  <div class="card rec">
-    <h3>🥤 Frullato di carote</h3>
-    <p>5 carote + 1 gambo sedano + zenzero crudo 2 cm, poca acqua. Metà mattina o merenda. Fresco col caldo.</p>
-  </div>
-
-  <div class="card rec">
-    <h3>🍲 Zuppa carote / zucca</h3>
-    <p>Carote o zucca cotte in acqua/brodo veg senza aglio/cipolla, frullate, olio EVO/lino a crudo. Sere a casa (~4/7) o merenda. Col caldo: falla la mattina, consumala tiepida.</p>
-  </div>
+  <div class="card rec"><h3>🌰 Mix di semi</h3><p>Lino + sesamo + <b>goji</b> su quinoa e insalata. Goji <span class="flag">in prova</span>: se reazioni, spostali a colazione.</p></div>
+  <div class="card rec"><h3>🥤 Frullato di carote</h3><p>5 carote + 1 gambo sedano + zenzero 2 cm. Metà mattina o merenda.</p></div>
+  <div class="card rec"><h3>🍲 Zuppa carote / zucca</h3><p>Cotte senza aglio/cipolla, frullate, olio a crudo. Col caldo: tiepida.</p></div>
 </section>
 
-<!-- ============ TEST VERDURE ============ -->
+<!-- TEST VERDURE -->
 <section id="test">
   <div class="card">
     <h2>🧪 Test tolleranza verdure</h2>
-    <p class="mut">Tocca per ciclare: <span class="ok">verde</span> ok · <span style="color:var(--acc2)">giallo</span> da testare · <span class="flag">rosso</span> gonfia (riduci/togli). Si salva sul dispositivo.</p>
+    <p class="mut">Tocca per ciclare: <span class="ok">verde</span> ok · <span style="color:var(--acc2)">giallo</span> da testare · <span class="flag">rosso</span> gonfia.</p>
     <div class="track" id="track"></div>
-    <p class="legend">Metodo: una verdura nuova per volta, osserva 24–48 h. Se gonfia → prima riduci quantità/frequenza, poi eventualmente togli. Broccoli: già in rotazione, se dovessero gonfiare scendi a 1×/sett.</p>
+    <p class="legend">Una verdura nuova per volta, osserva 24–48 h. Broccoli: già in rotazione, se gonfiano scendi a 1×/sett.</p>
     <button class="btn" onclick="resetVeg()">↺ Reset stati</button>
   </div>
 </section>
 
-<!-- ============ PALESTRA ============ -->
+<!-- PALESTRA -->
 <section id="palestra">
   <div class="card">
     <h2>🏋️ Palestra — Forza Viva</h2>
-    <p class="mut">5 giorni. <b>Principale = macchina</b>. Sotto le varianti: <span class="tag tag-cavi">⚠ cavi</span> zona affollata da evitare · <span class="tag tag-man">manubri</span> da abituarsi · <span class="tag tag-corpo">corpo</span> a corpo libero. Cardio <b>12′ alla fine</b> di ogni sessione; in tabella max 7′. Segna il <b>peso</b> per crescere gradualmente. Salvato per settimana.</p>
+    <p class="mut">5 giorni. <b>Principale = macchina</b>. Varianti: <span class="tag tag-cavi">⚠ cavi</span> zona affollata da evitare · <span class="tag tag-man">manubri</span> da abituarsi · <span class="tag tag-corpo">corpo</span> libero. Ogni esercizio: <b>▶ Video</b> e <b>ℹ️ Come si fa</b>. Cardio <b>12′ finale</b>; 7′ in tabella. Segna il <b>peso</b>.</p>
     <label class="toggle"><input type="checkbox" id="gymOnly"> Solo macchine/pesi (nascondi cavi/corde)</label>
   </div>
   <div class="card">
@@ -585,7 +478,7 @@
   <div id="gymApp"></div>
 </section>
 
-<!-- ============ GLOSSARIO ============ -->
+<!-- GLOSSARIO -->
 <section id="glossario">
   <div class="card">
     <h2>📖 Glossario esercizi</h2>
@@ -595,7 +488,7 @@
   <div class="card"><div id="glList"></div></div>
 </section>
 
-<p class="foot">Fase 2 · protocollo naturopata + sistema turni. Non è consulenza medica: è l'organizzazione pratica del concordato. Dubbi clinici → naturopata.</p>
+<p class="foot">Fase 2 · protocollo naturopata + sistema turni. Non è consulenza medica. Dubbi clinici → naturopata.</p>
 </main>
 
 <script>
@@ -616,7 +509,7 @@
     nav.appendChild(b);
   });
 
-  // ---- Veg tracker ----
+  // Veg tracker
   const veggies=["Broccoli","Spinaci","Asparagi","Zucca","Zucchine","Carote","Sedano","Bietole",
     "Borragine","Cavolfiore","Fagiolini","Melanzane","Peperoni","Cetriolo","Rucola","Finocchio"];
   const states=["test","good","bad"];
@@ -626,58 +519,27 @@
   if(!store){store={Broccoli:"good",Spinaci:"good",Asparagi:"good",Zucca:"good",Zucchine:"good",Carote:"good"};
     try{localStorage.setItem('vegState_f2b',JSON.stringify(store))}catch(e){}}
   const track=document.getElementById('track');
-  function render(){
+  function renderVeg(){
     track.innerHTML='';
     veggies.forEach(v=>{
       const st=store[v]||'test';
-      const el=document.createElement('div');
-      el.className='veg '+st;
+      const el=document.createElement('div'); el.className='veg '+st;
       el.innerHTML=v+'<small>'+labels[st]+'</small>';
-      el.onclick=()=>{
-        const ni=(states.indexOf(store[v]||'test')+1)%states.length;
-        store[v]=states[ni];
-        try{localStorage.setItem('vegState_f2b',JSON.stringify(store))}catch(e){}
-        render();
-      };
+      el.onclick=()=>{const ni=(states.indexOf(store[v]||'test')+1)%states.length; store[v]=states[ni]; try{localStorage.setItem('vegState_f2b',JSON.stringify(store))}catch(e){} renderVeg();};
       track.appendChild(el);
     });
   }
   function resetVeg(){store={};try{localStorage.removeItem('vegState_f2b')}catch(e){}location.reload();}
-  render();
+  renderVeg();
 
-  // ---- Shopping list ----
+  // Shopping list
   const spesa={
-    "s-merc":[
-      ["Latte di soia (proteine)","1–2 L"],["Lenticchie rosse","300 g"],["Quinoa","250 g"],
-      ["Tofu firme","2–3 conf"],["Heura (tiras/tacos)","1–2 conf"],["Edamame congelato","1 busta"],
-      ["Hummus","1 (o farina ceci)"],["Tahini","1 barattolo"],
-      ["Olio EVO","1 bott"],["Yogurt vegetale","1 conf"],["Olive","1 barattolo"]
-    ],
-    "s-onl":[
-      ["Soia testurizzata (TVP)","scorta · stock lavoro"],
-      ["Fiocchi grano saraceno","scorta"],
-      ["Riso basmati integrale","scorta"],["Olio di lino","1–2 bott"],
-      ["Semi di lino macinati","1 conf"],["Semi di sesamo","1 conf"],["Goji","1 conf"],
-      ["Proteina veg (Vegenutril)","1 barattolo"],["Infuso digestivo (boldo)","1"],
-      ["Integratori vari (scorta)","secondo protocollo"]
-    ],
-    "s-dia":[
-      ["Pane senza glutine","1 conf"],["Uova","½ dozzina (max 3/sett)"],
-      ["Frutta colazione (mirtilli/rotaz.)","1–2 conf"],["Sale","se serve"]
-    ],
-    "s-aho":[
-      ["Broccoli","1"],["Zucchine","3–4"],["Spinaci","1 busta"],["Asparagi","1 mazzo"],
-      ["Bietole","1 mazzo"],["Insalata (canónigos/rucola)","1–2 buste"],["Sedano","1"],
-      ["Zenzero","1 radice"],["Pomodori","3 (max 3/sett)"]
-    ],
-    "s-alc":[
-      ["Carote","2 kg (frullati+zuppe+soffritto)"],["Zucca","1 (soffritto+zuppe)"],
-      ["Patate","1 kg"],["Patate dolci","2–3"],["Avocado","3–4"],
-      ["Ceci (barattolo/secchi)","1"],["Extra tofu per stock lavoro","1–2"]
-    ],
-    "s-far":[
-      ["Candismic Plus","secondo protocollo"],["Alicina (NPro)","secondo protocollo"]
-    ]
+    "s-merc":[["Latte di soia (proteine)","1–2 L"],["Lenticchie rosse","300 g"],["Quinoa","250 g"],["Tofu firme","2–3 conf"],["Heura (tiras/tacos)","1–2 conf"],["Edamame congelato","1 busta"],["Hummus","1"],["Tahini","1 barattolo"],["Olio EVO","1 bott"],["Yogurt vegetale naturale","1 conf"],["Olive","1 barattolo"]],
+    "s-onl":[["Soia testurizzata (TVP)","scorta · stock lavoro"],["Fiocchi grano saraceno","scorta"],["Riso basmati integrale","scorta"],["Olio di lino","1–2 bott"],["Semi di lino macinati","1 conf"],["Semi di sesamo","1 conf"],["Goji","1 conf"],["Proteina veg (Vegenutril)","1 barattolo"],["Infuso digestivo (boldo)","1"],["Integratori vari (scorta)","secondo protocollo"]],
+    "s-dia":[["Pane senza glutine","1 conf"],["Uova","½ dozzina (max 3/sett)"],["Frutta colazione (mirtilli/rotaz.)","1–2 conf"],["Sale","se serve"]],
+    "s-aho":[["Broccoli","1"],["Zucchine","3–4"],["Spinaci","1 busta"],["Asparagi","1 mazzo"],["Bietole","1 mazzo"],["Insalata (canónigos/rucola)","1–2 buste"],["Sedano","1"],["Zenzero","1 radice"],["Pomodori","3 (max 3/sett)"]],
+    "s-alc":[["Carote","2 kg"],["Zucca","1"],["Patate","1 kg"],["Patate dolci","2–3"],["Avocado","3–4"],["Ceci (barattolo/secchi)","1"],["Extra tofu per stock lavoro","1–2"]],
+    "s-far":[["Candismic Plus","secondo protocollo"],["Alicina (NPro)","secondo protocollo"]]
   };
   let sp={};
   try{sp=JSON.parse(localStorage.getItem('spesa_f2')||'{}')}catch(e){sp={}}
@@ -686,8 +548,7 @@
       const box=document.getElementById(k); if(!box)return; box.innerHTML='';
       spesa[k].forEach(([nm,qt])=>{
         const id=k+'|'+nm;
-        const el=document.createElement('div');
-        el.className='item'+(sp[id]?' done':'');
+        const el=document.createElement('div'); el.className='item'+(sp[id]?' done':'');
         el.innerHTML='<span class="bx">✓</span><span class="nm">'+nm+'</span><span class="qt">'+qt+'</span>';
         el.onclick=()=>{sp[id]=!sp[id];try{localStorage.setItem('spesa_f2',JSON.stringify(sp))}catch(e){}drawSpesa();};
         box.appendChild(el);
@@ -697,10 +558,10 @@
   function resetSpesa(){sp={};try{localStorage.removeItem('spesa_f2')}catch(e){}drawSpesa();}
   drawSpesa();
 
-  // ---- Stock casa/lavoro ----
+  // Stock
   const stock={
     "k-casa-disp":[["Soia testurizzata (TVP)"],["Fiocchi grano saraceno"],["Riso basmati integrale"],["Quinoa"],["Lenticchie rosse secche"],["Ceci secchi / barattolo"],["Legumi in scatola (scorta)"],["Olio EVO"],["Olio di lino"],["Tahini"],["Semi lino/sesamo/goji"],["Olive"],["Sale / spezie"],["Proteina veg (Vegenutril)"],["Infuso boldo"],["Pane senza glutine"]],
-    "k-casa-frigo":[["Latte di soia"],["Tofu firme"],["Heura"],["Yogurt vegetale"],["Uova (max 3)"],["Verdura fresca (broccoli, zucchine, spinaci, asparagi, bietole)"],["Insalata"],["Carote / zucca"],["Patate / patate dolci"],["Avocado"],["Pomodori (≤3)"],["Zenzero / sedano"],["Frutta colazione"],["Hummus"]],
+    "k-casa-frigo":[["Latte di soia"],["Tofu firme"],["Heura"],["Yogurt vegetale naturale"],["Uova (max 3)"],["Verdura fresca (broccoli, zucchine, spinaci, asparagi, bietole)"],["Insalata"],["Carote / zucca"],["Patate / patate dolci"],["Avocado"],["Pomodori (≤3)"],["Zenzero / sedano"],["Frutta colazione"],["Hummus"]],
     "k-lav-sec":[["Soia testurizzata (TVP) — chiave"],["Quinoa / riso in busta precotta"],["Lenticchie / ceci in scatola"],["Verdura in scatola (emergenza)"],["Olio EVO (bottiglietta)"],["Sale / spezie"],["Semi"],["Olive"],["Gallette / pane GF"]],
     "k-lav-frigo":[["Tofu firme (1–2, sigillato)"],["Verdura fresca poca (carote, insalata)"],["Heura (solo se la consumi in 2–3 gg)"]]
   };
@@ -709,24 +570,18 @@
       el.innerHTML='<span class="bx">✓</span><span class="nm">'+it[0]+'</span>';
       el.onclick=function(){el.classList.toggle('done');};box.appendChild(el);});});
 
-  // ---- Egg counter ----
+  // Egg counter
   let eggN=0;
   try{eggN=parseInt(localStorage.getItem('eggWeek')||'0')||0}catch(e){eggN=0}
-  function egg(d,reset){
-    if(reset){eggN=0}else{eggN=Math.max(0,Math.min(7,eggN+d))}
-    try{localStorage.setItem('eggWeek',eggN)}catch(e){}
-    drawEgg();
-  }
+  function egg(d,reset){ if(reset){eggN=0}else{eggN=Math.max(0,Math.min(7,eggN+d))} try{localStorage.setItem('eggWeek',eggN)}catch(e){} drawEgg(); }
   function drawEgg(){
     let s=''; for(let i=0;i<Math.max(3,eggN);i++){s+= i<eggN?'🥚':'⚪';}
     document.getElementById('eggdots').textContent=s;
-    const t=document.getElementById('eggtxt');
-    t.textContent=eggN+' / 3'+(eggN>3?' ⚠ oltre':'');
-    t.style.color=eggN>3?'var(--warn)':'var(--mut)';
+    const t=document.getElementById('eggtxt'); t.textContent=eggN+' / 3'+(eggN>3?' ⚠ oltre':''); t.style.color=eggN>3?'var(--warn)':'var(--mut)';
   }
   drawEgg();
 
-  // ---- Oggi (auto per data del telefono) ----
+  // Oggi (auto per data)
   (function(){
     const patBase=["Lenticchie","Lenticchie","Riso","Lenticchie","Ceci","Lenticchie","Riso"];
     const tri=["Broccoli · zucchine · spinaci","Asparagi · zucca · bietole","Broccoli · fagiolini · carote","Zucchine · spinaci · finocchio","Broccoli · zucca · cavolfiore","Asparagi · peperoni · zucchine","Spinaci · bietole · zucca"];
@@ -734,44 +589,50 @@
     const mesi=["gen","feb","mar","apr","mag","giu","lug","ago","set","ott","nov","dic"];
     const mod=(n,m)=>((n%m)+m)%m;
     const utc=d=>Date.UTC(d.getFullYear(),d.getMonth(),d.getDate());
+    function workedNight(dd){var ww=(dd.getDay()+6)%7; var f=new Date(dd); f.setDate(dd.getDate()-((ww-4+7)%7)); var fd=Math.round((utc(f)-Date.UTC(2026,6,10))/86400000); var rr=mod(fd,14)===0; return rr?(ww===0):(ww!==0);}
     const t=new Date();
     const i=Math.round((utc(t)-Date.UTC(2026,6,11))/86400000);
     const w=(t.getDay()+6)%7;
     const fri=new Date(t); fri.setDate(t.getDate()-((w-4+7)%7));
-    const friDays=Math.round((utc(fri)-Date.UTC(2026,6,10))/86400000);
-    const rest=mod(friDays,14)===0;
+    const rest=mod(Math.round((utc(fri)-Date.UTC(2026,6,10))/86400000),14)===0;
+    const tonightW=workedNight(t);
+    const yst=new Date(t); yst.setDate(t.getDate()-1); const lastW=workedNight(yst);
     let ty;
-    if(rest){ ty=(w===0)?{ic:"🌙",lab:"Lunedì di lavoro",h:"22:30–8:15",work:"feriale"}:{ic:"🌅",lab:"Riposo",h:"a casa",work:"no"}; }
-    else { ty=(w===5||w===6)?{ic:"🌙",lab:"Notte 12h",h:"20:00–8:00",work:"12h"}:(w===0)?{ic:"☀️",lab:"Libero / Smonto",h:"a casa",work:"no"}:{ic:"🌙",lab:"Feriale",h:"22:30–8:15",work:"feriale"}; }
+    if(tonightW){
+      if(w===5||w===6) ty={ic:"🌙",lab:"Notte 12h",h:"20:00–8:00",work:"12h"};
+      else if(rest&&w===0) ty={ic:"🌙",lab:"Lunedì di lavoro",h:"22:30–8:15",work:"lun"};
+      else ty={ic:"🌙",lab:"Feriale",h:"22:30–8:15",work:"feriale"};
+    } else if(lastW){ ty={ic:"☀️",lab:"Smonto",h:"a casa",work:"no"}; }
+    else { ty={ic:"🌅",lab:"Riposo",h:"a casa",work:"no"}; }
     const colB=mod(i,2)===0;
     const col=colB?"B — pane GF + tahini + avocado + pomodoro* + olio":"A — latte di soia + fiocchi grano saraceno + frutta";
     const base=patBase[mod(i,7)], soff=tri[mod(i,7)];
     let cena;
     if(ty.work==="no"){
-      cena=(ty.lab.indexOf("Libero")>=0)?"Solo 2 pasti (pranzo saltato): brunch + cena leggera a casa — pane proteico (1 uovo) / zuppa / quinoa+insalata+semi.":"Cena a casa: pane proteico (1 uovo) · zuppa carote/zucca · o quinoa+insalata+semi. Proteina: tofu/edamame.";
+      cena=(ty.lab==="Smonto")?"Smonto: solo 2 pasti (niente pranzo). Brunch ~17:00 + cena leggera ~20:00 a casa (pane proteico / zuppa / quinoa+insalata+semi).":"Cena a casa: pane proteico (1 uovo) · zuppa · o quinoa+insalata+semi. Proteina: tofu/edamame.";
     } else if(ty.work==="12h"){
       cena="Cena cucinata in sede, 3 porzioni entro le 2:00 (non porti nulla). Proteica + verdura.";
+    } else if(ty.work==="lun"){
+      cena="Cena a CASA ~20:00 prima di uscire (proteica + verdura, leggera sui carboidrati), poi un rinforzo leggero in turno entro le 2:00.";
     } else {
-      cena=((w===4)?"Venerdì: porti 2 pasti pronti da casa. ":(ty.lab.indexOf("Lunedì")>=0?"Puoi portare la cena da casa. ":"Cucini la cena in sede dallo stock. "))+"Entro le 2:00, no pane proteico.";
+      cena=(w===4?"Venerdì: porti 2 pasti pronti da casa. ":"Cucini la cena in sede dallo stock. ")+"Entro le 2:00, no pane proteico.";
     }
     const dstr=ggIt[t.getDay()]+" "+t.getDate()+" "+mesi[t.getMonth()]+" "+t.getFullYear();
     let h="";
     h+='<div style="font-size:16px;font-weight:700;margin-bottom:2px">'+ty.ic+" "+dstr+"</div>";
     h+='<div style="font-size:13px;font-weight:700;color:'+(ty.work==="no"?"var(--acc2)":"var(--blue)")+';margin-bottom:6px">'+ty.lab+(ty.work==="no"?" · a casa":" · turno "+ty.h)+"</div>";
     h+='<div class="box" style="margin:4px 0 8px"><b>Integratori:</b> Candismic prima di colazione e cena · Alicina prima del pranzo.'+(ty.work!=="no"?' · In turno digiuno <b>02:00–06:00</b>.':'')+'</div>';
-    h+="<table>";
-    h+="<tr><th>Pasto</th><th>Oggi</th></tr>";
+    h+="<table><tr><th>Pasto</th><th>Oggi</th></tr>";
     h+="<tr><td><b>Colazione</b></td><td>"+col+"</td></tr>";
-    h+="<tr><td><b>Pranzo</b></td><td><b>"+base+"</b> + soffritto: "+soff+"</td></tr>";
+    h+="<tr><td><b>Pranzo</b></td><td>"+(ty.lab==="Smonto"?"<i>saltato</i> (il brunch delle 17 fa da pranzo)":"<b>"+base+"</b> + soffritto: "+soff)+"</td></tr>";
     h+="<tr><td><b>Merenda</b></td><td>shake proteico (dopo palestra) · o frullato carote</td></tr>";
-    h+="<tr><td><b>Cena</b></td><td>"+cena+"</td></tr>";
-    h+="</table>";
+    h+="<tr><td><b>Cena</b></td><td>"+cena+"</td></tr></table>";
     if(colB) h+='<div class="legend">*pomodoro solo se sei entro le 3/sett.</div>';
     h+='<div class="box goodbox" style="margin-top:8px">Obiettivo ~130 g proteine: shake dopo palestra + una proteina per ogni pasto.</div>';
     const el=document.getElementById("oggi-box"); if(el) el.innerHTML=h;
   })();
 
-  // ---- Palestra (Forza Viva) ----
+  // Palestra
   (function(){
     function wk(d){d=d||new Date();var x=new Date(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate()));var n=x.getUTCDay()||7;x.setUTCDate(x.getUTCDate()+4-n);var ys=new Date(Date.UTC(x.getUTCFullYear(),0,1));var w=Math.ceil((((x-ys)/86400000)+1)/7);return x.getUTCFullYear()+"-W"+String(w).padStart(2,"0");}
     var WK=wk(), PREV=wk(new Date(Date.now()-7*86400000));
@@ -779,122 +640,94 @@
     function sv(k,v){try{localStorage.setItem(K+k,v)}catch(e){}}
     function ld(k){try{return localStorage.getItem(K+k)}catch(e){return null}}
     function ldp(k){try{return localStorage.getItem(KP+k)}catch(e){return null}}
-
-    var IC={
-      press:'<path d="M4 15h16"/><circle cx="7" cy="15" r="2"/><circle cx="17" cy="15" r="2"/><path d="M12 15V6"/><path d="M8.5 9.5 12 6l3.5 3.5"/>',
-      fly:'<path d="M12 5v14"/><path d="M12 8C8 8 6 10 5 12"/><path d="M12 8c4 0 6 2 7 4"/><path d="M4 11l1 2 2-1"/><path d="M20 11l-1 2-2-1"/>',
-      pulldown:'<path d="M4 6h16"/><path d="M8 6v3M16 6v3"/><path d="M12 6v12"/><path d="M9 15l3 3 3-3"/>',
-      row:'<path d="M18 4v16"/><path d="M18 12H6"/><path d="M9 9l-3 3 3 3"/>',
-      curl:'<path d="M8 19V9"/><path d="M8 9l4-4 4 4"/><circle cx="16" cy="9" r="1.8"/>',
-      shoulder:'<circle cx="12" cy="18" r="2"/><path d="M12 16V9"/><path d="M8 12l4-4 4 4"/><path d="M9 9h6"/>',
-      lateral:'<circle cx="12" cy="10" r="2"/><path d="M12 12v6"/><path d="M12 13l-6-1M12 13l6-1"/>',
-      squat:'<circle cx="12" cy="5" r="2"/><path d="M12 7v5"/><path d="M12 12l-3 3v4M12 12l3 3v4"/><path d="M8 8h8"/>',
-      legpress:'<rect x="4" y="6" width="4" height="12" rx="1"/><path d="M8 12h6"/><path d="M14 9l4 3-4 3"/>',
-      legext:'<circle cx="7" cy="8" r="2"/><path d="M7 10v4h4"/><path d="M11 14l6-3"/><path d="M14 9l3 2-1 3"/>',
-      legcurl:'<path d="M4 8h8"/><path d="M12 8v4"/><path d="M12 12c4 0 5 2 5 4"/><path d="M14 18l3-1v3"/>',
-      hip:'<path d="M4 16h6"/><path d="M10 16l4-4"/><path d="M14 12h6"/><path d="M10 20v-4"/><path d="M12 9l2-2 2 2"/>',
-      dead:'<path d="M4 18h16"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="18" r="2"/><path d="M12 18V8"/><path d="M9 11l3-3 3 3"/>',
-      kick:'<circle cx="9" cy="8" r="2"/><path d="M9 10v4"/><path d="M9 14l-3 4M9 14l6 2"/><path d="M13 15l3 1-1 3"/>',
-      abd:'<circle cx="12" cy="6" r="2"/><path d="M12 8v5"/><path d="M12 13l-5 5M12 13l5 5"/>',
-      calf:'<path d="M8 20h8"/><path d="M12 20v-6"/><path d="M10 12l2-3 2 3"/><path d="M12 9V4"/>',
-      lumbar:'<circle cx="8" cy="8" r="2"/><path d="M8 10c0 4 3 6 8 6"/><path d="M13 13l3 3-3 1"/>',
-      plank:'<circle cx="5" cy="9" r="2"/><path d="M5 12h13"/><path d="M18 12v3"/><path d="M8 15h8"/>',
-      crunch:'<path d="M4 18h9"/><circle cx="15" cy="9" r="2"/><path d="M15 11c-3 1-6 3-8 7"/><path d="M13 8l2-2 2 2"/>',
-      legraise:'<path d="M4 18h6"/><circle cx="6" cy="15" r="2"/><path d="M8 16l9-4"/><path d="M14 9l3 3-1 3"/>',
-      lunge:'<circle cx="10" cy="5" r="2"/><path d="M10 7v5"/><path d="M10 12l-4 6M10 12l4 3v3"/>',
-      cardio:'<circle cx="14" cy="5" r="2"/><path d="M14 7l-2 5 3 2 1 4"/><path d="M12 12l-4 1"/><path d="M9 9l3 1"/>'
-    };
-    function icon(n){return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">'+(IC[n]||IC.press)+'</svg>';}
-
-    var GYMD=[
-      {d:1,t:"Giorno 1 — Petto / Tricipiti / Addome",g:[
-        {ic:"press",n:"Press inclinato alla macchina",es:"Press pecho superior (máquina)",s:"4",r:"10",w:true,v:[{n:"Press inclinato con manubri",tag:"man"},{n:"Press guidato (multipower)"},{n:"Flessioni con sovraccarico",tag:"corpo"}]},
-        {ic:"fly",n:"Pec deck (macchina)",es:"Pec deck / contractor",s:"3",r:"10",w:true,v:[{n:"Croci con manubri",tag:"man"},{n:"Croci ai cavi",tag:"cavi"},{n:"Croci con banda elastica",tag:"corpo"}]},
-        {ic:"press",n:"Press orizzontale alla macchina",es:"Press horizontal (máquina)",s:"4",r:"10",w:true,v:[{n:"Panca piana con manubri",tag:"man"},{n:"Panca piana con bilanciere"},{n:"Flessioni",tag:"corpo"}]},
-        {ic:"press",n:"Spinta tricipiti alla macchina",es:"Tríceps máquina",s:"4",r:"10",w:true,v:[{n:"Dip alla macchina (assistiti)"},{n:"Pushdown ai cavi con corda",tag:"cavi"},{n:"Estensione tricipite con manubrio",tag:"man"}]},
-        {ic:"press",n:"Dip alla macchina (assistiti)",es:"Fondos máquina",s:"4",r:"10",w:true,v:[{n:"French press bilanciere EZ",tag:"man"},{n:"Dip su panca",tag:"corpo"},{n:"Estensione unilaterale manubrio",tag:"man"}]},
-        {ic:"plank",n:"Plank frontale",es:"Plancha",s:"4",r:"45″",w:false,plank:true,v:[{n:"Plank laterale",tag:"corpo"},{n:"Plank con fitball",tag:"corpo"},{n:"Plank con spostamento",tag:"corpo"}]},
-        {ic:"legraise",n:"Sollevamento gambe (appoggio/macchina)",es:"Elevación piernas",s:"4",r:"10",w:false,v:[{n:"Crunch inverso",tag:"corpo"},{n:"Sollevamenti alla sbarra",tag:"corpo"},{n:"Ab wheel",tag:"corpo"}]}
-      ]},
-      {d:2,t:"Giorno 2 — Gambe / Glutei / Lombari",g:[
-        {ic:"hip",n:"Hip thrust alla macchina",es:"Hip máquina",s:"4",r:"8",w:true,v:[{n:"Hip thrust con bilanciere"},{n:"Ponte glutei con disco",tag:"corpo"},{n:"Squat sumo con manubrio",tag:"man"}]},
-        {ic:"dead",n:"Stacco rumeno guidato (Smith)",es:"Peso muerto rumano (Smith)",s:"3",r:"10",w:true,v:[{n:"Stacco con bilanciere"},{n:"Good morning con bilanciere"},{n:"Stacco con manubri",tag:"man"}]},
-        {ic:"kick",n:"Macchina glutei (kickback)",es:"Glúteo máquina",s:"3",r:"10",w:true,v:[{n:"Kickback alla puleggia",tag:"cavi"},{n:"Elastico alla caviglia",tag:"corpo"},{n:"Step-up con manubrio",tag:"man"}]},
-        {ic:"legcurl",n:"Leg curl alla macchina",es:"Femoral máquina",s:"4",r:"10",w:true,v:[{n:"Leg curl prono (macchina)"},{n:"Curl con fitball",tag:"corpo"},{n:"Stacco rumeno"}]},
-        {ic:"abd",n:"Macchina abduzioni",es:"Abducción máquina",s:"3",r:"10",w:true,v:[{n:"Abduzione alla puleggia",tag:"cavi"},{n:"Camminata laterale con elastico",tag:"corpo"},{n:"Step laterale",tag:"corpo"}]},
-        {ic:"calf",n:"Polpacci alla pressa",es:"Gemelos prensa",s:"3",r:"10",w:true,v:[{n:"Calf in piedi (macchina)"},{n:"Calf seduto (macchina)"},{n:"Salite sul gradino",tag:"corpo"}]},
-        {ic:"lumbar",n:"Estensione lombare alla macchina",es:"Lumbar máquina",s:"3",r:"10",w:true,v:[{n:"Superman a terra",tag:"corpo"},{n:"Panca lombare (5 kg)"},{n:"Stacco rumeno leggero"}]}
-      ]},
-      {d:3,t:"Giorno 3 — Schiena / Bicipiti / Addome",g:[
-        {ic:"pulldown",n:"Lat machine avanti",es:"Jalón al pecho",s:"4",r:"10",w:true,v:[{n:"Trazioni assistite (macchina)"},{n:"Rematore con barra T"},{n:"Pullover alla macchina"}]},
-        {ic:"row",n:"Reverse pec deck (deltoide post.)",es:"Deltoide posterior máquina",s:"3",r:"10",w:true,v:[{n:"Face pull ai cavi",tag:"cavi"},{n:"Elastici al viso",tag:"corpo"},{n:"Rematore inverso TRX",tag:"corpo"}]},
-        {ic:"row",n:"Rematore alla macchina",es:"Remo máquina",s:"4",r:"10",w:true,v:[{n:"Rematore manubrio 1 braccio",tag:"man"},{n:"Rematore con bilanciere"},{n:"Rematore TRX",tag:"corpo"}]},
-        {ic:"curl",n:"Curl bicipiti alla macchina",es:"Bíceps máquina",s:"3",r:"10",w:true,v:[{n:"Curl alternato con manubri",tag:"man"},{n:"Curl con bilanciere EZ"},{n:"Curl ai cavi con corda",tag:"cavi"}]},
-        {ic:"curl",n:"Curl con bilanciere EZ",es:"Bíceps barra Z",s:"4",r:"10",w:true,v:[{n:"Curl alla macchina"},{n:"Curl a martello con manubri",tag:"man"},{n:"Curl con elastico",tag:"corpo"}]},
-        {ic:"crunch",n:"Macchina addominali laterali",es:"Oblicuos máquina",s:"3",r:"12",w:false,v:[{n:"Plank laterale",tag:"corpo"},{n:"Crunch laterale con manubrio",tag:"man"},{n:"Woodchopper ai cavi",tag:"cavi"}]},
-        {ic:"crunch",n:"Crunch alla macchina",es:"Crunch máquina",s:"4",r:"10",w:false,v:[{n:"Crunch su fitball",tag:"corpo"},{n:"Crunch al cavo",tag:"cavi"},{n:"Crunch inverso",tag:"corpo"}]}
-      ]},
-      {d:4,t:"Giorno 4 — Gambe / Spalle / Cardio",g:[
-        {ic:"squat",n:"Squat guidato (multipower)",es:"Sentadilla multipower",s:"4",r:"10",w:true,v:[{n:"Squat libero"},{n:"Pressa inclinata (macchina)"},{n:"Goblet squat",tag:"man"}]},
-        {ic:"legpress",n:"Hack squat (macchina)",es:"Hack cuádriceps",s:"3",r:"10",w:true,v:[{n:"Pressa orizzontale"},{n:"Affondo bulgaro",tag:"corpo"},{n:"Leg extension unilaterale"}]},
-        {ic:"abd",n:"Macchina abduzioni",es:"Abducción máquina",s:"3",r:"10",w:true,v:[{n:"Camminata laterale con elastico",tag:"corpo"},{n:"Puleggia alla caviglia",tag:"cavi"},{n:"Step laterale",tag:"corpo"}]},
-        {ic:"legext",n:"Leg extension (macchina)",es:"Cuádriceps máquina",s:"4",r:"10",w:true,v:[{n:"Affondi camminati",tag:"corpo"},{n:"Salita sul gradino",tag:"corpo"},{n:"Sissy squat",tag:"corpo"}]},
-        {ic:"shoulder",n:"Spinta spalle alla macchina",es:"Press hombros máquina",s:"3",r:"10",w:true,v:[{n:"Military press con manubri",tag:"man"},{n:"Military press con bilanciere"},{n:"Pike push-up",tag:"corpo"}]},
-        {ic:"lateral",n:"Macchina deltoide laterale",es:"Deltoide lateral máquina",s:"3",r:"10",w:true,v:[{n:"Alzate laterali con manubri",tag:"man"},{n:"Alzate al cavo",tag:"cavi"},{n:"Elastici",tag:"corpo"}]},
-        {ic:"cardio",n:"Cardio in tabella 7′ (ellittica)",es:"Cardio 7′",s:"—",r:"7′",w:false,cardio:420,v:[{n:"Cyclette"},{n:"Tapis roulant"},{n:"Vogatore"}]}
-      ]},
-      {d:5,t:"Giorno 5 — Mix",g:[
-        {ic:"press",n:"Press orizzontale alla macchina",es:"Press máquina",s:"3",r:"10",w:true,v:[{n:"Flessioni",tag:"corpo"},{n:"Dip alle parallele",tag:"corpo"},{n:"Panca con manubri",tag:"man"}]},
-        {ic:"legpress",n:"Pressa gambe (macchina)",es:"Prensa pierna",s:"3",r:"10",w:true,v:[{n:"Squat libero"},{n:"Hack squat"},{n:"Salita sul gradino",tag:"corpo"}]},
-        {ic:"row",n:"Rematore alla macchina",es:"Remo máquina",s:"3",r:"10",w:true,v:[{n:"Rematore con manubrio",tag:"man"},{n:"Rematore TRX",tag:"corpo"},{n:"Rematore al cavo basso",tag:"cavi"}]},
-        {ic:"lunge",n:"Affondi (corpo libero o manubri leggeri)",es:"Zancadas",s:"3",r:"10",w:true,v:[{n:"Split squat",tag:"corpo"},{n:"Affondo indietro",tag:"corpo"},{n:"Camminata con manubri",tag:"man"}]},
-        {ic:"squat",n:"Squat sumo (manubrio) o pressa",es:"Sentadilla sumo",s:"3",r:"10",w:true,v:[{n:"Stacco sumo"},{n:"Kettlebell swing",tag:"man"},{n:"Ponte glutei",tag:"corpo"}]},
-        {ic:"cardio",n:"Cardio in tabella 7′ (ellittica)",es:"Cardio 7′",s:"—",r:"7′",w:false,cardio:420,v:[{n:"Tapis inclinato"},{n:"Bici"},{n:"Saltelli leggeri",tag:"corpo"}]}
-      ]}
-    ];
-
     function yt(q){return 'https://www.youtube.com/results?search_query='+encodeURIComponent(q+' esercizio tecnica');}
-    function choiceRow(nm,val,label,tag,ytname){
+    function choiceRow(nm,val,label,tag,ytn){
       var t=''; if(tag==='cavi')t=' <span class="tag tag-cavi">⚠ cavi</span>'; else if(tag==='man')t=' <span class="tag tag-man">manubri</span>'; else if(tag==='corpo')t=' <span class="tag tag-corpo">corpo</span>';
-      var vl=ytname? '<a class="vlink" href="'+yt(ytname)+'" target="_blank" rel="noopener">▶ video</a>':'';
+      var vl=ytn? '<a class="vlink" href="'+yt(ytn)+'" target="_blank" rel="noopener">▶ video</a>':'';
       return '<div class="cwrap'+(tag==='cavi'?' c-cavi':'')+'"><label class="choice"><input type="radio" name="'+nm+'" value="'+val+'"><span>'+label+t+'</span></label>'+vl+'</div>';
     }
     var HOW={
       d1g0:"Seduto, schienale ~30°. Spingi le maniglie avanti/alto senza bloccare i gomiti, torna lento.",
-      d1g1:"Seduto, gomiti all'altezza delle spalle. Chiudi le braccia davanti stringendo il petto, apri controllando.",
+      d1g1:"Seduto, gomiti all'altezza delle spalle. Chiudi le braccia davanti stringendo il petto.",
       d1g2:"Seduto, maniglie all'altezza del petto. Spingi avanti fin quasi a distendere, torna lento.",
-      d1g3:"Gomiti fermi ai fianchi. Estendi gli avambracci verso il basso, poi risali controllando.",
-      d1g4:"Imposta l'assistenza. Scendi piegando i gomiti ~90°, risali spingendo, busto quasi verticale.",
-      d1g5:"Avambracci a terra, corpo dritto testa-tallone, addome contratto. Niente sedere su né schiena curva. 45″.",
-      d1g6:"Schiena appoggiata. Solleva le gambe controllando fino ~90°, scendi senza dondolare.",
-      d2g0:"Schiena sull'appoggio. Spingi coi talloni e porta i fianchi in alto stringendo i glutei; non inarcare.",
-      d2g1:"Gambe semi-tese. Scendi spingendo i fianchi indietro, schiena dritta, fino a metà stinco, risali.",
-      d2g2:"Spingi la gamba indietro contraendo il gluteo, senza inarcare la lombare; torna lento.",
+      d1g3:"Gomiti fermi ai fianchi. Estendi gli avambracci verso il basso, poi risali.",
+      d1g4:"Imposta l'assistenza. Scendi piegando i gomiti ~90°, risali, busto quasi verticale.",
+      d1g5:"Avambracci a terra, corpo dritto testa-tallone, addome contratto. 45 secondi.",
+      d1g6:"Schiena appoggiata. Solleva le gambe fino ~90°, scendi senza dondolare.",
+      d2g0:"Schiena sull'appoggio. Spingi coi talloni e porta i fianchi in alto stringendo i glutei.",
+      d2g1:"Gambe semi-tese. Scendi spingendo i fianchi indietro, schiena dritta, poi risali.",
+      d2g2:"Spingi la gamba indietro contraendo il gluteo, senza inarcare la lombare.",
       d2g3:"Fletti le ginocchia portando i talloni verso i glutei, controlla il ritorno.",
-      d2g4:"Seduto, apri le gambe spingendo verso l'esterno coi glutei, chiudi controllando.",
-      d2g5:"Spingi con gli avampiedi estendendo le caviglie: massima salita, discesa lenta.",
-      d2g6:"Estendi il busto fino all'allineamento (non oltre), torna controllando. Movimento breve.",
-      d3g0:"Petto alto. Tira la barra allo sterno portando i gomiti in basso; non tirare col collo.",
-      d3g1:"Braccia avanti. Apri all'indietro stringendo le scapole (deltoide posteriore), controlla.",
+      d2g4:"Seduto, apri le gambe verso l'esterno coi glutei, chiudi controllando.",
+      d2g5:"Spingi con gli avampiedi estendendo le caviglie: salita piena, discesa lenta.",
+      d2g6:"Estendi il busto fino all'allineamento (non oltre), torna controllando.",
+      d3g0:"Petto alto. Tira la barra allo sterno portando i gomiti in basso.",
+      d3g1:"Braccia avanti. Apri all'indietro stringendo le scapole (deltoide posteriore).",
       d3g2:"Petto contro l'appoggio. Tira le maniglie verso i fianchi stringendo le scapole.",
       d3g3:"Gomiti fermi. Fletti gli avambracci contraendo i bicipiti, scendi lento.",
-      d3g4:"In piedi, gomiti ai fianchi. Sali senza dondolare il busto, scendi controllando.",
+      d3g4:"In piedi, gomiti ai fianchi. Sali senza dondolare il busto.",
       d3g5:"Fletti il busto di lato contraendo gli obliqui, senza spingere col collo.",
-      d3g6:"Arrotonda il busto in avanti contraendo l'addome, torna lento senza strappi.",
-      d4g0:"Piedi a larghezza spalle. Scendi fino a coscia ~parallela con schiena dritta, risali spingendo coi talloni.",
-      d4g1:"Schiena sul carrello. Scendi controllando ~90°, spingi coi talloni senza staccare la schiena.",
-      d4g2:"Seduto, apri le gambe verso l'esterno coi glutei, chiudi controllando.",
-      d4g3:"Seduto. Estendi le ginocchia in alto contraendo i quadricipiti, scendi lento (non bloccare di scatto).",
-      d4g4:"Maniglie all'altezza spalle. Spingi in alto senza inarcare, torna controllando.",
-      d4g5:"Alza le braccia lateralmente fino all'altezza spalle, gomiti morbidi, scendi lento.",
+      d3g6:"Arrotonda il busto in avanti contraendo l'addome, torna lento.",
+      d4g0:"Piedi a larghezza spalle. Scendi a coscia ~parallela, schiena dritta, risali coi talloni.",
+      d4g1:"Schiena sul carrello. Scendi ~90°, spingi coi talloni senza staccare la schiena.",
+      d4g2:"Seduto, apri le gambe verso l'esterno coi glutei.",
+      d4g3:"Seduto. Estendi le ginocchia in alto, scendi lento (non bloccare di scatto).",
+      d4g4:"Maniglie all'altezza spalle. Spingi in alto senza inarcare.",
+      d4g5:"Alza le braccia lateralmente fino all'altezza spalle, gomiti morbidi.",
       d4g6:"Ellittica/bici/tapis a ritmo moderato, 7 minuti.",
-      d5g0:"Seduto, maniglie al petto. Spingi avanti fin quasi a distendere, torna lento.",
-      d5g1:"Piedi a larghezza spalle sulla pedana. Scendi ~90° e spingi coi talloni; non bloccare le ginocchia.",
-      d5g2:"Petto contro l'appoggio. Tira le maniglie ai fianchi stringendo le scapole.",
-      d5g3:"Passo avanti, scendi col ginocchio dietro verso terra, busto dritto; alterna le gambe.",
-      d5g4:"Gambe larghe, punte in fuori. Scendi tenendo un manubrio, schiena dritta, risali coi glutei.",
+      d5g0:"Seduto, maniglie al petto. Spingi avanti fin quasi a distendere.",
+      d5g1:"Piedi a larghezza spalle sulla pedana. Scendi ~90° e spingi coi talloni.",
+      d5g2:"Petto contro l'appoggio. Tira le maniglie ai fianchi.",
+      d5g3:"Passo avanti, scendi col ginocchio dietro verso terra, busto dritto; alterna.",
+      d5g4:"Gambe larghe, punte in fuori. Scendi con un manubrio, schiena dritta.",
       d5g5:"Ellittica/bici a ritmo moderato, 7 minuti."
     };
+    var GYMD=[
+      {d:1,t:"Giorno 1 — Petto / Tricipiti / Addome",g:[
+        {n:"Press inclinato alla macchina",es:"Press pecho superior",s:"4",r:"10",w:true,v:[{n:"Press inclinato con manubri",tag:"man"},{n:"Press guidato (multipower)"},{n:"Flessioni con sovraccarico",tag:"corpo"}]},
+        {n:"Pec deck (macchina)",es:"Pec deck",s:"3",r:"10",w:true,v:[{n:"Croci con manubri",tag:"man"},{n:"Croci ai cavi",tag:"cavi"},{n:"Croci con banda elastica",tag:"corpo"}]},
+        {n:"Press orizzontale alla macchina",es:"Press horizontal",s:"4",r:"10",w:true,v:[{n:"Panca piana con manubri",tag:"man"},{n:"Panca piana con bilanciere"},{n:"Flessioni",tag:"corpo"}]},
+        {n:"Spinta tricipiti alla macchina",es:"Tríceps máquina",s:"4",r:"10",w:true,v:[{n:"Dip alla macchina (assistiti)"},{n:"Pushdown ai cavi con corda",tag:"cavi"},{n:"Estensione con manubrio",tag:"man"}]},
+        {n:"Dip alla macchina (assistiti)",es:"Fondos máquina",s:"4",r:"10",w:true,v:[{n:"French press bilanciere EZ",tag:"man"},{n:"Dip su panca",tag:"corpo"},{n:"Estensione unilaterale",tag:"man"}]},
+        {n:"Plank frontale",es:"Plancha",s:"4",r:"45″",w:false,plank:true,v:[{n:"Plank laterale",tag:"corpo"},{n:"Plank con fitball",tag:"corpo"},{n:"Plank con spostamento",tag:"corpo"}]},
+        {n:"Sollevamento gambe",es:"Elevación piernas",s:"4",r:"10",w:false,v:[{n:"Crunch inverso",tag:"corpo"},{n:"Alla sbarra",tag:"corpo"},{n:"Ab wheel",tag:"corpo"}]}
+      ]},
+      {d:2,t:"Giorno 2 — Gambe / Glutei / Lombari",g:[
+        {n:"Hip thrust alla macchina",es:"Hip máquina",s:"4",r:"8",w:true,v:[{n:"Hip thrust con bilanciere"},{n:"Ponte glutei con disco",tag:"corpo"},{n:"Squat sumo con manubrio",tag:"man"}]},
+        {n:"Stacco rumeno guidato (Smith)",es:"Peso muerto Smith",s:"3",r:"10",w:true,v:[{n:"Stacco con bilanciere"},{n:"Good morning"},{n:"Stacco con manubri",tag:"man"}]},
+        {n:"Macchina glutei (kickback)",es:"Glúteo máquina",s:"3",r:"10",w:true,v:[{n:"Kickback alla puleggia",tag:"cavi"},{n:"Elastico caviglia",tag:"corpo"},{n:"Step-up con manubrio",tag:"man"}]},
+        {n:"Leg curl alla macchina",es:"Femoral máquina",s:"4",r:"10",w:true,v:[{n:"Leg curl prono"},{n:"Curl con fitball",tag:"corpo"},{n:"Stacco rumeno"}]},
+        {n:"Macchina abduzioni",es:"Abducción máquina",s:"3",r:"10",w:true,v:[{n:"Abduzione alla puleggia",tag:"cavi"},{n:"Camminata con elastico",tag:"corpo"},{n:"Step laterale",tag:"corpo"}]},
+        {n:"Polpacci alla pressa",es:"Gemelos prensa",s:"3",r:"10",w:true,v:[{n:"Calf in piedi"},{n:"Calf seduto"},{n:"Salite sul gradino",tag:"corpo"}]},
+        {n:"Estensione lombare alla macchina",es:"Lumbar máquina",s:"3",r:"10",w:true,v:[{n:"Superman",tag:"corpo"},{n:"Panca lombare (5 kg)"},{n:"Stacco rumeno leggero"}]}
+      ]},
+      {d:3,t:"Giorno 3 — Schiena / Bicipiti / Addome",g:[
+        {n:"Lat machine avanti",es:"Jalón al pecho",s:"4",r:"10",w:true,v:[{n:"Trazioni assistite"},{n:"Rematore barra T"},{n:"Pullover alla macchina"}]},
+        {n:"Reverse pec deck (deltoide post.)",es:"Deltoide post. máquina",s:"3",r:"10",w:true,v:[{n:"Face pull ai cavi",tag:"cavi"},{n:"Elastici al viso",tag:"corpo"},{n:"Rematore inverso TRX",tag:"corpo"}]},
+        {n:"Rematore alla macchina",es:"Remo máquina",s:"4",r:"10",w:true,v:[{n:"Rematore manubrio",tag:"man"},{n:"Rematore bilanciere"},{n:"Rematore TRX",tag:"corpo"}]},
+        {n:"Curl bicipiti alla macchina",es:"Bíceps máquina",s:"3",r:"10",w:true,v:[{n:"Curl con manubri",tag:"man"},{n:"Curl bilanciere EZ"},{n:"Curl ai cavi",tag:"cavi"}]},
+        {n:"Curl con bilanciere EZ",es:"Bíceps barra Z",s:"4",r:"10",w:true,v:[{n:"Curl alla macchina"},{n:"Curl a martello",tag:"man"},{n:"Curl con elastico",tag:"corpo"}]},
+        {n:"Macchina addominali laterali",es:"Oblicuos máquina",s:"3",r:"12",w:false,v:[{n:"Plank laterale",tag:"corpo"},{n:"Crunch laterale manubrio",tag:"man"},{n:"Woodchopper ai cavi",tag:"cavi"}]},
+        {n:"Crunch alla macchina",es:"Crunch máquina",s:"4",r:"10",w:false,v:[{n:"Crunch su fitball",tag:"corpo"},{n:"Crunch al cavo",tag:"cavi"},{n:"Crunch inverso",tag:"corpo"}]}
+      ]},
+      {d:4,t:"Giorno 4 — Gambe / Spalle / Cardio",g:[
+        {n:"Squat guidato (multipower)",es:"Sentadilla multipower",s:"4",r:"10",w:true,v:[{n:"Squat libero"},{n:"Pressa inclinata"},{n:"Goblet squat",tag:"man"}]},
+        {n:"Hack squat (macchina)",es:"Hack",s:"3",r:"10",w:true,v:[{n:"Pressa orizzontale"},{n:"Affondo bulgaro",tag:"corpo"},{n:"Leg ext. unilaterale"}]},
+        {n:"Macchina abduzioni",es:"Abducción",s:"3",r:"10",w:true,v:[{n:"Camminata con elastico",tag:"corpo"},{n:"Puleggia caviglia",tag:"cavi"},{n:"Step laterale",tag:"corpo"}]},
+        {n:"Leg extension (macchina)",es:"Cuádriceps máquina",s:"4",r:"10",w:true,v:[{n:"Affondi camminati",tag:"corpo"},{n:"Step-up",tag:"corpo"},{n:"Sissy squat",tag:"corpo"}]},
+        {n:"Spinta spalle alla macchina",es:"Press hombros máquina",s:"3",r:"10",w:true,v:[{n:"Military press manubri",tag:"man"},{n:"Military press bilanciere"},{n:"Pike push-up",tag:"corpo"}]},
+        {n:"Macchina deltoide laterale",es:"Deltoide lateral máquina",s:"3",r:"10",w:true,v:[{n:"Alzate con manubri",tag:"man"},{n:"Alzate al cavo",tag:"cavi"},{n:"Elastici",tag:"corpo"}]},
+        {n:"Cardio in tabella 7′",es:"Cardio 7′",s:"—",r:"7′",w:false,cardio:true,v:[{n:"Cyclette"},{n:"Tapis roulant"},{n:"Vogatore"}]}
+      ]},
+      {d:5,t:"Giorno 5 — Mix",g:[
+        {n:"Press orizzontale alla macchina",es:"Press máquina",s:"3",r:"10",w:true,v:[{n:"Flessioni",tag:"corpo"},{n:"Dip alle parallele",tag:"corpo"},{n:"Panca con manubri",tag:"man"}]},
+        {n:"Pressa gambe (macchina)",es:"Prensa pierna",s:"3",r:"10",w:true,v:[{n:"Squat libero"},{n:"Hack squat"},{n:"Salita sul gradino",tag:"corpo"}]},
+        {n:"Rematore alla macchina",es:"Remo máquina",s:"3",r:"10",w:true,v:[{n:"Rematore manubrio",tag:"man"},{n:"Rematore TRX",tag:"corpo"},{n:"Rematore al cavo",tag:"cavi"}]},
+        {n:"Affondi (corpo o manubri leggeri)",es:"Zancadas",s:"3",r:"10",w:true,v:[{n:"Split squat",tag:"corpo"},{n:"Affondo indietro",tag:"corpo"},{n:"Camminata con manubri",tag:"man"}]},
+        {n:"Squat sumo (manubrio) o pressa",es:"Sentadilla sumo",s:"3",r:"10",w:true,v:[{n:"Stacco sumo"},{n:"Kettlebell swing",tag:"man"},{n:"Ponte glutei",tag:"corpo"}]},
+        {n:"Cardio in tabella 7′",es:"Cardio 7′",s:"—",r:"7′",w:false,cardio:true,v:[{n:"Tapis inclinato"},{n:"Bici"},{n:"Saltelli leggeri",tag:"corpo"}]}
+      ]}
+    ];
     function render(){
       var app=document.getElementById('gymApp'); if(!app)return; var H='';
       GYMD.forEach(function(day){
@@ -903,26 +736,22 @@
           var nm='g_d'+day.d+'_'+gi;
           H+='<div class="exq"><div class="exhead"><div style="flex:1"><div class="extitle">'+g.n+'</div><div class="exsub">ES: '+g.es+'</div></div><div class="exmeta">'+g.s+'×'+g.r+'</div></div>';
           H+='<div class="exlinks"><a href="'+yt(g.n)+'" target="_blank" rel="noopener">▶ Video</a><button type="button" class="howbtn" data-h="h_'+day.d+'_'+gi+'">ℹ️ Come si fa</button></div>';
-          H+='<div class="howto" id="h_'+day.d+'_'+gi+'">'+(HOW['d'+day.d+'g'+gi]||'Vedi il video ▶ per la tecnica.')+'</div>';
-          H+='<div>';
+          H+='<div class="howto" id="h_'+day.d+'_'+gi+'">'+(HOW['d'+day.d+'g'+gi]||'Vedi il video ▶ per la tecnica.')+'</div><div>';
           H+=choiceRow(nm,'main','<b>Principale</b> — '+g.n,null,null);
           g.v.forEach(function(v,vi){ H+=choiceRow(nm,'v'+(vi+1),'Var '+(vi+1)+' — '+v.n,v.tag,v.n); });
           H+='</div>';
           if(g.w){ var pk='d'+day.d+'g'+gi+'w'; var pv=ldp(pk); H+='<div class="peso">⚖ Peso <input type="number" inputmode="decimal" class="pesoI" data-k="'+pk+'" placeholder="kg"> kg'+(pv?' <span class="cs">· sett. scorsa: '+pv+'</span>':'')+'</div>'; }
           H+='</div>';
         });
-        var to='tmr_d'+day.d;
-        var hasCardio=day.g.some(function(x){return x.cardio;});
-        var hasPlank=day.g.some(function(x){return x.plank;});
+        var to='tmr_d'+day.d, hasCardio=day.g.some(function(x){return x.cardio;}), hasPlank=day.g.some(function(x){return x.plank;});
         H+='<div class="fin"><b>🔚 Cardio finale 12′</b> (fine sessione)';
-        H+='<div><label class="choice"><input type="checkbox" class="ck" data-k="d'+day.d+'fin"><span>Cardio finale fatto</span></label></div>';
-        H+='<div><label class="choice"><input type="checkbox" class="ck" data-k="d'+day.d+'closed"><span>Palestra chiusa → corsa 12′ al parco</span></label></div>';
+        H+='<div class="cwrap"><label class="choice"><input type="checkbox" class="ck" data-k="d'+day.d+'fin"><span>Cardio finale fatto</span></label></div>';
+        H+='<div class="cwrap"><label class="choice"><input type="checkbox" class="ck" data-k="d'+day.d+'closed"><span>Palestra chiusa → corsa 12′ al parco</span></label></div>';
         H+='<div class="tmr"><span class="tmrout" id="'+to+'">—</span><button data-sec="720" data-out="'+to+'">⏱ 12′ finale</button>';
         if(hasCardio)H+='<button data-sec="420" data-out="'+to+'">⏱ 7′ cardio</button>';
         if(hasPlank)H+='<button data-sec="45" data-out="'+to+'">⏱ 45″ plank</button>';
         H+='<button data-sec="720" data-out="'+to+'">⏱ corsa 12′</button></div></div>';
-        H+='<textarea class="gymnote" data-k="d'+day.d+'notes" placeholder="📝 Note giorno '+day.d+'"></textarea>';
-        H+='</div>';
+        H+='<textarea class="gymnote" data-k="d'+day.d+'notes" placeholder="📝 Note giorno '+day.d+'"></textarea></div>';
       });
       app.innerHTML=H;
       GYMD.forEach(function(day){
@@ -938,12 +767,8 @@
     }
     function stats(){
       var total=0,done=0,daysDone=0;
-      GYMD.forEach(function(day){
-        var dd=0; day.g.forEach(function(g,gi){ total++; if(ld('g_d'+day.d+'_'+gi)){done++;dd++;} });
-        if(dd===day.g.length || ld('d'+day.d+'closed')==='1') daysDone++;
-      });
-      var pct=total?Math.round(done/total*100):0;
-      var e;
+      GYMD.forEach(function(day){var dd=0; day.g.forEach(function(g,gi){total++; if(ld('g_d'+day.d+'_'+gi)){done++;dd++;}}); if(dd===day.g.length||ld('d'+day.d+'closed')==='1')daysDone++;});
+      var pct=total?Math.round(done/total*100):0,e;
       if(e=document.getElementById('gymKpi'))e.textContent=done+'/'+total+' · '+pct+'%';
       if(e=document.getElementById('gymBar'))e.style.width=pct+'%';
       if(e=document.getElementById('gymWeek'))e.textContent='Settimana '+WK;
@@ -951,7 +776,6 @@
     }
     var gymTi=null;
     function startT(sec,out){ if(!out)return; clearInterval(gymTi); var s=sec; function r(){var m=Math.floor(s/60),x=s%60; out.textContent=(m>0?m+"m ":"")+String(x).padStart(2,"0")+"s";} r(); gymTi=setInterval(function(){s--; if(s<=0){clearInterval(gymTi); out.textContent="✔️"; return;} r();},1000); }
-
     var app=document.getElementById('gymApp');
     if(app){
       app.addEventListener('change',function(e){var t=e.target;
@@ -975,12 +799,12 @@
     render();
   })();
 
-  // ---- Glossario ----
+  // Glossario
   (function(){
     function yt(q){return 'https://www.youtube.com/results?search_query='+encodeURIComponent(q+' esercizio tecnica');}
     var GLO=[
       {c:"Petto",t:"Press orizzontale (macchina)",d:"Seduto, spingi due maniglie in avanti all'altezza del petto. Lavora il petto."},
-      {c:"Petto",t:"Press inclinato (macchina)",d:"Come il press ma con lo schienale inclinato: colpisce la parte alta del petto."},
+      {c:"Petto",t:"Press inclinato (macchina)",d:"Come il press ma con lo schienale inclinato: parte alta del petto."},
       {c:"Petto",t:"Pec deck (croci alla macchina)",d:"Seduto, avvicini le braccia davanti come per abbracciare. Isola il petto."},
       {c:"Petto",t:"Croci con manubri",d:"Sdraiato, apri e chiudi le braccia ad arco con due manubri. Petto."},
       {c:"Petto",t:"Croci ai cavi",d:"Come le croci ma tirando due cavi (zona affollata). Petto."},
